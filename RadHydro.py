@@ -27,11 +27,11 @@ from qgis.PyQt.QtGui import QIcon, QDesktopServices, QImage, QPixmap
 from qgis.PyQt.QtWidgets import QAction, QFileDialog, QComboBox, \
     QPushButton, QMessageBox
 
+# Initialize Qt resources from file resources.py
 from .resources import *
 
-# from qgis.core import Qgis, QgsMapLayerProxyModel
+from qgis.core import Qgis, QgsMapLayerProxyModel
 
-# Initialize Qt resources from file resources.py
 # Import the code for the dialog
 from .RadHydro_dialog import RadHydroDialog
 import sys
@@ -179,9 +179,14 @@ class RadHydro:
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if not self.pluginIsActive:
             self.pluginIsActive = True
-
-        if self.dlg == None:
             self.dlg = RadHydroDialog()
+
+        # Help
+        self.dlg.button_box.helpRequested.connect(self.pluginHelp)
+
+        # Set initial index of cbox_precip as 0
+        self.dlg.cbox_precip.setCurrentIndex(0)
+
 
 
 
@@ -193,12 +198,51 @@ class RadHydro:
                 action)
             self.iface.removeToolBarIcon(action)
 
-
     def run(self):
         """Run method that performs all the real work"""
 
+        # Reset settings of the UI
+        self.reset()
+
         # print "** STARTING UrbanSARCA"
         self.showInfo()
+
+        # Set type of input to input cboxes
+        self.dlg.cbox_rad_depo.setFilters(
+            QgsMapLayerProxyModel.RasterLayer)
+        self.dlg.cbox_precip.setFilters(
+            QgsMapLayerProxyModel.RasterLayer)
+        self.dlg.cbox_crop_lyr.setFilters(
+            QgsMapLayerProxyModel.PolygonLayer)
+        self.dlg.cbox_HPJ.setFilters(
+            QgsMapLayerProxyModel.PolygonLayer)
+        self.dlg.cbox_dmt.setFilters(
+            QgsMapLayerProxyModel.RasterLayer)
+
+        # If precipitation is constant the cbox for precipitation
+        # raster is empty
+        self.dlg.rb_precip_konst.toggled.connect(lambda:
+                self.setCboxEmpty(self.dlg.cbox_precip))
+        self.dlg.rb_precip_rast.toggled.connect(lambda:
+            self.dlg.cbox_precip.setCurrentIndex(0))
+        # If raster of precipitation is selected, value in spinbox is set
+        # to 0.0
+        self.dlg.rb_precip_rast.toggled.connect(lambda:
+            self.dlg.sbox_precip.setValue(0.00))
+
+        # Set fields from crop layer to fieldCbox
+        self.dlg.cbox_crop_lyr.layerChanged.connect(lambda:
+                                                    self.setKeyField(
+                                                        self.dlg.cbox_crop_lyr, self.dlg.cbox_crop_lyr_key))
+
+        # Set fields from HPJ layer to fieldCbox
+        self.dlg.cbox_HPJ.layerChanged.connect(lambda:
+                                                    self.setKeyField(
+                                                        self.dlg.cbox_HPJ, self.dlg.cbox_HPJ_key))
+
+
+
+
 
         # show the dialog
         self.dlg.show()
@@ -210,6 +254,27 @@ class RadHydro:
             # Do something useful here - delete the line containing pass and
             # substitute with your code.
             pass
+
+    def setKeyField(self, comboBox_in, comboBox_out):
+        """Set variables from the map_lyr"""
+
+        map_lyr = comboBox_in.currentLayer()
+        comboBox_out.setLayer(map_lyr)
+
+
+
+    def reset(self):
+        """Reset all settings in the UI"""
+
+        pass
+        # TODO: je potreba prodiskutovat jestli jo nebo ne. Zatim ne
+
+        # # Set zero
+        # self.dlg.cbox_rad_depo.setCurrentIndex(0)
+        # self.dlg.cbox_precip.setCurrentIndex(0)
+        # self.dlg.cbox_dmt.setCurrentIndex(0)
+        # self.dlg.cbox_HPJ.setCurrentIndex(0)
+        # self.dlg.cbox_crop_lyr.setCurrentIndex(0)
 
     def showInfo(self):
         icon_path = 'https://upload.wikimedia.org/wikipedia/commons/7/79/MV_%C4%8CR.png'
@@ -228,3 +293,20 @@ class RadHydro:
                                "vnitra České republiky VI20172020098"))
         msgBox.setWindowTitle(self.tr("Poděkování"))
         msgBox.exec()
+
+    def pluginHelp(self):
+        """Open the help file.
+        """
+        help_file = os.path.join(self.plugin_dir, "help", "build",
+                                 "html", "index.html")
+        try:
+            QDesktopServices.openUrl(QUrl(help_file))
+        except IOError:
+            self.iface.messageBar().pushMessage(self.tr("Help error"),
+                    self.tr("Ooops, an error occured during help file"
+                    " opening..."), level=Qgis.Warning, duration=5)
+
+    def setCboxEmpty(self, comboBox):
+        """Setting of empty value (text) in comboBoxes"""
+
+        comboBox.setCurrentIndex(0)

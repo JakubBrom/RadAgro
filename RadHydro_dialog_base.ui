@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>593</width>
-    <height>745</height>
+    <width>627</width>
+    <height>759</height>
    </rect>
   </property>
   <property name="font">
@@ -40,8 +40,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>551</width>
-            <height>598</height>
+            <width>585</width>
+            <height>612</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -57,15 +57,15 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page_3">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>533</width>
-                <height>348</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <property name="font">
@@ -88,7 +88,7 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QgsMapLayerComboBox" name="rad_depo">
+                  <widget class="QgsMapLayerComboBox" name="cbox_rad_depo">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -114,7 +114,7 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QComboBox" name="cbox_cont">
+                  <widget class="QComboBox" name="cbox_contaminant">
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
@@ -147,7 +147,7 @@
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QDateEdit" name="dateEdit_2">
+                  <widget class="QDateEdit" name="de_accident">
                    <property name="currentSection">
                     <enum>QDateTimeEdit::DaySection</enum>
                    </property>
@@ -164,7 +164,7 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QDateEdit" name="dateEdit">
+                  <widget class="QDateEdit" name="de_predict">
                    <property name="wrapping">
                     <bool>false</bool>
                    </property>
@@ -213,8 +213,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>264</width>
-                <height>107</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -282,7 +282,7 @@
                   </widget>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QCheckBox" name="checkBox">
+                  <widget class="QCheckBox" name="chbox_managment">
                    <property name="text">
                     <string>Opatření pro RU2</string>
                    </property>
@@ -313,8 +313,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>471</width>
-                <height>80</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -388,6 +388,9 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="allowEmptyLayer">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -412,8 +415,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>195</width>
-                <height>172</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -430,7 +433,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
+                  <widget class="QgsMapLayerComboBox" name="cbox_crop_lyr">
+                   <property name="allowEmptyLayer">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_5">
@@ -440,7 +447,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QgsFieldComboBox" name="mFieldComboBox"/>
+                  <widget class="QgsFieldComboBox" name="cbox_crop_lyr_key">
+                   <property name="allowEmptyFieldName">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -465,7 +476,7 @@
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QListView" name="listView_2">
+                  <widget class="QListView" name="lv_crops_orig">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
@@ -478,7 +489,7 @@
                   </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QListWidget" name="listWidget">
+                  <widget class="QListWidget" name="lv_crops_set">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
@@ -503,8 +514,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>381</width>
-                <height>111</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -521,7 +532,7 @@
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QTableWidget" name="tableWidget">
+                  <widget class="QTableWidget" name="tw_sowing">
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
@@ -630,8 +641,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>168</width>
-                <height>79</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -648,7 +659,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_2"/>
+                  <widget class="QgsMapLayerComboBox" name="cbox_HPJ">
+                   <property name="allowEmptyLayer">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_17">
@@ -658,7 +673,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QgsFieldComboBox" name="mFieldComboBox_2"/>
+                  <widget class="QgsFieldComboBox" name="cbox_HPJ_key">
+                   <property name="allowEmptyFieldName">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -682,8 +701,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>397</width>
-                <height>141</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -700,7 +719,7 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox">
+                  <widget class="QSpinBox" name="sbox_altitude">
                    <property name="maximum">
                     <number>10000</number>
                    </property>
@@ -719,7 +738,7 @@
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QTableWidget" name="tableWidget_2">
+                <widget class="QTableWidget" name="tw_climate">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -733,7 +752,7 @@
                   <enum>QFrame::Sunken</enum>
                  </property>
                  <property name="editTriggers">
-                  <set>QAbstractItemView::NoEditTriggers</set>
+                  <set>QAbstractItemView::AllEditTriggers</set>
                  </property>
                  <property name="alternatingRowColors">
                   <bool>true</bool>
@@ -825,8 +844,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>150</width>
-                <height>50</height>
+                <width>567</width>
+                <height>362</height>
                </rect>
               </property>
               <attribute name="label">
@@ -843,7 +862,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox_3"/>
+                  <widget class="QgsMapLayerComboBox" name="cbox_dmt">
+                   <property name="allowEmptyLayer">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -885,23 +908,23 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>551</width>
-            <height>598</height>
+            <width>585</width>
+            <height>612</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <item row="0" column="0">
             <widget class="QToolBox" name="toolBox">
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>533</width>
-                <height>464</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -916,7 +939,7 @@
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QTableWidget" name="tableWidget_6">
+                <widget class="QTableWidget" name="tw_growth_params">
                  <attribute name="verticalHeaderVisible">
                   <bool>false</bool>
                  </attribute>
@@ -969,8 +992,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>423</width>
-                <height>305</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -987,7 +1010,7 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+                  <widget class="QDoubleSpinBox" name="sbox_adiabata">
                    <property name="decimals">
                     <number>5</number>
                    </property>
@@ -1007,7 +1030,7 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                  <widget class="QDoubleSpinBox" name="sbox_interc_a">
                    <property name="decimals">
                     <number>3</number>
                    </property>
@@ -1027,7 +1050,7 @@
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+                  <widget class="QDoubleSpinBox" name="sbox_interc_b">
                    <property name="decimals">
                     <number>3</number>
                    </property>
@@ -1047,7 +1070,7 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+                  <widget class="QDoubleSpinBox" name="sbox_separ_a">
                    <property name="decimals">
                     <number>4</number>
                    </property>
@@ -1070,7 +1093,7 @@
                   </widget>
                  </item>
                  <item row="4" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
+                  <widget class="QDoubleSpinBox" name="sbox_separ_b">
                    <property name="decimals">
                     <number>4</number>
                    </property>
@@ -1093,7 +1116,7 @@
                   </widget>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
+                  <widget class="QDoubleSpinBox" name="sbox_separ_c">
                    <property name="decimals">
                     <number>3</number>
                    </property>
@@ -1116,7 +1139,7 @@ a vláhovém stavu půdy</string>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QTableWidget" name="tableWidget_9">
+                <widget class="QTableWidget" name="tw_CN">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -2389,8 +2412,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>248</width>
-                <height>355</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2407,7 +2430,7 @@ a vláhovém stavu půdy</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
+                  <widget class="QDoubleSpinBox" name="sbox_r_factor">
                    <property name="maximum">
                     <double>200.000000000000000</double>
                    </property>
@@ -2426,7 +2449,7 @@ a vláhovém stavu půdy</string>
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QTableWidget" name="tableWidget_8">
+                <widget class="QTableWidget" name="tw_r_factor_perc">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -2579,7 +2602,7 @@ a vláhovém stavu půdy</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
+                  <widget class="QDoubleSpinBox" name="sbox_LS_m">
                    <property name="singleStep">
                     <double>0.100000000000000</double>
                    </property>
@@ -2596,7 +2619,7 @@ a vláhovém stavu půdy</string>
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
+                  <widget class="QDoubleSpinBox" name="sbox_LS_n">
                    <property name="singleStep">
                     <double>0.100000000000000</double>
                    </property>
@@ -2608,7 +2631,7 @@ a vláhovém stavu půdy</string>
                 </layout>
                </item>
                <item row="4" column="0">
-                <widget class="QTableWidget" name="tableWidget_7">
+                <widget class="QTableWidget" name="tw_C_factor">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -3000,7 +3023,7 @@ a vláhovém stavu půdy</string>
                 </widget>
                </item>
                <item row="5" column="0">
-                <widget class="QTableWidget" name="tableWidget_3">
+                <widget class="QTableWidget" name="tw_HPJ_params">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -4246,8 +4269,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>344</width>
-                <height>221</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -4264,7 +4287,7 @@ a vláhovém stavu půdy</string>
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QTableWidget" name="tableWidget_5">
+                  <widget class="QTableWidget" name="tw_radio_coefs">
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
@@ -4631,7 +4654,7 @@ a vláhovém stavu půdy</string>
                   </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QTableWidget" name="tableWidget_4">
+                  <widget class="QTableWidget" name="tw_halflive">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                      <horstretch>0</horstretch>
@@ -4722,8 +4745,8 @@ a vláhovém stavu půdy</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>551</width>
-            <height>598</height>
+            <width>585</width>
+            <height>612</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_18">
@@ -4755,7 +4778,7 @@ a vláhovém stavu půdy</string>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QgsFeatureListComboBox" name="mFeatureListComboBox">
+                <widget class="QgsFeatureListComboBox" name="cbox_select_ID">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -4765,7 +4788,7 @@ a vláhovém stavu půdy</string>
                 </widget>
                </item>
                <item row="0" column="2">
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="pb_create_graph">
                  <property name="text">
                   <string>Proveď</string>
                  </property>
@@ -4821,14 +4844,11 @@ a vláhovém stavu půdy</string>
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Program RadHydro&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Cítí pacient zasalutoval parku dávám huráá zprávy zuřiví: z provazu zvykl věk nejen kohos vraha u zdejší nás. Bok ví po božím nate rozmlátit vedoucích bas mrzká. Či žít devět, dá nu jí poštu s vytáhl gottfrieda červeně. Tu ho jsme pamatuj košile kostariky něhož, patřilo košilí o portrét, ó střecha ve a extáze. Konečně řinčící zády veselé tmavý fenoménu dá! Mu my, od o bác schůdkách ke. Svá nožem my až zdát nahý ne nudy projelo zkroucené sedět antonína. Sázavský autorské zachráněna. Řádu bylo flámu? Jé ostudě ze dětí lupič i sehnal kývnul. Tmě čí náhle bratislavou čí druhý.&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-style:italic; color:#629755;&quot;&gt;(C) 2020 Dr. Jakub Brom, Jihočeská univerzita v Českých Budějovicích, Zemědělská fakulta&lt;br /&gt;E-mail: jbrom@zf.jcu.cz&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'JetBrains Mono,monospace'; font-style:italic; color:#629755;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Poděkování: .............&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Program RadHydro&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Cítí pacient zasalutoval parku dávám huráá zprávy zuřiví: z provazu zvykl věk nejen kohos vraha u zdejší nás. Bok ví po božím nate rozmlátit vedoucích bas mrzká. Či žít devět, dá nu jí poštu s vytáhl gottfrieda červeně. Tu ho jsme pamatuj košile kostariky něhož, patřilo košilí o portrét, ó střecha ve a extáze. Konečně řinčící zády veselé tmavý fenoménu dá! Mu my, od o bác schůdkách ke. Svá nožem my až zdát nahý ne nudy projelo zkroucené sedět antonína. Sázavský autorské zachráněna. Řádu bylo flámu? Jé ostudě ze dětí lupič i sehnal kývnul. Tmě čí náhle bratislavou čí druhý.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;(C) 2020 Dr. Jakub Brom, Jihočeská univerzita v Českých Budějovicích, Zemědělská fakulta&lt;br /&gt;E-mail: jbrom@zf.jcu.cz&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-weight:600; color:#000000;&quot;&gt;Poděkování&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Vývoj programu RadHydro for QGIS byl podpořen z projektu Ministerstva vnitra České republiky VI20172020098 Likvidace radiačně kontaminované biomasy po havárii JE-distribuce v krajině, logistika sklizně, využití bioplynovou technologií. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -4854,7 +4874,7 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QgsFileWidget" name="mQgsFileWidget"/>
+    <widget class="QgsFileWidget" name="out_folder"/>
    </item>
   </layout>
  </widget>
@@ -4889,8 +4909,8 @@ p, li { white-space: pre-wrap; }
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>680</y>
+     <x>38</x>
+     <y>749</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
@@ -4905,12 +4925,60 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>29</x>
-     <y>680</y>
+     <x>38</x>
+     <y>749</y>
     </hint>
     <hint type="destinationlabel">
      <x>20</x>
      <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rb_precip_konst</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbox_precip</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>505</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rb_precip_rast</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cbox_precip</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>457</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rb_precip_rast</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>sbox_precip</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>246</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>160</y>
     </hint>
    </hints>
   </connection>
