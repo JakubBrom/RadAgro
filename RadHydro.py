@@ -22,10 +22,10 @@
  ***************************************************************************/
 """
 from qgis.PyQt.QtCore import QSettings, QTranslator, \
-    QCoreApplication, Qt, QUrl
+    QCoreApplication, Qt, QUrl, QDate
 from qgis.PyQt.QtGui import QIcon, QDesktopServices, QImage, QPixmap
 from qgis.PyQt.QtWidgets import QAction, QFileDialog, QComboBox, \
-    QPushButton, QMessageBox
+    QPushButton, QMessageBox, QTableWidgetItem, QDateEdit, QDateTimeEdit
 
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -75,6 +75,9 @@ class RadHydro:
         self.pluginIsActive = False
         self.dlg = None
 
+        # Read constants
+        self.constants()
+
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
         """Get the translation for a string using Qt translation API.
@@ -89,7 +92,6 @@ class RadHydro:
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
         return QCoreApplication.translate('RadHydro', message)
-
 
     def add_action(
         self,
@@ -187,9 +189,6 @@ class RadHydro:
         # Set initial index of cbox_precip as 0
         self.dlg.cbox_precip.setCurrentIndex(0)
 
-
-
-
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
@@ -240,9 +239,18 @@ class RadHydro:
                                                     self.setKeyField(
                                                         self.dlg.cbox_HPJ, self.dlg.cbox_HPJ_key))
 
+        # Set particular crops defined by user to tw_crops_orig table
+        self.dlg.cbox_crop_lyr_key.fieldChanged.connect(lambda:
+                                           self.setCropsToQList())
 
+        # Set order of crops in sowing procedure
+        self.setSowingProc()
 
+        # Set soil saturation during the year
+        self.setSoilSaturationState()
 
+        # TODO:
+        self.dlg.pb_growth.clicked.connect(lambda: self.smaz())
 
         # show the dialog
         self.dlg.show()
@@ -255,13 +263,117 @@ class RadHydro:
             # substitute with your code.
             pass
 
+    def smaz(self):
+
+        xxx = self.dlg.tw_sowing.cellWidget(0, 1).date()
+
+        print(xxx)
+
+    def setSoilSaturationState(self):
+        """Set soil saturation state in form of cboxes to table"""
+
+        # Get row counts:
+        row_count = self.dlg.tw_climate.rowCount()
+
+        # Add cboxes to table
+        for i in range(row_count):
+            # create cboxes
+            combo = QComboBox()
+            combo.addItems(self.soil_sat.values())
+            # add cboxes
+            self.dlg.tw_climate.setCellWidget(i, 2, combo)
+
+    def setSowingProc(self):
+        """Set sowing procedure for the area of interest"""
+
+        # Set column witdth
+        self.dlg.tw_sowing.setColumnWidth(0, 250)
+        # Get row counts:
+        row_count = self.dlg.tw_sowing.rowCount()
+
+        # Add cboxes and dateEdit boxes to tw_sowing table
+        for i in range(row_count):
+            # create cboxes
+            combo = QComboBox()
+            combo.addItems(self.crops.values())
+            # Create date edit boxes
+            date_edit_sow = QDateEdit()
+            date_edit_har = QDateEdit()
+            # add cboxes to table
+            self.dlg.tw_sowing.setCellWidget(i, 0, combo)
+            # add date edit widgets to table
+            self.dlg.tw_sowing.setCellWidget(i, 1, date_edit_sow)
+            self.dlg.tw_sowing.setCellWidget(i, 2, date_edit_har)
+
+    def setCropsToQList(self):
+        """Set crops from crop field defined by user to QListView
+        and select corresponding crops from list"""
+
+        map_lyr = self.dlg.cbox_crop_lyr.currentLayer()
+        fname = self.dlg.cbox_crop_lyr_key.currentField()
+        idx = map_lyr.fields().indexOf(fname)
+        values_set = map_lyr.uniqueValues(idx)
+
+        # Fill first table
+        if len(values_set) <= 100:
+            self.dlg.tw_crops_orig.setRowCount(len(values_set))
+            row = 0
+            for i in values_set:
+                self.dlg.tw_crops_orig.setItem(row, 0, QTableWidgetItem(
+                    str(i)))
+                row = row + 1
+
+            # Add cboxes to second table
+            for i in range(len(values_set)):
+                # Create cbox
+                combo = QComboBox()
+                combo.addItems(self.crops.values())
+                # add cbox to table
+                self.dlg.tw_crops_orig.setCellWidget(i, 1, combo)
+        else:
+            self.iface.messageBar().pushMessage(self.tr("Chyba"),
+                self.tr("Nelze načíst hodnoty do tabulky, seznam je "
+                        "příliš dlouhý."), level=Qgis.Warning)
+
+    def constants(self):
+        """Some constants used in the program"""
+
+        # Crops
+        self.crops = {1:self.tr("Pšenice ozimá"),
+                      2:self.tr("Pšenice jarní"),
+                      3:self.tr("Žito ozimé"),
+                      4:self.tr("Ječmen jarní"),
+                      5:self.tr("Ječmen ozimý"),
+                      6:self.tr("Oves"),
+                      7:self.tr("Kukuřice na zrno"),
+                      8:self.tr("Luštěniny"),
+                      9:self.tr("Brambory rané"),
+                      10:self.tr("Brambory pozdní"),
+                      11:self.tr("Louky"),
+                      12:self.tr("Chmel"),
+                      13:self.tr("Řepka ozimá"),
+                      14:self.tr("Slunečnice"),
+                      15:self.tr("Mák"),
+                      16:self.tr("Ostatní olejniny"),
+                      17:self.tr("Kukuřice na siláž"),
+                      18:self.tr("Ostatní pícniny jednoleté"),
+                      19:self.tr("Ostatní pícniny víceleté"),
+                      20:self.tr("Zelenina"),
+                      21:self.tr("Sady"),
+                      22:self.tr("Lesy"),
+                      23:self.tr("Zástavba"),
+                      24:self.tr("Holá půda")
+                      }
+
+        # The state of soil saturation by soil water: good (Do) or
+        # bad (Šp)
+        self.soil_sat = {0:self.tr("Do"), 1:self.tr("Šp")}
+
     def setKeyField(self, comboBox_in, comboBox_out):
         """Set variables from the map_lyr"""
 
         map_lyr = comboBox_in.currentLayer()
         comboBox_out.setLayer(map_lyr)
-
-
 
     def reset(self):
         """Reset all settings in the UI"""
