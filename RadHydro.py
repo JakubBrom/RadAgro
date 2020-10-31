@@ -37,7 +37,12 @@ from .RadHydro_dialog import RadHydroDialog
 import sys
 import urllib.request
 import os.path
+import numpy as np
 
+# Import modules
+from modules.SARCA_lib import SARCALib
+
+sl = SARCALib()
 
 class RadHydro:
     """QGIS Plugin Implementation."""
@@ -250,7 +255,7 @@ class RadHydro:
         self.setSoilSaturationState()
 
         # TODO:
-        self.dlg.pb_growth.clicked.connect(lambda: self.smaz())
+        self.dlg.pb_growth.clicked.connect(lambda: self.fillGrowthModelTable())
 
         # show the dialog
         self.dlg.show()
@@ -263,11 +268,73 @@ class RadHydro:
             # substitute with your code.
             pass
 
-    def smaz(self):
+    def fillGrowthModelTable(self):
+        """Fill all parameters of growth model in
+        tw_growth_params table"""
 
-        xxx = self.dlg.tw_sowing.cellWidget(0, 1).date()
+        # Get number of rows in tw_crops_orig table
+        r_count = self.dlg.tw_crops_orig.rowCount()
 
-        print(xxx)
+        # Get current values from tw_crops_orig table
+        crop_ind = [self.dlg.tw_crops_orig.cellWidget(i,1).currentIndex()
+                    for i in range(r_count)]
+        crop_names = [self.dlg.tw_crops_orig.cellWidget(i,1).currentText()
+                      for i in range(r_count)]
+        crop_unique_ID = np.unique(crop_ind)
+        crop_unique_names = [self.crops[i]["crop"] for i in crop_unique_ID]
+        crop_dw_max = [self.crops[i]["dw_max"] for i in crop_unique_ID]
+        crop_lai_max = [self.crops[i]["LAI_max"] for i in
+                        crop_unique_ID]
+        crop_r_min = [self.crops[i]["r_min"] for i in crop_unique_ID]
+
+        # Calculate crop growth curve parameters
+        # TODO: vymyslet, jak interaktivně měnit obsah buněk v
+        #  závislosti na zadaných datech
+        crop_coef_m = []
+        crop_coef_n = []
+        for i in range(len(crop_unique_ID)):
+            crop_coef_m = None
+            crop_coef_n = None
+
+        # Set number of rows in table
+        self.dlg.tw_growth_params.setRowCount(len(crop_unique_ID))
+        # Set items
+        for i in range(len(crop_unique_ID)):
+            # col 1. ID
+            self.dlg.tw_growth_params.setItem(i, 0, QTableWidgetItem(
+                str(crop_unique_ID[i])))
+            # col 2. crop names
+            self.dlg.tw_growth_params.setItem(i, 1, QTableWidgetItem(
+                str(crop_unique_names[i])))
+            #col 3. Sowing date
+            date_edit_sow = QDateEdit()
+            date_edit_sow.setDisplayFormat("dd.MM")
+            date_edit_sow.setDate(self.crops[i]["sowing"])
+            date_edit_sow.setCalendarPopup(True)
+            self.dlg.tw_growth_params.setCellWidget(i, 2, date_edit_sow)
+            # col 4. harvest date
+            date_edit_harv = QDateEdit()
+            date_edit_harv.setDisplayFormat("dd.MM")
+            date_edit_harv.setDate(self.crops[i]["harvest"])
+            date_edit_harv.setCalendarPopup(True)
+            self.dlg.tw_growth_params.setCellWidget(i, 3,
+                                                    date_edit_harv)
+            # col 5. Max dry mass
+            self.dlg.tw_growth_params.setItem(i, 4, QTableWidgetItem(
+                str(crop_dw_max[i])))
+            # col 6. Max LAI
+            self.dlg.tw_growth_params.setItem(i, 5, QTableWidgetItem(
+                str(crop_lai_max[i])))
+            # col 7. Min biomass moisture
+            self.dlg.tw_growth_params.setItem(i, 6, QTableWidgetItem(
+                str(crop_r_min[i])))
+            # col 8. coef. m
+            self.dlg.tw_growth_params.setItem(i, 7, QTableWidgetItem(
+                "coef m"))      # TODO
+            # col 9. coef. n
+            self.dlg.tw_growth_params.setItem(i, 8, QTableWidgetItem(
+                "coef n"))      # TODO
+
 
     def setSoilSaturationState(self):
         """Set soil saturation state in form of cboxes to table"""
@@ -290,15 +357,21 @@ class RadHydro:
         self.dlg.tw_sowing.setColumnWidth(0, 250)
         # Get row counts:
         row_count = self.dlg.tw_sowing.rowCount()
+        crops_list = [self.crops[i]["crop"] for i in range(len(
+            self.crops))]
 
         # Add cboxes and dateEdit boxes to tw_sowing table
         for i in range(row_count):
             # create cboxes
             combo = QComboBox()
-            combo.addItems(self.crops.values())
+            combo.addItems(crops_list)
             # Create date edit boxes
             date_edit_sow = QDateEdit()
+            date_edit_sow.setDisplayFormat("dd.MM")
+            date_edit_sow.setCalendarPopup(True)
             date_edit_har = QDateEdit()
+            date_edit_har.setDisplayFormat("dd.MM")
+            date_edit_har.setCalendarPopup(True)
             # add cboxes to table
             self.dlg.tw_sowing.setCellWidget(i, 0, combo)
             # add date edit widgets to table
@@ -313,6 +386,8 @@ class RadHydro:
         fname = self.dlg.cbox_crop_lyr_key.currentField()
         idx = map_lyr.fields().indexOf(fname)
         values_set = map_lyr.uniqueValues(idx)
+        crops_list = [self.crops[i]["crop"] for i in range(len(
+            self.crops))]
 
         # Fill first table
         if len(values_set) <= 100:
@@ -327,7 +402,7 @@ class RadHydro:
             for i in range(len(values_set)):
                 # Create cbox
                 combo = QComboBox()
-                combo.addItems(self.crops.values())
+                combo.addItems(crops_list)
                 # add cbox to table
                 self.dlg.tw_crops_orig.setCellWidget(i, 1, combo)
         else:
@@ -339,31 +414,127 @@ class RadHydro:
         """Some constants used in the program"""
 
         # Crops
-        self.crops = {1:self.tr("Pšenice ozimá"),
-                      2:self.tr("Pšenice jarní"),
-                      3:self.tr("Žito ozimé"),
-                      4:self.tr("Ječmen jarní"),
-                      5:self.tr("Ječmen ozimý"),
-                      6:self.tr("Oves"),
-                      7:self.tr("Kukuřice na zrno"),
-                      8:self.tr("Luštěniny"),
-                      9:self.tr("Brambory rané"),
-                      10:self.tr("Brambory pozdní"),
-                      11:self.tr("Louky"),
-                      12:self.tr("Chmel"),
-                      13:self.tr("Řepka ozimá"),
-                      14:self.tr("Slunečnice"),
-                      15:self.tr("Mák"),
-                      16:self.tr("Ostatní olejniny"),
-                      17:self.tr("Kukuřice na siláž"),
-                      18:self.tr("Ostatní pícniny jednoleté"),
-                      19:self.tr("Ostatní pícniny víceleté"),
-                      20:self.tr("Zelenina"),
-                      21:self.tr("Sady"),
-                      22:self.tr("Lesy"),
-                      23:self.tr("Zástavba"),
-                      24:self.tr("Holá půda")
-                      }
+        self.crops = [{"ID":1,
+                       "crop":self.tr("Pšenice ozimá"),
+                       "sowing":QDate(2021,8,31),
+                       "harvest":QDate(2021,7,15),
+                       "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":2,
+                       "crop":self.tr("Pšenice jarní"),
+                       "sowing":QDate(2021,8,31),
+                       "harvest":QDate(2021,7,15),
+                       "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":3,
+                       "crop":self.tr("Žito ozimé"),
+                       "sowing":QDate(2021,8,31),
+                       "harvest":QDate(2021,7,15),
+                       "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":4, "crop":self.tr("Ječmen jarní"),
+                         "sowing":QDate(2021,8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":5, "crop":self.tr("Ječmen ozimý"),
+                         "sowing":QDate(2021,8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":6, "crop":self.tr("Oves"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":7, "crop":self.tr("Kukuřice na zrno"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":8, "crop":self.tr("Luštěniny"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":9, "crop":self.tr("Brambory rané"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":10, "crop":self.tr("Brambory pozdní"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":11, "crop":self.tr("Louky"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":12, "crop":self.tr("Chmel"),
+                       "sowing":QDate(2021,
+                         1,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":13, "crop":self.tr("Řepka ozimá"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":14, "crop":self.tr("Slunečnice"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":15, "crop":self.tr("Mák"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":16, "crop":self.tr("Ostatní olejniny"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":17, "crop":self.tr("Kukuřice na siláž"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":18, "crop":self.tr("Ostatní pícniny "
+                                               "jednoleté"), "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":19, "crop":self.tr("Ostatní pícniny "
+                                               "víceleté"), "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":20, "crop":self.tr("Zelenina"),
+                       "sowing":QDate(2021,
+                         8,31), "harvest":QDate(2021,7,15), "dw_max":10,
+                       "LAI_max": 5.0,
+                       "r_min": 20.0},
+                      {"ID":21, "crop":self.tr("Sady"),
+                       "sowing":None, "harvest":None, "dw_max":None,
+                       "LAI_max": None,
+                       "r_min": None},
+                      {"ID":22, "crop":self.tr("Lesy"),
+                       "sowing":None, "harvest":None, "dw_max":None,
+                       "LAI_max": None,
+                       "r_min": None},
+                      {"ID":23, "crop":self.tr("Zástavba"),
+                       "sowing":None, "harvest":None, "dw_max":None,
+                       "LAI_max": None,
+                       "r_min": None},
+                      {"ID":24, "crop":self.tr("Holá půda"),
+                       "sowing":None, "harvest":None, "dw_max":None,
+                       "LAI_max": None,
+                       "r_min": None}
+                      ]
 
         # The state of soil saturation by soil water: good (Do) or
         # bad (Šp)
