@@ -33,7 +33,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -87,7 +87,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_3">
               <property name="geometry">
@@ -966,14 +966,34 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Parametry růstového modelu</string>
+                    <string>Vlastnosti plodin</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
                   <widget class="QPushButton" name="pb_growth">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Načte do tabulky přednastavené vlastnosti plodin obsažených ve vstupních datech. Jedná se o agrotechnické termíny výsevu/sadby a sklizně, maximální množství sušiny (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;), maximální index listové pokryvnosti a minimální objemovou vlhkost nadzemní biomasy, typicky při sklizni (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
                    <property name="text">
                     <string>Načíst data</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QPushButton" name="pb_coefs">
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provede výpočet koeficientů růstového modelu z dat zadaných v tabulce (z hodnot maximální sušiny). Jedná se o defaultní hodnoty sklonu a interceptu růstové křivky (viz nápověda).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>Přepočítat</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_12">
+                   <property name="text">
+                    <string>Parametry růstového modelu (defaultní hodnoty)</string>
                    </property>
                   </widget>
                  </item>
@@ -998,35 +1018,56 @@
                   <property name="text">
                    <string>Výsev</string>
                   </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín výsevu nebo výsadby&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>Sklizeň</string>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín sklizně&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>W_max</string>
                   </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota sušiny biomasy (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>LAI_max</string>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota indexu listové pokryvnosti plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>R_min</string>
                   </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimální hodnota objemové vlhkosti biomasy při sklizni (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>Koef_M</string>
                   </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sklon křivky růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                  </column>
                  <column>
                   <property name="text">
                    <string>Koef_N</string>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Intercep růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </column>
                 </widget>
@@ -1038,8 +1079,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>423</width>
-                <height>305</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2458,8 +2499,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>248</width>
-                <height>355</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -4315,8 +4356,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>344</width>
-                <height>221</height>
+                <width>567</width>
+                <height>478</height>
                </rect>
               </property>
               <attribute name="label">
@@ -4928,22 +4969,6 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>button_box</sender>
-   <signal>accepted()</signal>
-   <receiver>RadHydroDialogBase</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>38</x>
-     <y>749</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>button_box</sender>
    <signal>rejected()</signal>
