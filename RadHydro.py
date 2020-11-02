@@ -295,7 +295,7 @@ class RadHydro:
         self.fillCN()
         self.fillCFactor()
         self.fillRadioTransferParams()
-        self.fillSoilUnits()
+        # self.fillSoilUnits()
 
     def fillSoilUnits(self):
         "Fill Main Soil Units and Hydrol. groups to tw_HPJ_params table"

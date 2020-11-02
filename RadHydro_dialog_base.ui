@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>876</height>
+    <height>874</height>
    </rect>
   </property>
   <property name="font">
@@ -33,7 +33,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -54,7 +54,7 @@
             <x>0</x>
             <y>0</y>
             <width>734</width>
-            <height>729</height>
+            <height>727</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -70,15 +70,15 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="page_3">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>255</width>
+                <height>139</height>
                </rect>
               </property>
               <property name="font">
@@ -226,8 +226,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>264</width>
+                <height>107</height>
                </rect>
               </property>
               <attribute name="label">
@@ -245,7 +245,7 @@
                     </sizepolicy>
                    </property>
                    <property name="maximum">
-                    <number>10000000</number>
+                    <number>100000000</number>
                    </property>
                    <property name="value">
                     <number>5000</number>
@@ -327,7 +327,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>716</width>
-                <height>479</height>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -336,6 +336,38 @@
               <layout class="QGridLayout" name="gridLayout_11">
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_10">
+                 <item row="2" column="0">
+                  <widget class="QRadioButton" name="rb_precip_rast">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Rastrová vrstva úhrnu srážek v zájmovém území (mm)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QgsMapLayerComboBox" name="cbox_precip">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="allowEmptyLayer">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="0" column="0">
                   <widget class="QRadioButton" name="rb_precip_konst">
                    <property name="sizePolicy">
@@ -353,58 +385,7 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_precip">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QRadioButton" name="rb_precip_rast">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>Rastrová vrstva úhrnu srážek v zájmovém území (mm)</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QgsMapLayerComboBox" name="cbox_precip">
-                   <property name="enabled">
-                    <bool>false</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="allowEmptyLayer">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
+                  <widget class="QgsDoubleSpinBox" name="sbox_precip"/>
                  </item>
                 </layout>
                </item>
@@ -428,8 +409,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>193</width>
+                <height>201</height>
                </rect>
               </property>
               <attribute name="label">
@@ -531,8 +512,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>368</width>
+                <height>111</height>
                </rect>
               </property>
               <attribute name="label">
@@ -658,8 +639,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>119</width>
+                <height>79</height>
                </rect>
               </property>
               <attribute name="label">
@@ -718,8 +699,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>397</width>
+                <height>141</height>
                </rect>
               </property>
               <attribute name="label">
@@ -861,8 +842,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>479</height>
+                <width>150</width>
+                <height>50</height>
                </rect>
               </property>
               <attribute name="label">
@@ -925,8 +906,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>734</width>
-            <height>729</height>
+            <width>132</width>
+            <height>233</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -950,15 +931,15 @@
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>564</height>
+                <width>401</width>
+                <height>119</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1080,8 +1061,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>564</height>
+                <width>423</width>
+                <height>305</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1090,95 +1071,17 @@
               <layout class="QGridLayout" name="gridLayout_33">
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_32">
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_25">
+                 <item row="6" column="0">
+                  <widget class="QLabel" name="label_27">
                    <property name="text">
-                    <string>Koeficient intercepce a</string>
+                    <string>Konstanta separace odtoku a</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_separ_c">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.500000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_interc_b">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.200000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_separ_b">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.001000000000000</double>
-                   </property>
-                   <property name="stepType">
-                    <enum>QAbstractSpinBox::DefaultStepType</enum>
-                   </property>
-                   <property name="value">
-                    <double>0.005000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_separ_a">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.001000000000000</double>
-                   </property>
-                   <property name="stepType">
-                    <enum>QAbstractSpinBox::DefaultStepType</enum>
-                   </property>
-                   <property name="value">
-                    <double>0.005000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_adiabata">
-                   <property name="decimals">
-                    <number>5</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.000100000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.006500000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
+                 <item row="4" column="0">
                   <widget class="QLabel" name="label_26">
                    <property name="text">
                     <string>Koeficient intercepce b</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_29">
-                   <property name="text">
-                    <string>Konstanta separace odtoku c</string>
                    </property>
                   </widget>
                  </item>
@@ -1189,22 +1092,42 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="0">
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_25">
+                   <property name="text">
+                    <string>Koeficient intercepce a</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="0">
+                  <widget class="QLabel" name="label_29">
+                   <property name="text">
+                    <string>Konstanta separace odtoku c</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
                   <widget class="QLabel" name="label_28">
                    <property name="text">
                     <string>Konstanta separace odtoku b</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_27">
-                   <property name="text">
-                    <string>Konstanta separace odtoku a</string>
+                 <item row="0" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_adiabata">
+                   <property name="decimals">
+                    <number>4</number>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.001000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.006500000000000</double>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="sbox_interc_a">
+                 <item row="2" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_interc_a">
                    <property name="decimals">
                     <number>3</number>
                    </property>
@@ -1213,6 +1136,58 @@
                    </property>
                    <property name="value">
                     <double>0.100000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_interc_b">
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.200000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="6" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_separ_a">
+                   <property name="decimals">
+                    <number>4</number>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.001000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.005000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_separ_b">
+                   <property name="decimals">
+                    <number>4</number>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.001000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.005000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="10" column="1">
+                  <widget class="QgsDoubleSpinBox" name="sbox_separ_c">
+                   <property name="decimals">
+                    <number>3</number>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.500000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -1311,8 +1286,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>564</height>
+                <width>263</width>
+                <height>357</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2707,20 +2682,20 @@ a vláhovém stavu půdy</string>
                  </item>
                  <item row="0" column="0">
                   <layout class="QGridLayout" name="gridLayout_34">
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_30">
-                     <property name="text">
-                      <string>R faktor</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="sbox_r_factor">
+                    <widget class="QgsDoubleSpinBox" name="sbox_r_factor">
                      <property name="maximum">
                       <double>200.000000000000000</double>
                      </property>
                      <property name="value">
                       <double>40.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_30">
+                     <property name="text">
+                      <string>R faktor</string>
                      </property>
                     </widget>
                    </item>
@@ -2742,8 +2717,15 @@ a vláhovém stavu půdy</string>
                      </property>
                     </widget>
                    </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_33">
+                     <property name="text">
+                      <string>LS faktor - koeficient n</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="sbox_LS_m">
+                    <widget class="QgsDoubleSpinBox" name="sbox_LS_m">
                      <property name="singleStep">
                       <double>0.100000000000000</double>
                      </property>
@@ -2752,15 +2734,8 @@ a vláhovém stavu půdy</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_33">
-                     <property name="text">
-                      <string>LS faktor - koeficient n</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QDoubleSpinBox" name="sbox_LS_n">
+                   <item row="2" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_LS_n">
                      <property name="singleStep">
                       <double>0.100000000000000</double>
                      </property>
@@ -2823,8 +2798,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>564</height>
+                <width>344</width>
+                <height>221</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2977,8 +2952,8 @@ a vláhovém stavu půdy</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>734</width>
-            <height>729</height>
+            <width>547</width>
+            <height>491</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_18">
@@ -3104,13 +3079,18 @@ p, li { white-space: pre-wrap; }
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Výstupy</string>
+      <string>Adresář pro výstupy</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QgsDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>qgsdoublespinbox.h</header>
+  </customwidget>
   <customwidget>
    <class>QgsFeatureListComboBox</class>
    <extends>QComboBox</extends>
@@ -3189,12 +3169,12 @@ p, li { white-space: pre-wrap; }
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>246</x>
-     <y>194</y>
+     <x>229</x>
+     <y>193</y>
     </hint>
     <hint type="destinationlabel">
-     <x>491</x>
-     <y>160</y>
+     <x>580</x>
+     <y>163</y>
     </hint>
    </hints>
   </connection>
