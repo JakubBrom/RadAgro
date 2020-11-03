@@ -33,7 +33,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -906,8 +906,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>132</width>
-            <height>233</height>
+            <width>734</width>
+            <height>727</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -2798,8 +2798,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>344</width>
-                <height>221</height>
+                <width>716</width>
+                <height>562</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2952,8 +2952,8 @@ a vláhovém stavu půdy</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>547</width>
-            <height>491</height>
+            <width>734</width>
+            <height>727</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_18">
@@ -2992,6 +2992,9 @@ a vláhovém stavu půdy</string>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="insertPolicy">
+                  <enum>QComboBox::NoInsert</enum>
+                 </property>
                 </widget>
                </item>
                <item row="0" column="2">
@@ -3018,17 +3021,7 @@ a vláhovém stavu půdy</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_19">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>graf_demo.png</pixmap>
-                </property>
-                <property name="scaledContents">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               <widget class="QWidget" name="widget_plot" native="true"/>
               </item>
              </layout>
             </widget>

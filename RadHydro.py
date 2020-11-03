@@ -25,7 +25,8 @@ from qgis.PyQt.QtCore import QSettings, QTranslator, \
     QCoreApplication, Qt, QUrl, QDate
 from qgis.PyQt.QtGui import QIcon, QDesktopServices, QImage, QPixmap
 from qgis.PyQt.QtWidgets import QAction, QFileDialog, QComboBox, \
-    QPushButton, QMessageBox, QTableWidgetItem, QDateEdit, QDateTimeEdit
+    QPushButton, QMessageBox, QTableWidgetItem, QDateEdit, \
+    QDateTimeEdit, QVBoxLayout
 
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -34,6 +35,9 @@ from qgis.core import Qgis, QgsMapLayerProxyModel
 
 # Import the code for the dialog
 from .RadHydro_dialog import RadHydroDialog
+
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
 import sys
 import urllib.request
 import os.path
@@ -271,6 +275,23 @@ class RadHydro:
         # model to growth model table for particular
         self.dlg.pb_coefs.clicked.connect(lambda: self.calculateGowthCurveCoefs())
 
+        # Create plot
+        self.figure = plt.figure(facecolor="white")  # create plot
+        self.canvas = FigureCanvas(self.figure)
+
+        # Buttonbox for creating figure
+        self.dlg.pb_create_graph.clicked.connect(self.plot)
+        self.dlg.cbox_select_ID.currentIndexChanged.connect(self.plot)
+        # TODO: Možná nastavit tak, že se bude graf vytvářet po
+        #  výběru hodnoty v cboxu
+
+
+        # Add plot in to UI widget
+        lay = QVBoxLayout(self.dlg.widget_plot)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.addWidget(self.canvas)
+        # self.setLayout(lay)
+
         # show the dialog
         self.dlg.show()
 
@@ -287,6 +308,48 @@ class RadHydro:
 
         map_lyr = self.dlg.cbox_crop_lyr.currentLayer()
         self.dlg.cbox_select_ID.setSourceLayer(map_lyr)
+
+    def plot(self):
+        "Create plot in the UI"
+
+        # TODO: načítání dat z databáze podle ID a celková úprava,
+        #  definice časové osy
+
+        # Data
+        ignore_zero = np.seterr(all="ignore")
+
+        x = [float(i) for i in range(100)]
+        x = np.array(x)
+        rand = np.random.rand(100)
+        y = rand * (100.0 / x)
+
+        # Clear last figure
+        self.figure.clear()
+
+        # # set size of the plot - margins
+        # self.figure.subplots_adjust(left=0.2, bottom=0.15, right=0.95,
+        #                             top=0.95, wspace=0, hspace=0)
+
+        # create an axis
+        ax = self.figure.add_subplot(111)
+        ax.set_aspect("auto", "box")
+
+        # Axes names
+        x_name = self.tr("Čas")
+        y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
+
+        # Axes labels
+        ax.set_xlabel(x_name)
+        ax.set_ylabel(y_name)
+
+        # plot data
+        ax.plot(x, y, '-', label=self.tr("Náhodný data"))
+
+        # Legend position
+        ax.legend(loc='best')
+
+        # Draw plot
+        self.canvas.draw()
 
     def fillParams(self):
         "Fill parameters of the model to tables"
