@@ -280,7 +280,6 @@ class RadHydro:
         self.canvas = FigureCanvas(self.figure)
 
         # Buttonbox for creating figure
-        self.dlg.pb_create_graph.clicked.connect(self.plot)
         self.dlg.cbox_select_ID.currentIndexChanged.connect(self.plot)
         # TODO: Možná nastavit tak, že se bude graf vytvářet po
         #  výběru hodnoty v cboxu

@@ -24,6 +24,30 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <item row="6" column="0">
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QgsFileWidget" name="out_folder">
+     <property name="storageMode">
+      <enum>QgsFileWidget::GetDirectory</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Adresář pro výstupy</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="tabPosition">
@@ -33,7 +57,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -70,15 +94,15 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_3">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>255</width>
-                <height>139</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <property name="font">
@@ -326,8 +350,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>477</height>
+                <width>500</width>
+                <height>80</height>
                </rect>
               </property>
               <attribute name="label">
@@ -906,8 +930,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>734</width>
-            <height>727</height>
+            <width>132</width>
+            <height>233</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -931,7 +955,7 @@
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>3</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page">
               <property name="geometry">
@@ -2798,8 +2822,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>716</width>
-                <height>562</height>
+                <width>344</width>
+                <height>221</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2997,13 +3021,6 @@ a vláhovém stavu půdy</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
-                <widget class="QPushButton" name="pb_create_graph">
-                 <property name="text">
-                  <string>Proveď</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </item>
             </layout>
@@ -3054,26 +3071,6 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QDialogButtonBox" name="button_box">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QgsFileWidget" name="out_folder"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Adresář pro výstupy</string>
-     </property>
     </widget>
    </item>
   </layout>
