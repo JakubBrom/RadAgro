@@ -28,9 +28,11 @@
 import numpy as np
 
 class SARCALib:
+    """Library for calculation of crops growth parameters and radioactivity
+    contamination of crops"""
 
     def __init__(self):
-        pass
+        return
 
     def calculateGrowthCoefs(self, dw_max, dw_min=0.1):
         """

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 # -----------------------------------------------------------------------
 # RadHydro 
 #
@@ -14,7 +13,7 @@
 #
 # Description:
 # 
-# License: Copyright (C) 2018, Jakub Brom, University of South Bohemia
+# License: Copyright (C) 2018-2020, Jakub Brom, University of South Bohemia
 #		   in Ceske Budejovice
 # 
 # Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 
@@ -28,7 +27,7 @@
 import numpy as np
 import os
 
-from osgeo import gdal, osr
+from osgeo import gdal, osr, ogr
 
 
 def rasterToArray(layer):
@@ -36,9 +35,9 @@ def rasterToArray(layer):
 	:param layer: Path to raster layer.
 	:type layer: str
 	
-	:return in_layer: raster file converted to numpy array
-	:type in_layer: numpy.ndarray
+	:return: raster file converted to numpy array
 	"""
+
 	try:
 		if layer is not None:
 			in_layer = gdal.Dataset.ReadAsArray(gdal.Open(layer)).astype(
@@ -49,7 +48,6 @@ def rasterToArray(layer):
 	except:
 		in_layer = None
 		return in_layer
-
 
 def readGeo(rast):
 	"""Reading important geographical information from raster using GDAL.
@@ -208,6 +206,8 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 def readLatLong(rast_path):
 	"""Automatic setting of the lyrs coordinates according to the
 	projection of NIR band in to the form."""
+
+	inputEPSG = None
 
 	if rast_path == "" or rast_path is None:
 		raise IOError("Path to raster has not been set.")

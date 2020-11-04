@@ -33,6 +33,9 @@ from mdaylight import MonthlyDaylight
 
 
 class WaterBalance:
+	"""Module for calculation of the hydrological features of the area of
+	interest."""
+
 	def __init__(self):
 		return
 

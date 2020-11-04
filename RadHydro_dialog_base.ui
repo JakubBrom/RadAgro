@@ -250,8 +250,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>264</width>
-                <height>107</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -350,8 +350,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>500</width>
-                <height>80</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -433,8 +433,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>193</width>
-                <height>201</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -536,8 +536,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>368</width>
-                <height>111</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -663,8 +663,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>119</width>
-                <height>79</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -723,8 +723,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>397</width>
-                <height>141</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -866,8 +866,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>150</width>
-                <height>50</height>
+                <width>716</width>
+                <height>477</height>
                </rect>
               </property>
               <attribute name="label">
@@ -930,8 +930,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>132</width>
-            <height>233</height>
+            <width>734</width>
+            <height>727</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -962,8 +962,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>401</width>
-                <height>119</height>
+                <width>716</width>
+                <height>562</height>
                </rect>
               </property>
               <attribute name="label">
@@ -984,7 +984,7 @@
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provede výpočet koeficientů růstového modelu z dat zadaných v tabulce (z hodnot maximální sušiny). Jedná se o defaultní hodnoty sklonu a interceptu růstové křivky (viz nápověda).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="text">
-                    <string>Vypočítat</string>
+                    <string>Přepočítat</string>
                    </property>
                   </widget>
                  </item>
@@ -1085,8 +1085,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>423</width>
-                <height>305</height>
+                <width>716</width>
+                <height>562</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1142,9 +1142,6 @@
                    <property name="decimals">
                     <number>4</number>
                    </property>
-                   <property name="singleStep">
-                    <double>0.001000000000000</double>
-                   </property>
                    <property name="value">
                     <double>0.006500000000000</double>
                    </property>
@@ -1154,9 +1151,6 @@
                   <widget class="QgsDoubleSpinBox" name="sbox_interc_a">
                    <property name="decimals">
                     <number>3</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
                    </property>
                    <property name="value">
                     <double>0.100000000000000</double>
@@ -1168,9 +1162,6 @@
                    <property name="decimals">
                     <number>3</number>
                    </property>
-                   <property name="singleStep">
-                    <double>0.010000000000000</double>
-                   </property>
                    <property name="value">
                     <double>0.200000000000000</double>
                    </property>
@@ -1180,9 +1171,6 @@
                   <widget class="QgsDoubleSpinBox" name="sbox_separ_a">
                    <property name="decimals">
                     <number>4</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.001000000000000</double>
                    </property>
                    <property name="value">
                     <double>0.005000000000000</double>
@@ -1194,9 +1182,6 @@
                    <property name="decimals">
                     <number>4</number>
                    </property>
-                   <property name="singleStep">
-                    <double>0.001000000000000</double>
-                   </property>
                    <property name="value">
                     <double>0.005000000000000</double>
                    </property>
@@ -1206,9 +1191,6 @@
                   <widget class="QgsDoubleSpinBox" name="sbox_separ_c">
                    <property name="decimals">
                     <number>3</number>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.010000000000000</double>
                    </property>
                    <property name="value">
                     <double>0.500000000000000</double>
@@ -1310,8 +1292,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>263</width>
-                <height>357</height>
+                <width>716</width>
+                <height>562</height>
                </rect>
               </property>
               <attribute name="label">
@@ -2750,9 +2732,6 @@ a vláhovém stavu půdy</string>
                    </item>
                    <item row="0" column="1">
                     <widget class="QgsDoubleSpinBox" name="sbox_LS_m">
-                     <property name="singleStep">
-                      <double>0.100000000000000</double>
-                     </property>
                      <property name="value">
                       <double>0.400000000000000</double>
                      </property>
@@ -2760,9 +2739,6 @@ a vláhovém stavu půdy</string>
                    </item>
                    <item row="2" column="1">
                     <widget class="QgsDoubleSpinBox" name="sbox_LS_n">
-                     <property name="singleStep">
-                      <double>0.100000000000000</double>
-                     </property>
                      <property name="value">
                       <double>1.400000000000000</double>
                      </property>
@@ -2822,8 +2798,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>344</width>
-                <height>221</height>
+                <width>716</width>
+                <height>562</height>
                </rect>
               </property>
               <attribute name="label">

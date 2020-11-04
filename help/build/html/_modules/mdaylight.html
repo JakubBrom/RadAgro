@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdaylight &mdash; RadHydro 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="RadHydro 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> RadHydro
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../description.html">Popis programu RadHydro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ackn.html">Poděkování</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">RadHydro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>mdaylight</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdaylight</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#-----------------------------------------------------------------------</span>
+<span class="c1"># RadHydro </span>
+<span class="c1">#</span>
+<span class="c1"># Module: mdaylight.py</span>
+<span class="c1"># Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,</span>
+<span class="c1">#		  Faculty of Agriculture </span>
+<span class="c1"># Date: 2018/10/16</span>
+<span class="c1">#</span>
+<span class="c1"># Description: The script mdaylight calculates list of monthly mean</span>
+<span class="c1">#			   daylights according to geographical position</span>
+<span class="c1"># </span>
+<span class="c1"># License: Copyright (C) 2018, Jakub Brom, University of South Bohemia</span>
+<span class="c1">#		   in Ceske Budejovice</span>
+<span class="c1"># </span>
+<span class="c1"># Vlastníkem programu RadHydro je Jihočeská univerzita v Českých </span>
+<span class="c1"># Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny</span>
+<span class="c1"># v licenčním ujednání (dále jen &quot;smlouva&quot;).</span>
+<span class="c1"># Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací</span>
+<span class="c1"># souhlasí s podmínkami smlouvy.</span>
+<span class="c1">#-----------------------------------------------------------------------</span>
+
+
+<span class="c1"># imports</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span> <span class="k">as</span> <span class="nn">mt</span>
+
+
+<div class="viewcode-block" id="MonthlyDaylight"><a class="viewcode-back" href="../libs.html#mdaylight.MonthlyDaylight">[docs]</a><span class="k">class</span> <span class="nc">MonthlyDaylight</span><span class="p">:</span>
+	
+	<span class="sd">&quot;&quot;&quot;Calculates list of monthly mean daylight, timezone and length of</span>
+<span class="sd">	dailight for particular day according to geographical position.&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span>
+		
+<div class="viewcode-block" id="MonthlyDaylight.dayLength"><a class="viewcode-back" href="../libs.html#mdaylight.MonthlyDaylight.dayLength">[docs]</a>	<span class="k">def</span> <span class="nf">dayLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nday</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="mf">49.1797903</span><span class="p">):</span>
+		
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Calculation of dalight according to geographic position and day</span>
+<span class="sd">		number (1-365).</span>
+<span class="sd">		</span>
+<span class="sd">		Inputs:</span>
+<span class="sd">		:param nday: Number of day throughout the year (0-365)</span>
+<span class="sd">		:type nday: int</span>
+<span class="sd">		:param lat: Earth latitude (UTM) in decimal degrees</span>
+<span class="sd">		:type lat: float</span>
+<span class="sd">		</span>
+<span class="sd">		Returns</span>
+<span class="sd">		:return: List of mean monthly daylight (hours, decimal)</span>
+<span class="sd">		:rtype: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+				
+		<span class="c1"># Calculate solar geometry - inputs</span>
+		<span class="n">ds</span> <span class="o">=</span> <span class="mf">23.45</span> <span class="o">*</span> <span class="n">mt</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">360.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">284.0</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">nday</span><span class="p">))</span><span class="o">/</span><span class="mf">365.0</span> <span class="o">*</span> <span class="n">mt</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.0</span><span class="p">)</span>		<span class="c1"># solar declination (°)	</span>
+		<span class="n">ds_rad</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>                                     			<span class="c1"># solar declination (rad.)</span>
+		<span class="n">L_rad</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>                             					<span class="c1"># latitude (rad.)</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8333</span>																<span class="c1"># altitude of the center of solar disc (°)</span>
+		<span class="n">a_rad</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>													<span class="c1"># altitude of the center of solar disc (rad)</span>
+		
+		<span class="c1"># Calculate day length</span>
+		<span class="n">cos_om</span> <span class="o">=</span> <span class="p">(</span><span class="n">mt</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a_rad</span><span class="p">)</span><span class="o">-</span><span class="n">mt</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">L_rad</span><span class="p">)</span><span class="o">*</span><span class="n">mt</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">ds_rad</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">mt</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">L_rad</span><span class="p">)</span><span class="o">*</span><span class="n">mt</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">ds_rad</span><span class="p">))</span>
+		<span class="k">if</span> <span class="n">cos_om</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="n">cos_om</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="n">cos_om</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+			<span class="n">cos_om</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+			
+		<span class="n">sunrise</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">mt</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">mt</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cos_om</span><span class="p">))</span><span class="o">/</span><span class="mi">15</span>
+		<span class="n">sunset</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">-</span> <span class="n">sunrise</span>
+		
+		<span class="n">day_length</span> <span class="o">=</span> <span class="n">sunset</span> <span class="o">-</span> <span class="n">sunrise</span>
+		
+		<span class="k">return</span> <span class="n">day_length</span></div>
+	
+<div class="viewcode-block" id="MonthlyDaylight.monthlyDaylights"><a class="viewcode-back" href="../libs.html#mdaylight.MonthlyDaylight.monthlyDaylights">[docs]</a>	<span class="k">def</span> <span class="nf">monthlyDaylights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="mf">49.1797903</span><span class="p">):</span>
+		
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Calculation of monthly mean dalight - potential duration of solar </span>
+<span class="sd">		radiation</span>
+<span class="sd">		</span>
+<span class="sd">		Inputs:</span>
+<span class="sd">		:param lat: Earth latitude (UTM) in decimal degrees</span>
+<span class="sd">		:type lat: float</span>
+<span class="sd">		</span>
+<span class="sd">		Returns</span>
+<span class="sd">		:return: List of mean monthly daylight (hours, decimal)</span>
+<span class="sd">		:rtype: list</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+	
+		<span class="c1"># Variables</span>
+		<span class="n">mdays</span> <span class="o">=</span> <span class="p">[</span><span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>	<span class="c1">#number of days in month</span>
+		<span class="n">dl_nday</span> <span class="o">=</span> <span class="p">[]</span>			<span class="c1"># length of daylight for each day</span>
+		<span class="n">dl_mean_list</span> <span class="o">=</span> <span class="p">[]</span>		<span class="c1"># mean monthly dalylight </span>
+		
+		<span class="c1"># Calculation of mean monthly daiyligth (in decimal form)</span>
+		<span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mdays</span><span class="p">)):</span>
+			<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">mdays</span><span class="p">[</span><span class="n">m</span><span class="p">]):</span>
+				<span class="n">dl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dayLength</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>
+				<span class="n">dl_nday</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dl</span><span class="p">)</span>
+	
+			<span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="n">mdays</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+			<span class="n">dl_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dl_nday</span><span class="p">)</span>
+			<span class="n">dl_mean_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dl_mean</span><span class="p">)</span>
+			<span class="n">dl_nday</span> <span class="o">=</span> <span class="p">[]</span>
+		
+		<span class="k">return</span> <span class="n">dl_mean_list</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

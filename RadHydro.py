@@ -322,6 +322,9 @@ class RadHydro:
         rand = np.random.rand(100)
         y = rand * (100.0 / x)
 
+        # Legend text
+        pl_ID = self.dlg.cbox_select_ID.currentText()
+
         # Clear last figure
         self.figure.clear()
 
@@ -342,7 +345,7 @@ class RadHydro:
         ax.set_ylabel(y_name)
 
         # plot data
-        ax.plot(x, y, '-', label=self.tr("Náhodný data"))
+        ax.plot(x, y, '-', label=(self.tr("ID plochy: {ID}")).format(ID = pl_ID))
 
         # Legend position
         ax.legend(loc='best')
@@ -371,7 +374,8 @@ class RadHydro:
 
 
     def fillRadioTransferParams(self):
-        """Fill Radiotransfer parameters for particular crops to tw_radio_coefs table"""
+        """Fill Radiotransfer parameters for particular crops to
+        tw_radio_coefs table"""
 
         # Get number of rows in tw_crops_orig table
         r_count = self.dlg.tw_crops_orig.rowCount()

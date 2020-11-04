@@ -31,6 +31,8 @@ import numpy as np
 
 
 class RadUSLE:
+	"""Calculation of USLE"""
+
 	def __init__(self):
 		return
 		

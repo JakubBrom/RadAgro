@@ -16,7 +16,8 @@ import sys, os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../../modules'))
+
 
 # -- General configuration -----------------------------------------------------
 
@@ -25,7 +26,8 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.todo', 'sphinx.ext.imgmath', 'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.todo', 'sphinx.ext.imgmath', 'sphinx.ext.viewcode',
+              'sphinx.ext.autodoc', 'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -91,7 +93,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'neo_rtd_theme'    #'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -99,7 +101,8 @@ html_theme = 'default'
 #html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+import sphinx_theme
+html_theme_path = [sphinx_theme.get_html_theme_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -172,14 +175,38 @@ htmlhelp_basename = 'TemplateClassdoc'
 # The paper size ('letter' or 'a4').
 #latex_paper_size = 'letter'
 
+# LaTeX usage
+
+latex_preamble = r"""
+\usepackage{mathtools}
+\usepackage{inputenc}
+\usepackage{siunitx}
+"""
+
+imgmath_latex_preamble = latex_preamble
+latex_elements = {'preamble': latex_preamble}
+
+imgmath_image_format = 'svg'
+imgmath_dvisvgm_args = ['--no-fonts', '--exact']
+
+#math_number_all = True
+math_numfig = True
+numfig = True
+numfig_secnum_depth = 3
+
 # The font size ('10pt', '11pt' or '12pt').
 #latex_font_size = '10pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
+# latex_documents = [
+#   ('index', 'RadHydro.tex', u'RadHydro Documentation',
+#    u'Dr. Jakub Brom, University of South Bohemia in České Budějovice,'
+#    u'\nFaculty of Agriculture, Czech Republic', 'manual'),
+# ]
 latex_documents = [
-  ('index', 'RadHydro.tex', u'RadHydro Documentation',
-   u'Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic', 'manual'),
+  ('index', 'RadHydro.tex', u'RadHydro - Dokumentace',
+   u'Autoři: Jakub Brom a kol.', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -211,6 +238,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'TemplateClass', u'RadHydro Documentation',
+    ('index', 'TemplateClass', u'RadHydro - Dokumentace',
      [u'Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic'], 1)
 ]
