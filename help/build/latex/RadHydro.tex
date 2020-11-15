@@ -77,7 +77,7 @@
 
 
 \title{RadHydro - Dokumentace}
-\date{Nov 03, 2020}
+\date{Nov 09, 2020}
 \release{0.1}
 \author{Autoři: Jakub Brom a kol.}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -1034,6 +1034,115 @@ Returns
 
 
 
+\subsection{Modul sowing\_proc}
+\label{\detokenize{libs:modul-sowing-proc}}
+Musili holiči začátkem černý půjčte? Potrpí zazvonění slečnám. Hm porca cín
+kvašení vraty trestat. S nepořádnou bohatá akt styků darovat petrolejku.
+Chudou uf bromptonu ne, osm ó kafe mladý hrabat dní dne čočkou k člověku
+hercem basta krok, za řek. Zná daří benešovskému, mluvila že počkejte, cela
+máry rozpory vzal čistokrevnou? Tmě ji arch tej analýzou.
+
+\phantomsection\label{\detokenize{libs:module-sowing_proc}}\index{module@\spxentry{module}!sowing\_proc@\spxentry{sowing\_proc}}\index{sowing\_proc@\spxentry{sowing\_proc}!module@\spxentry{module}}\index{SowingProcTimeSeries (class in sowing\_proc)@\spxentry{SowingProcTimeSeries}\spxextra{class in sowing\_proc}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{libs:sowing_proc.SowingProcTimeSeries}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{sowing\_proc.}}\sphinxbfcode{\sphinxupquote{SowingProcTimeSeries}}}
+Class SowingProsTimeSeries is a module for calculation of
+sowing procedure time series in monthly step. Calculation is
+based on order of crops in the sowing procedure and their
+agronomy terms (sowing and harvest)
+\index{calcMeadows() (sowing\_proc.SowingProcTimeSeries method)@\spxentry{calcMeadows()}\spxextra{sowing\_proc.SowingProcTimeSeries method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{libs:sowing_proc.SowingProcTimeSeries.calcMeadows}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{calcMeadows}}}{\emph{\DUrole{n}{meadows\_table}}, \emph{\DUrole{n}{ID\_col\_number}\DUrole{o}{=}\DUrole{default_value}{0}}, \emph{\DUrole{n}{cut\_col\_number}\DUrole{o}{=}\DUrole{default_value}{1}}}{}
+Calculation of meadows management (cuts) time series. Output is a
+list containing IDs meadows management (cuts).
+The time series starts in January and ending on the December with
+monthly step.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{meadows\_table}} \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ID\_col\_number}} \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cut\_col\_number}} \textendash{} 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{calcSowingProc() (sowing\_proc.SowingProcTimeSeries method)@\spxentry{calcSowingProc()}\spxextra{sowing\_proc.SowingProcTimeSeries method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{libs:sowing_proc.SowingProcTimeSeries.calcSowingProc}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{calcSowingProc}}}{\emph{\DUrole{n}{crops\_table}}, \emph{\DUrole{n}{ID\_col\_number}\DUrole{o}{=}\DUrole{default_value}{0}}, \emph{\DUrole{n}{sowing\_col\_number}\DUrole{o}{=}\DUrole{default_value}{1}}, \emph{\DUrole{n}{harvest\_col\_number}\DUrole{o}{=}\DUrole{default_value}{2}}}{}
+Calculation of sowing procedure time series for crops
+included in the crops\_table. Output is a list containing IDs
+of crops in sowing procedure.
+The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure. The gaps between crops are highlighted as bare
+soil with ID = 999.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{crops\_table}} \textendash{} Pandas dataframe containing information
+
+\end{description}\end{quote}
+
+about crops \sphinxhyphen{} ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and harvest
+are numbered according to months: 1 \sphinxhyphen{} January, 2 \sphinxhyphen{} February etc.
+:param ID\_col\_number: crops\_table column with IDs index
+:param sowing\_col\_number: crops\_table column with sowing date
+index
+:param harvest\_col\_number: crops\_table column with harvest date
+index
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+List containing IDs of crops in sowing procedure.
+
+\end{description}\end{quote}
+
+The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure.
+
+\end{fulllineitems}
+
+\index{predictSowingProc() (sowing\_proc.SowingProcTimeSeries method)@\spxentry{predictSowingProc()}\spxextra{sowing\_proc.SowingProcTimeSeries method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{libs:sowing_proc.SowingProcTimeSeries.predictSowingProc}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{predictSowingProc}}}{\emph{\DUrole{n}{sow\_time\_series}}, \emph{\DUrole{n}{predict\_months}\DUrole{o}{=}\DUrole{default_value}{12}}, \emph{\DUrole{n}{start}\DUrole{o}{=}\DUrole{default_value}{0}}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sow\_time\_series}} \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{predict\_months}} \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{start}} \textendash{} 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
 \section{Poděkování}
 \label{\detokenize{ackn:podekovani}}\label{\detokenize{ackn::doc}}
 Vývoj programu RadHydro for QGIS byl podpořen z projektu Ministerstva  vnitra
@@ -1070,6 +1179,7 @@ Vývoj programu RadHydro for QGIS byl podpořen z projektu Ministerstva  vnitra
 \indexspace
 \bigletter{s}
 \item\relax\sphinxstyleindexentry{SARCA\_lib}\sphinxstyleindexpageref{libs:\detokenize{module-SARCA_lib}}
+\item\relax\sphinxstyleindexentry{sowing\_proc}\sphinxstyleindexpageref{libs:\detokenize{module-sowing_proc}}
 \indexspace
 \bigletter{u}
 \item\relax\sphinxstyleindexentry{usle}\sphinxstyleindexpageref{libs:\detokenize{module-usle}}

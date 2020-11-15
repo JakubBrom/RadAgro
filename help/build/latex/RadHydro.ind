@@ -13,6 +13,9 @@
 
   \indexspace
   \bigletter C
+  \item \spxentry{calcMeadows()}\spxextra{sowing\_proc.SowingProcTimeSeries method}, \hyperpage{11}
+  \item \spxentry{calcSowingProc()}\spxextra{sowing\_proc.SowingProcTimeSeries method}, 
+		\hyperpage{11}
   \item \spxentry{calculateGrowthCoefs()}\spxextra{SARCA\_lib.SARCALib method}, \hyperpage{7}
 
   \indexspace
@@ -51,10 +54,16 @@
     \subitem \spxentry{hydrIO}, \hyperpage{6}
     \subitem \spxentry{mdaylight}, \hyperpage{11}
     \subitem \spxentry{SARCA\_lib}, \hyperpage{7}
+    \subitem \spxentry{sowing\_proc}, \hyperpage{11}
     \subitem \spxentry{usle}, \hyperpage{7}
     \subitem \spxentry{waterflow}, \hyperpage{9}
   \item \spxentry{MonthlyDaylight}\spxextra{class in mdaylight}, \hyperpage{11}
   \item \spxentry{monthlyDaylights()}\spxextra{mdaylight.MonthlyDaylight method}, \hyperpage{11}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{predictSowingProc()}\spxextra{sowing\_proc.SowingProcTimeSeries method}, 
+		\hyperpage{12}
 
   \indexspace
   \bigletter R
@@ -70,6 +79,9 @@
     \subitem \spxentry{module}, \hyperpage{7}
   \item \spxentry{SARCALib}\spxextra{class in SARCA\_lib}, \hyperpage{7}
   \item \spxentry{slope()}\spxextra{usle.RadUSLE method}, \hyperpage{8}
+  \item \spxentry{sowing\_proc}
+    \subitem \spxentry{module}, \hyperpage{11}
+  \item \spxentry{SowingProcTimeSeries}\spxextra{class in sowing\_proc}, \hyperpage{11}
 
   \indexspace
   \bigletter U

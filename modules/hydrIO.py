@@ -45,7 +45,7 @@ def rasterToArray(layer):
 		else:
 			in_layer = None
 		return in_layer
-	except:
+	except FileNotFoundError:
 		in_layer = None
 		return in_layer
 
@@ -83,7 +83,7 @@ def readGeo(rast):
 
 	ds = None
 
-	return gtransf, prj, xSize, ySize, EPSG
+	return (gtransf, prj, xSize, ySize, EPSG)
 
 def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
                 out_file_name=None, driver_name="GTiff", multiband=False):

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.11.3)  3 NOV 2020 13:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.11.3)  9 NOV 2020 23:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -804,17 +804,17 @@ Package textcomp Warning: Symbol \textasciigrave not provided by
 (textcomp)                font family ptm in TS1 encoding.
 (textcomp)                Default family used instead on input line 470.
 
-[7] [8] [9] [10]
-<MV_CR.png, id=204, 573.14125pt x 573.14125pt>
+[7] [8] [9] [10] [11]
+<MV_CR.png, id=221, 573.14125pt x 573.14125pt>
 File: MV_CR.png Graphic file (type png)
 <use MV_CR.png>
-Package pdftex.def Info: MV_CR.png  used on input line 1042.
+Package pdftex.def Info: MV_CR.png  used on input line 1151.
 (pdftex.def)             Requested size: 113.81102pt x 113.80414pt.
- [11 <./MV_CR.png>] [12
-
-]
+ [12 <./MV_CR.png>]
 Chapter 2.
-[13] [14
+[13
+
+] [14
 
 ] [15
 
@@ -829,35 +829,57 @@ WaterBalance
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--44
+Underfull \hbox (badness 10000) in paragraph at lines 17--19
+[]\T1/pcr/m/n/10 calcSowingProc() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 sow-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--19
+\T1/ptm/m/it/10 ing_proc.SowingProcTimeSeries method\T1/ptm/m/n/10 ),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
 []\T1/pcr/m/n/10 interceptWater() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 wa-ter-flow.W
 aterBalance
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--66
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+[]\T1/pcr/m/n/10 predictSowingProc() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 sow-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+\T1/ptm/m/it/10 ing_proc.SowingProcTimeSeries method\T1/ptm/m/n/10 ),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
 []\T1/pcr/m/n/10 runoffSeparCN() \T1/ptm/m/n/10 (\T1/ptm/m/it/10 wa-ter-flow.Wa
 terBalance
  []
 
 [17
 
+] [18
+
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1083.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1083.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1193.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1193.
  (./RadHydro.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1083.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1083.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1193.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1193.
 
 Package rerunfilecheck Info: File `RadHydro.out' has not changed.
-(rerunfilecheck)             Checksum: EDBD592660CDA06FCEE40B14271C1430;2414.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1083.
+(rerunfilecheck)             Checksum: 60FFC9B1726832C3B95D7475D83D0103;2567.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1193.
  ) 
 Here is how much of TeX's memory you used:
- 16848 strings out of 483107
- 280344 string characters out of 5964630
- 540539 words of memory out of 5000000
- 31413 multiletter control sequences out of 15000+600000
+ 16866 strings out of 483107
+ 280736 string characters out of 5964630
+ 540826 words of memory out of 5000000
+ 31424 multiletter control sequences out of 15000+600000
  580553 words of font info for 91 fonts, out of 8000000 for 9000
  60 hyphenation exceptions out of 8191
  38i,21n,49p,749b,1063s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -879,10 +901,10 @@ e1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helv
 etic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on RadHydro.pdf (21 pages, 271955 bytes).
+Output written on RadHydro.pdf (22 pages, 275058 bytes).
 PDF statistics:
- 369 PDF objects out of 1000 (max. 8388607)
- 315 compressed objects within 4 object streams
- 74 named destinations out of 1000 (max. 500000)
- 158 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 391 PDF objects out of 1000 (max. 8388607)
+ 336 compressed objects within 4 object streams
+ 81 named destinations out of 1000 (max. 500000)
+ 166 words of extra memory for PDF output out of 10000 (max. 10000000)
 

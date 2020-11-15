@@ -12,7 +12,8 @@
 # Description: The script mdaylight calculates list of monthly mean
 #			   daylights according to geographical position
 # 
-# License: Copyright (C) 2018, Jakub Brom, University of South Bohemia
+# License: Copyright (C) 2018-2020, Jakub Brom, University of South
+# Bohemia
 #		   in Ceske Budejovice
 # 
 # Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 

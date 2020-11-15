@@ -43,7 +43,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'RadHydro'
-copyright = u'2013, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic'
+copyright = u'2020, Dr. Jakub Brom, University of South Bohemia in České ' \
+            u'Budějovice, Faculty of Agriculture, Czech Republic'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -206,7 +207,7 @@ numfig_secnum_depth = 3
 # ]
 latex_documents = [
   ('index', 'RadHydro.tex', u'RadHydro - Dokumentace',
-   u'Autoři: Jakub Brom a kol.', 'manual'),
+   u'Autoři: Jakub Brom a kol.', 'manual')
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -239,5 +240,6 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'TemplateClass', u'RadHydro - Dokumentace',
-     [u'Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic'], 1)
+     [u'Dr. Jakub Brom, Jihočeská univerzita v Českých Budějovicích, '
+      u'Zemědělská fakulta'], 1)
 ]

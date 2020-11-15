@@ -22,16 +22,16 @@
  ***************************************************************************/
 """
 from qgis.PyQt.QtCore import QSettings, QTranslator, \
-    QCoreApplication, Qt, QUrl, QDate
+    QCoreApplication, Qt, QUrl, QDate, QVariant
 from qgis.PyQt.QtGui import QIcon, QDesktopServices, QImage, QPixmap
 from qgis.PyQt.QtWidgets import QAction, QFileDialog, QComboBox, \
     QPushButton, QMessageBox, QTableWidgetItem, QDateEdit, \
-    QDateTimeEdit, QVBoxLayout
+    QDateTimeEdit, QVBoxLayout, QDoubleSpinBox, QCompleter
 
 # Initialize Qt resources from file resources.py
 from .resources import *
 
-from qgis.core import Qgis, QgsMapLayerProxyModel
+from qgis.core import Qgis, QgsMapLayerProxyModel, QgsVectorLayer, QgsVectorFileWriter
 
 # Import the code for the dialog
 from .RadHydro_dialog import RadHydroDialog
@@ -44,9 +44,15 @@ import os.path
 import numpy as np
 import pandas as pd
 import datetime
+import shutil
+import tempfile
+import time
 
 # Import modules
 from .modules.SARCA_lib import SARCALib
+from .modules.overlap_clip import *
+from .modules.hydrIO import *
+from .modules.zonal_stats import *
 
 sl = SARCALib()
 
@@ -197,8 +203,30 @@ class RadHydro:
         # Help
         self.dlg.button_box.helpRequested.connect(self.pluginHelp)
 
+        self.dlg.button_box.accepted.connect(self.resultsRun)
+
         # Set initial index of cbox_precip as 0
         self.dlg.cbox_precip.setCurrentIndex(0)
+
+        # Add rows to sowing procedure table
+        self.dlg.pb_sow_plus.clicked.connect(lambda:
+                                             self.cropTableAddRow(
+                                                 self.dlg.tw_sowing))
+        
+        # Add rows to meadows table
+        self.dlg.pb_meadow_plus.clicked.connect(lambda:
+                                             self.meadowTableAddRow(
+                                                 self.dlg.tw_meadow))
+
+        # Remove rows from sowing proc table
+        self.dlg.pb_sow_minus.clicked.connect(lambda:
+                                              self.tableRemoveRow(
+                                                  self.dlg.tw_sowing))
+
+        # Remove rows from meadow table
+        self.dlg.pb_meadow_minus.clicked.connect(lambda:
+                                              self.tableRemoveRow(
+                                                  self.dlg.tw_meadow))
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -211,11 +239,12 @@ class RadHydro:
     def run(self):
         """Run method that performs all the real work"""
 
-        # Reset settings of the UI
-        self.reset()
-
         # print "** STARTING UrbanSARCA"
         self.showInfo()
+
+        # set tab with graph disabled
+
+        self.dlg.tabWidget.setTabEnabled(2, False)
 
         # Set type of input to input cboxes
         self.dlg.cbox_rad_depo.setFilters(
@@ -244,11 +273,11 @@ class RadHydro:
         self.dlg.cbox_crop_lyr.layerChanged.connect(lambda:
                                                     self.setKeyField(
                                                         self.dlg.cbox_crop_lyr, self.dlg.cbox_crop_lyr_key))
-
-        # Set fields from crop layer to fieldCbox
-        self.dlg.cbox_crop_lyr.layerChanged.connect(lambda:
-                                                    self.setKeyField(
-                                                        self.dlg.cbox_crop_lyr, self.dlg.cbox_ID))
+        #
+        # # Set fields from crop layer to fieldCbox
+        # self.dlg.cbox_crop_lyr.layerChanged.connect(lambda:
+        #                                             self.setKeyField(
+        #                                                 self.dlg.cbox_crop_lyr, self.dlg.cbox_ID))
 
         # Set fields from HPJ layer to fieldCbox
         self.dlg.cbox_HPJ.layerChanged.connect(lambda:
@@ -260,13 +289,10 @@ class RadHydro:
                                            self.setOrigCropsToTable())
 
         # Set IDs of fields to cbox_select_ID
-        self.dlg.cbox_ID.fieldChanged.connect(lambda: self.readFieldsIDs())
-
-        # Set order of crops in sowing procedure
-        self.setSowingProc()
+        self.dlg.cbox_crop_lyr.layerChanged.connect(lambda: self.readIDField())
 
         # Set soil saturation during the year
-        self.setSoilSaturationState()
+        self.setClimateTable()
 
         # Set parameters of the crops
         self.dlg.pb_params.clicked.connect(lambda: self.fillParams())
@@ -275,15 +301,12 @@ class RadHydro:
         # model to growth model table for particular
         self.dlg.pb_coefs.clicked.connect(lambda: self.calculateGowthCurveCoefs())
 
+        # Buttonbox for creating figure
+        self.dlg.cbox_ID_select.currentIndexChanged.connect(self.plot)
+
         # Create plot
         self.figure = plt.figure(facecolor="white")  # create plot
         self.canvas = FigureCanvas(self.figure)
-
-        # Buttonbox for creating figure
-        self.dlg.cbox_select_ID.currentIndexChanged.connect(self.plot)
-        # TODO: Možná nastavit tak, že se bude graf vytvářet po
-        #  výběru hodnoty v cboxu
-
 
         # Add plot in to UI widget
         lay = QVBoxLayout(self.dlg.widget_plot)
@@ -291,22 +314,328 @@ class RadHydro:
         lay.addWidget(self.canvas)
         # self.setLayout(lay)
 
+
         # show the dialog
         self.dlg.show()
 
-        # Run the dialog event loop
-        result = self.dlg.exec_()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
 
-    def readFieldsIDs(self):
-        """Read  IDs for particular fileds in the area of interest"""
+        # # Run the dialog event loop
+        # result = self.dlg.exec_()
+        # # See if OK was pressed
+        # if result:
+        #
+        #     # Do something useful here - delete the line containing pass and
+        #     # substitute with your code.
+        #     print("Hola, startujeme....")
+        #     self.resultsRun()
+        #
+        #     # reset settings and remove temporary files
+        #     self.reset()
 
+#-----------------------------------------------------------------------
+# Calculation
+
+    def resultsRun(self):
+        """Running the calculation"""
+
+        # TODO: add signals for progressbar
+        # TODO: threading
+
+        # Read constants from UI
+        self.readConstants()
+
+        # Load rasters of radioactivity, precip. and DMT and clip to
+        # the overlapping area with the smallest pixel
+        t1 = time.time()
+        self.loadRasters()
+        t2 = time.time()
+        print(t2-t1)
+        # Loading crops layer and creating initial layer with FID
+        self.loadCropsLayer()
+        t3 = time.time()
+        print(t3-t2)
+        self.createCropsInitDf()
+        t4 = time.time()
+        print(t4-t3)
+
+        # Calculate early stage
+        self.earlyStage()
+        t5 = time.time()
+        print(t5-t4)
+        # The page with graph enabled
+        self.dlg.tabWidget.setTabEnabled(2, True)
+
+    def readConstants(self):
+        """Read all constants from UI"""
+
+        # Date of radiation accident
+        self.accident_date = self.dlg.de_accident.date()
+        self.accident_jul = self.accident_date.dayOfYear()
+
+        # Date of prediction
+        self.predict_date = self.dlg.de_predict.date()
+        self.predict_no_months = 12 - self.accident_date.month() + (
+            self.predict_date.year()-self.accident_date.year()-1)*12 + \
+                                 self.predict_date.month()
+        self.first_month = self.accident_date.month()
+
+        # Reference levels of radioactivity contamination
+        self.rl_1 = int(self.dlg.sbox_ru1.value())
+        self.rl_2 = int(self.dlg.sbox_ru2.value())
+
+        # Coefficients for interception factor calculation
+        if self.dlg.cbox_contaminant.currentIndex() == 0:
+            self.coef_k = 1.0       # Cs
+        else:
+            self.coef_k = 2.0       # Sr
+
+        self.coef_S = 0.2
+
+        # Precipitation amount during radioactivity deposition
+        self.precip_const = self.dlg.sbox_precip.value()
+
+    def loadRasters(self):
+        """Reading rasters of radioactivity deposition, precipitation
+        and DMT."""
+
+        # Read original rasters
+        depo_path = self.pathToLyr(self.dlg.cbox_rad_depo)
+        precip_path = self.pathToLyr(self.dlg.cbox_precip)
+        dmt_path = self.pathToLyr(self.dlg.cbox_dmt)
+
+        # Clipping the rasters
+        if precip_path != None and precip_path != "":
+            in_lyrs = [depo_path, precip_path, dmt_path]
+            (self.depo_path, self.precip_path, self.dmt_path) = \
+                clipOverlappingArea(in_lyrs, tmp_out=True)
+
+        else:
+            in_lyrs = [depo_path, dmt_path]
+            (self.depo_path, self.dmt_path) = \
+                clipOverlappingArea(in_lyrs, tmp_out=True)
+            self.precip_path = None
+
+        # Get temporary folder path
+        self.tmp_folder = os.path.split(self.depo_path)[0]
+
+        # Read geo information from rasters
+        self.rasters_geoinfo = readGeo(self.depo_path)
+
+    def loadCropsLayer(self):
+        """Load crops vector layer and create new initial layer for
+        following manipulation. Initial layer have got a FID only
+        which is used as primary key."""
+
+        # Load crops layer to qgis
+        crops_path = self.pathToLyr(self.dlg.cbox_crop_lyr)
+        crops_lyr = QgsVectorLayer(crops_path, self.tr(
+            "Plodiny_orig"), "ogr")
+
+        # Create new initial layer - copy of the crops_lyr - will be used for
+        # further manipulation
+        # Definition of temporary file path and name
+        tmp_file = tempfile.NamedTemporaryFile(
+            suffix=".gpkg", dir=self.tmp_folder, delete=False)
+        self.tmp_file_name = tmp_file.name
+
+        # create new vector lyr
+        save_options = QgsVectorFileWriter.SaveVectorOptions()
+        transform_context = crops_lyr.transformContext()
+        init_lyr_driver = QgsVectorFileWriter.writeAsVectorFormatV2(
+            crops_lyr, self.tmp_file_name, transform_context, save_options)
+
+        # read new initial vector lyr to memory
+        self.initial_crops_lyr = QgsVectorLayer(self.tmp_file_name,
+                                           "Crops_init", "ogr")
+
+    def createCropsInitDf(self):
+        """Read indices of crops corresponding to original crops from
+        tw_crops_orig table and write them to the initial vector
+        layer"""
+
+        # Get number of rows in the table
+        r_count = self.dlg.tw_crops_orig.rowCount()
+
+        # Read original IDs (keys) and newly set IDs for particular crops
+        # from the tw_crops_orig table
+        crops_IDs_orig_list = [self.dlg.tw_crops_orig.item(i,0).text()
+                   for i in range(r_count)]
+        crops_IDs = [self.dlg.tw_crops_orig.cellWidget(i,1).currentIndex()
+                   for i in range(r_count)]
+        crops_names = [self.dlg.tw_crops_orig.cellWidget(i,1).currentText()
+                   for i in range(r_count)]
+
+        df_crops_coupling = pd.DataFrame({"ID_orig":crops_IDs_orig_list,
+                                       "ID_set":crops_IDs, self.tr(
+                "Nazev"):crops_names})
+
+        # Read original crops IDs from crop vector - for all rows
+        crop_IDs_field_name = self.dlg.cbox_crop_lyr_key.currentText()
+        crops_IDs_orig_list_all = []
+        for feature in self.initial_crops_lyr.getFeatures():
+            crops_IDs_orig_list_all.append(feature[crop_IDs_field_name])
+
+        # Read FID filed from crop layer
+        crops_fid = []
+        for feature in self.initial_crops_lyr.getFeatures():
+            crops_fid.append(feature.id())
+
+        # Calculate area of fields in the vector layer
+        crops_area_ha = []
+        for feature in self.initial_crops_lyr.getFeatures():
+            crops_area_ha.append(feature.geometry().area()/10000)
+
+        # Create new Pandas dataframe containing IDs of fields,
+        # crops_IDs and crops_names corresponding to the vector layer
+        df_crops_rows = pd.DataFrame({"fid":crops_fid,
+                                      "ID_orig":crops_IDs_orig_list_all,
+                                      self.tr("Plocha_ha"):crops_area_ha})
+
+        # Merge df_crops_coupling and df_crops_rows to initial dataframe
+        self.df_crops_init = pd.merge(df_crops_rows, df_crops_coupling,
+                                      how="left", on="ID_orig")
+
+    def earlyStage(self):
+        """Calculation of radioactive contamination in early stage of
+        radioactive accident"""
+
+        # Create df for radioactive contamination
+        self.df_radio_contamination = self.df_crops_init.copy(True)
+
+        # Calculation of total deposition for all fields in the area of interest
+        total_depo_zonal = np.array(zonal_stats(self.tmp_file_name,
+                                            self.depo_path, method="median"))
+        total_deposition = np.array([total_depo_zonal[i]["median"] for i in \
+                range(len(total_depo_zonal))])
+        total_deposition = np.nan_to_num(total_deposition)
+        total_deposition = np.where(total_deposition < 0.0, 0.0, total_deposition)
+
+        # Add initial total deposition to df
+        self.df_radio_contamination["Tot_depo"] = total_deposition
+
+        # Create df for reference levels
+        self.df_ref_levels = self.df_crops_init.copy(True)
+
+        # Calculated Ref.levels and add them to df
+        ref_levels = sl.referLevel(total_deposition, self.rl_1, self.rl_2)
+
+        self.df_ref_levels["Init_Ref_levels"] = ref_levels
+
+        # Calculates total radioactive contamination after biomass removing
+        # in early stage of radioactive contamination
+        if self.dlg.chbox_management.isChecked():
+            # 4. Načtení dat pro model a přiřazení dat pro další manipulaci
+            r_count = self.dlg.tw_growth_params.rowCount()
+
+            model_IDs = np.array([self.dlg.tw_growth_params.item(i,0).text()
+                       for i in range(r_count)]).astype(int)
+            model_sowing = np.array([self.dlg.tw_growth_params.cellWidget(i,2)
+                            .date().dayOfYear() for i in range(
+                r_count)]).astype(int)
+            model_harvest = np.array([self.dlg.tw_growth_params.cellWidget(i,3)
+                            .date().dayOfYear() for i in range(
+                r_count)]).astype(int)
+            model_DWmax = np.array([self.dlg.tw_growth_params.item(i,4).text()
+                       for i in range(r_count)]).astype(float)
+            model_LAImax = np.array([self.dlg.tw_growth_params.item(i,5).text()
+                       for i in range(r_count)]).astype(float)
+            model_R_min = np.array([self.dlg.tw_growth_params.item(i,7).text()
+                       for i in range(r_count)]).astype(float)
+            model_coef_m = np.array([self.dlg.tw_growth_params.item(i,8).text()
+                       for i in range(r_count)]).astype(float)
+            model_coef_n = np.array([self.dlg.tw_growth_params.item(i,9).text()
+                       for i in range(r_count)]).astype(float)
+
+            # Calculation of dry mass of biomass and LAI for accident date
+            actual_DW = sl.dryMass(model_DWmax, self.accident_jul,
+                                   model_sowing, model_harvest, model_coef_m,
+                                   model_coef_n)
+            actual_LAI = sl.leafAreaIndex(actual_DW, model_DWmax,
+                                          model_LAImax, model_R_min,
+                                          self.accident_jul, model_sowing,
+                                          model_harvest)
+
+            # Create table with results for dw_act and LAI
+            dw_lai_table = pd.DataFrame({"ID_set":model_IDs, "dw_act":actual_DW,
+                                         "LAI":actual_LAI})
+
+            # Join dw_act and LAI to new df corresponding with the input vector
+            # layer
+            df_dw_lai_all = pd.merge(self.df_crops_init, dw_lai_table,
+                                     on="ID_set", how="left")
+
+            # Calculation of soil contamination
+            # Precipitation
+            if self.precip_path != None and self.precip_path != "":
+                actual_prec_zonal = zonal_stats(self.tmp_file_name,
+                                            self.precip_path, method="median")
+                actual_precip = np.array([actual_prec_zonal[i]["median"] for
+                                    i in range(len(actual_prec_zonal))])
+            else:
+                actual_precip = self.precip_const
+
+            # IF
+            intercept_factor = sl.interceptFactor(df_dw_lai_all["LAI"],
+                                                  actual_precip,
+                                                  df_dw_lai_all["dw_act"],
+                                                  self.coef_k, self.coef_S)
+            intercept_factor = np.where(ref_levels == 3, 0, intercept_factor)
+
+            # Soil contamination
+            reduced_cont = sl.contSoil(total_deposition, intercept_factor)
+            reduced_cont = np.nan_to_num(reduced_cont)
+            reduced_cont = np.where(reduced_cont < 0.0, 0.0, reduced_cont)
+
+        else:
+            reduced_cont = total_deposition
+
+        # Add reduced radioactive contamination amount to df
+        self.df_radio_contamination["Depo_red"] = reduced_cont
+
+        #---------------------------------------------
+        self.df_radio_contamination.to_csv("kontam.csv")
+        self.df_ref_levels.to_csv("RU.csv")
+        df_dw_lai_all.to_csv("prod.csv")
+
+    def pathToLyr(self, comboBox):
+        """Get path to input file from combobox"""
+
+        # TODO: vyřešit výjimku - hláška do infoboxu
+
+        try:
+            get_index = comboBox.currentIndex()
+            get_path = comboBox.layer(get_index).source()
+        except Exception:
+            get_path = comboBox.currentText()
+
+        return get_path
+#-----------------------------------------------------------------------
+# UI manipulation
+
+    def readIDField(self):
+        """Read  IDs for particular fileds in the area of interest
+        and set the data to select_ID combobox for generating plots
+        with reults"""
+
+        # Clear cbox
+        self.dlg.cbox_ID_select.clear()
+
+        # Get data from vector file for ID field
         map_lyr = self.dlg.cbox_crop_lyr.currentLayer()
-        self.dlg.cbox_select_ID.setSourceLayer(map_lyr)
+
+        self.crop_ID_list = []
+        for feature in map_lyr.getFeatures():
+            self.crop_ID_list.append(feature.id())
+
+        values_list = [str(self.crop_ID_list[i]) for i in range(len(
+            self.crop_ID_list))]
+
+        # Set IDs to cbox
+        self.dlg.cbox_ID_select.addItems(values_list)
+        self.dlg.cbox_ID_select.setEditable(True)
+        # Set completer for cbox
+        completer = QCompleter(values_list)
+        self.dlg.cbox_ID_select.setCompleter(completer)
 
     def plot(self):
         "Create plot in the UI"
@@ -320,10 +649,10 @@ class RadHydro:
         x = [float(i) for i in range(100)]
         x = np.array(x)
         rand = np.random.rand(100)
-        y = rand * (100.0 / x)
+        y = rand * (10000000.0 / x)
 
         # Legend text
-        pl_ID = self.dlg.cbox_select_ID.currentText()
+        pl_ID = self.dlg.cbox_ID_select.currentText()
 
         # Clear last figure
         self.figure.clear()
@@ -332,26 +661,29 @@ class RadHydro:
         # self.figure.subplots_adjust(left=0.2, bottom=0.15, right=0.95,
         #                             top=0.95, wspace=0, hspace=0)
 
-        # create an axis
-        ax = self.figure.add_subplot(111)
-        ax.set_aspect("auto", "box")
+        with plt.xkcd():
+            # create an axis
+            ax = self.figure.add_subplot(111)
+            ax.set_aspect("auto", "box")
 
-        # Axes names
-        x_name = self.tr("Čas")
-        y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
+            # Axes names
+            x_name = self.tr("Čas")
+            y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
 
-        # Axes labels
-        ax.set_xlabel(x_name)
-        ax.set_ylabel(y_name)
+            # Axes labels
+            ax.set_xlabel(x_name)
+            ax.set_ylabel(y_name)
+            ax.set_yscale('log')
 
-        # plot data
-        ax.plot(x, y, '-', label=(self.tr("ID plochy: {ID}")).format(ID = pl_ID))
+            # plot data
+            ax.plot(x, y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
+                                                                         pl_ID))
 
-        # Legend position
-        ax.legend(loc='best')
+            # Legend position
+            ax.legend(loc='best')
 
-        # Draw plot
-        self.canvas.draw()
+            # Draw plot
+            self.canvas.draw()
 
     def fillParams(self):
         "Fill parameters of the model to tables"
@@ -360,18 +692,38 @@ class RadHydro:
         self.fillCN()
         self.fillCFactor()
         self.fillRadioTransferParams()
-        # self.fillSoilUnits()
+        self.fillSoilUnits()
 
     def fillSoilUnits(self):
-        "Fill Main Soil Units and Hydrol. groups to tw_HPJ_params table"
+        """Fill soil parameters (Soil hydrological category and
+        K-factor to table tw_HPJ_params"""
 
         # Read unique values of HPJ (Main Soil Units) from data
         map_lyr = self.dlg.cbox_HPJ.currentLayer()
         field_name = self.dlg.cbox_HPJ_key.currentField()
         idx = map_lyr.fields().indexOf(field_name)
-        values_set = map_lyr.uniqueValues(idx)
-        # TODO: doplnit nacitani tabulky, puvodni tabulku prevest do csv
 
+        # Extract unique vaues of HPJ from the layer
+        hpj_set = map_lyr.uniqueValues(idx)
+        hpj_list = list(sorted(hpj_set))
+
+        # Read values from soil_hydr table
+        hps_list = [self.soil_hydr["HPS"][i-1] for i in hpj_list]
+        k_factor_list = [self.soil_hydr["K_factor"][i-1] for i in hpj_list]
+
+        # Set No. of rows
+        self.dlg.tw_HPJ_params.setRowCount(len(hpj_list))
+
+        for i in range(len(hpj_list)):
+            # Col. 0: HPJ
+            self.dlg.tw_HPJ_params.setItem(i, 0, QTableWidgetItem(
+                str(hpj_list[i])))
+            # Col. 1: HPS
+            self.dlg.tw_HPJ_params.setItem(i, 1, QTableWidgetItem(
+                str(hps_list[i])))
+            # Col. 2: K factor
+            self.dlg.tw_HPJ_params.setItem(i, 2, QTableWidgetItem(
+                str(k_factor_list[i])))
 
     def fillRadioTransferParams(self):
         """Fill Radiotransfer parameters for particular crops to
@@ -387,7 +739,11 @@ class RadHydro:
         # Variables lists
         crop_unique_ID = np.unique(crop_ind)
         crop_unique_names = [self.crops["crop"][i] for i in crop_unique_ID]
-        radio_coefs = [self.crops["R_transf"][i] for i in crop_unique_ID]
+
+        if self.dlg.cbox_contaminant.currentIndex() == 0:   # Cs
+            radio_coefs = [self.crops["R_transf_Cs"][i] for i in crop_unique_ID]
+        else:       # Sr
+            radio_coefs = [self.crops["R_transf_Sr"][i] for i in crop_unique_ID]
 
         # Set number of rows in table
         self.dlg.tw_radio_coefs.setRowCount(len(crop_unique_ID))
@@ -549,6 +905,8 @@ class RadHydro:
             # col 8. Min biomass moisture
             self.dlg.tw_growth_params.setItem(i, 7, QTableWidgetItem(
                 str(crop_r_min[i])))
+        # col 9. coef. m and col 10 coef. n
+        self.calculateGowthCurveCoefs()
 
     def calculateGowthCurveCoefs(self):
         """Calculate default coefficients (slope and intercept of
@@ -561,20 +919,18 @@ class RadHydro:
         dw_list = [float(self.dlg.tw_growth_params.item(i, 4).text())
                    for i in range(r_count)]
 
-        print(dw_list)
         # Calculate slopes and intercepts of growth models for crops
         # and set it to table
         for i in range(r_count):
             coef_m, coef_n = sl.calculateGrowthCoefs(dw_list[i])
-            # col 8. coef. m
+            # col 9. coef. m
             self.dlg.tw_growth_params.setItem(i, 8, QTableWidgetItem(
                 str(round(coef_m, 3))))
-            # col 9. coef. n
+            # col 10. coef. n
             self.dlg.tw_growth_params.setItem(i, 9, QTableWidgetItem(
                 str(round(coef_n, 3))))
 
-
-    def setSoilSaturationState(self):
+    def setClimateTable(self):
         """Set soil saturation state in form of cboxes to table"""
 
         # Get row counts:
@@ -587,33 +943,82 @@ class RadHydro:
             combo.addItems(self.soil_sat.values())
             # add cboxes
             self.dlg.tw_climate.setCellWidget(i, 2, combo)
+            # Set doublespinboxes for settings monthly mean temperature
+            # and precipitation
+            spin_temperature = QDoubleSpinBox()
+            spin_temperature.setMinimum(-50.0)
+            spin_precip = QDoubleSpinBox()
+            self.dlg.tw_climate.setCellWidget(i, 0, spin_temperature)
+            self.dlg.tw_climate.setCellWidget(i, 1, spin_precip)
 
-    def setSowingProc(self):
-        """Set sowing procedure for the area of interest"""
+    def tableRemoveRow(self, table):
+        """Remove row from table"""
+
+        # Get row counts:
+        row_count = table.rowCount()
+        table.setRowCount(row_count - 1)
+
+    def meadowTableAddRow(self, table):
+        """Add row with crops and terms of sowing and harvest to
+        sowing procedure table for
+        the area of interest"""
 
         # Set column witdth
-        self.dlg.tw_sowing.setColumnWidth(0, 250)
+        table.setColumnWidth(0, 250)
+
         # Get row counts:
-        row_count = self.dlg.tw_sowing.rowCount()
-        crops_list = list(self.crops["crop"])
+        row_count = table.rowCount()
+        cuts_list = {0:self.tr("První seč"),
+                     1:self.tr("Druhá seč"),
+                     2:self.tr("Třetí seč")}
+
+        # Set new row
+        table.setRowCount(row_count + 1)
 
         # Add cboxes and dateEdit boxes to tw_sowing table
-        for i in range(row_count):
-            # create cboxes
-            combo = QComboBox()
-            combo.addItems(crops_list)
-            # Create date edit boxes
-            date_edit_sow = QDateEdit()
-            date_edit_sow.setDisplayFormat("dd.MM")
-            date_edit_sow.setCalendarPopup(True)
-            date_edit_har = QDateEdit()
-            date_edit_har.setDisplayFormat("dd.MM")
-            date_edit_har.setCalendarPopup(True)
-            # add cboxes to table
-            self.dlg.tw_sowing.setCellWidget(i, 0, combo)
-            # add date edit widgets to table
-            self.dlg.tw_sowing.setCellWidget(i, 1, date_edit_sow)
-            self.dlg.tw_sowing.setCellWidget(i, 2, date_edit_har)
+        # create cboxes
+        combo = QComboBox()
+        combo.addItems(cuts_list.values())
+        # Create date edit boxes
+        date_edit_har = QDateEdit()
+        date_edit_har.setDisplayFormat("dd.MM")
+        date_edit_har.setCalendarPopup(True)
+        # add cboxes to table
+        table.setCellWidget(row_count, 0, combo)
+        # add date edit widgets to table
+        table.setCellWidget(row_count, 1, date_edit_har)
+
+    def cropTableAddRow(self, table):
+        """Add row with crops and terms of sowing and harvest to
+        sowing procedure table for
+        the area of interest"""
+
+        # Set column witdth
+        table.setColumnWidth(0, 250)
+
+        # Get row counts:
+        row_count = table.rowCount()
+        crops_list = list(self.crops["crop"])
+
+        # Set new row
+        table.setRowCount(row_count + 1)
+
+        # Add cboxes and dateEdit boxes to tw_sowing table
+        # create cboxes
+        combo = QComboBox()
+        combo.addItems(crops_list)
+        # Create date edit boxes
+        date_edit_sow = QDateEdit()
+        date_edit_sow.setDisplayFormat("dd.MM")
+        date_edit_sow.setCalendarPopup(True)
+        date_edit_har = QDateEdit()
+        date_edit_har.setDisplayFormat("dd.MM")
+        date_edit_har.setCalendarPopup(True)
+        # add cboxes to table
+        table.setCellWidget(row_count, 0, combo)
+        # add date edit widgets to table
+        table.setCellWidget(row_count, 1, date_edit_sow)
+        table.setCellWidget(row_count, 2, date_edit_har)
 
     def setOrigCropsToTable(self):
         """Set crops from crop field defined by user to table
@@ -657,6 +1062,11 @@ class RadHydro:
 
         self.crops = pd.read_csv(crops_params_table)
 
+        # Read Main soil units (HPJ) and hydrological soil groups
+        soil_hps_table = os.path.join(self.plugin_dir,
+                                      "Params/Soil_hydr_cat.csv")
+        self.soil_hydr = pd.read_csv(soil_hps_table)
+
         # The state of soil saturation by soil water: good (Do) or
         # bad (Šp)
         self.soil_sat = {0:self.tr("Dobré"), 1:self.tr("Špatné")}
@@ -669,8 +1079,6 @@ class RadHydro:
 
     def reset(self):
         """Reset all settings in the UI"""
-
-        pass
         # TODO: je potreba prodiskutovat jestli jo nebo ne. Zatim ne
 
         # # Set zero
@@ -679,6 +1087,10 @@ class RadHydro:
         # self.dlg.cbox_dmt.setCurrentIndex(0)
         # self.dlg.cbox_HPJ.setCurrentIndex(0)
         # self.dlg.cbox_crop_lyr.setCurrentIndex(0)
+        # self.dlg.tw_sowing.setRowCount(0)
+
+        # Remove tmp folder
+        shutil.rmtree(self.tmp_folder)
 
     def showInfo(self):
         icon_path = 'https://upload.wikimedia.org/wikipedia/commons/7/79/MV_%C4%8CR.png'
