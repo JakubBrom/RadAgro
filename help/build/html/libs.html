@@ -94,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#modul-usle">Modul usle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modul-waterflow">Modul waterflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modul-mdaylight">Modul mdaylight</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modul-sowing-proc">Modul sowing_proc</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
@@ -332,6 +333,184 @@ t.ha^{-1})"/>.</p>
 <dd class="field-even"><p>Intercept of growth curve</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.contBiomass">
+<code class="sig-name descname">contBiomass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depo</span></em>, <em class="sig-param"><span class="n">IF</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.contBiomass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.contBiomass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radiaoctive contamination of biomass <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p></li>
+<li><p><strong>IF</strong> – Interception Factor (rel.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Radioactive contamination of biomass <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.contMass">
+<code class="sig-name descname">contMass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cont_biomass</span></em>, <em class="sig-param"><span class="n">fresh_biomass</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.contMass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.contMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation radioactive contamination of fresh vegetation mass         <img class="math" src="_images/math/4fae67dda453c963ba79e1aca89efc9227b30899.svg" alt="(Bq.kg^{-1})"/></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cont_biomass</strong> – Radioactive deposition on biomass         <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p></li>
+<li><p><strong>fresh_biomass</strong> – Amount of fresh biomass of vegetation         <img class="math" src="_images/math/1d7bde40ace33e049beb51b0b3fbc40b63d548c0.svg" alt="(t.ha^{-1})"/></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Fresh vegetation mass radioactive contamination         <img class="math" src="_images/math/4fae67dda453c963ba79e1aca89efc9227b30899.svg" alt="(Bq.kg^{-1})"/></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.contSoil">
+<code class="sig-name descname">contSoil</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depo</span></em>, <em class="sig-param"><span class="n">IF</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.contSoil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.contSoil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Radiaoctive contamination of soil <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p></li>
+<li><p><strong>IF</strong> – Interception Factor (rel.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Radioactive contamination of soil <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.dryMass">
+<code class="sig-name descname">dryMass</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">DW_max</span></em>, <em class="sig-param"><span class="n">t_accident</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em>, <em class="sig-param"><span class="n">coef_m</span></em>, <em class="sig-param"><span class="n">coef_n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.dryMass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.dryMass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of actual biomass of the particular crop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>DW_max</strong> – Maximal dry mass of the crops above ground biomass in</p>
+</dd>
+</dl>
+<p>the growing season <img class="math" src="_images/math/1d7bde40ace33e049beb51b0b3fbc40b63d548c0.svg" alt="(t.ha^{-1})"/>
+:param t_accident: Date of radioactive accident as number of day in year
+:param t0: Date of sowing crop as number of day in year
+:param t1: Date of harvesting crop as number of day in year
+:param coef_m: Scaling parameter
+:param coef_n: Scaling parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Dry mass of above ground biomass <img class="math" src="_images/math/1d7bde40ace33e049beb51b0b3fbc40b63d548c0.svg" alt="(t.ha^{-1})"/></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.interceptFactor">
+<code class="sig-name descname">interceptFactor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">LAI</span></em>, <em class="sig-param"><span class="n">precip</span></em>, <em class="sig-param"><span class="n">DW</span></em>, <em class="sig-param"><span class="n">k</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">S</span><span class="o">=</span><span class="default_value">0.2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.interceptFactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.interceptFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interception factor for both dry and wet deposition of
+radionuclides.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LAI</strong> – Leaf Area Index (unitless)</p></li>
+<li><p><strong>k</strong> – Constant of radionuclide: I = 0.5, Sr and Ba = 2.0, Cs and         another radionuclides = 1.0</p></li>
+<li><p><strong>precip</strong> – Precipitation amount (mm) for period of deposition         (ca 24 hours after radiation accident).</p></li>
+<li><p><strong>DW</strong> – Amount of fresh biomass <img class="math" src="_images/math/1d7bde40ace33e049beb51b0b3fbc40b63d548c0.svg" alt="(t.ha^{-1})"/></p></li>
+<li><p><strong>S</strong> – Mean thickness of water film at plant leaves (mm).         Default S =        0.2 mm</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Interception Factor (rel.)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.leafAreaIndex">
+<code class="sig-name descname">leafAreaIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dw_act</span></em>, <em class="sig-param"><span class="n">DW_max</span></em>, <em class="sig-param"><span class="n">LAI_max</span></em>, <em class="sig-param"><span class="n">R_min</span></em>, <em class="sig-param"><span class="n">t_accident</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.leafAreaIndex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.leafAreaIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of actual LAI of the particular crop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dw_act</strong> – actual dry mass of the crops above ground biomass :math:<a href="#id3"><span class="problematic" id="id4">`</span></a>(</p>
+</dd>
+</dl>
+<p>t.ha^{-1})`
+:param DW_max: Maximal dry mass of the crops above ground biomass in
+the growing season <img class="math" src="_images/math/1d7bde40ace33e049beb51b0b3fbc40b63d548c0.svg" alt="(t.ha^{-1})"/>
+:param LAI_max: Maximal LAI of the crops in the growing season
+:param R_min: Minimal relative wight moisture of the biomass (%)
+:param t_accident: Date of radioactive accident as number of day in year
+:param t0: Date of sowing crop as number of day in year
+:param t1: Date of harvesting crop as number of day in year</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Actual LAI of the crop.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.referLevel">
+<code class="sig-name descname">referLevel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">depo</span></em>, <em class="sig-param"><span class="n">ref_level1</span><span class="o">=</span><span class="default_value">5000</span></em>, <em class="sig-param"><span class="n">ref_level2</span><span class="o">=</span><span class="default_value">3000000</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.referLevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.referLevel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mask of radioactive deposition for three reference levels (categories):</p>
+<p><em>0: Low</em></p>
+<p><em>1: Middle</em></p>
+<p><em>2: High</em></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/></p></li>
+<li><p><strong>ref_level1</strong> – Lower reference level treshold         <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/>. Default value = 5000 <img class="math" src="_images/math/73bc2ec76f75541ff87db63003b4a3571f98fd31.svg" alt="Bq.m^{-2}"/></p></li>
+<li><p><strong>ref_level2</strong> – Upper reference level treshold         <img class="math" src="_images/math/5f88346e5d9e648cfc60ab286d348ca8095acae0.svg" alt="(Bq.m^{-2})"/>. Default value = 3000000 <img class="math" src="_images/math/73bc2ec76f75541ff87db63003b4a3571f98fd31.svg" alt="Bq.m^{-2}"/></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mask of radioactive deposition for three reference levels</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.timeScale">
+<code class="sig-name descname">timeScale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ts</span></em>, <em class="sig-param"><span class="n">coef_m</span></em>, <em class="sig-param"><span class="n">coef_n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.timeScale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.timeScale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates scaling value t_scale of crop growth time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ts</strong> – Relative position of the radioactive accident in the</p>
+</dd>
+</dl>
+<p>crop growth time series
+:param coef_m: Scaling parameter
+:param coef_n: Scaling parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Scaling value of growing time series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="SARCA_lib.SARCALib.timeSeriesConst">
+<code class="sig-name descname">timeSeriesConst</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t_accident</span></em>, <em class="sig-param"><span class="n">t0</span></em>, <em class="sig-param"><span class="n">t1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SARCA_lib.html#SARCALib.timeSeriesConst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SARCA_lib.SARCALib.timeSeriesConst" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of relative position of the radioactive accident in the
+crop growth time series [0, 1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_accident</strong> – Date of radioactive accident as number of day in year</p></li>
+<li><p><strong>t0</strong> – Date of sowing crop as number of day in year</p></li>
+<li><p><strong>t1</strong> – Date of harvesting crop as number of day in year</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Relative position of the radioactive accident in the</p>
+</dd>
+</dl>
+<p>crop growth time series</p>
 </dd></dl>
 
 </dd></dl>
@@ -782,6 +961,96 @@ radiation</p>
 </dd></dl>
 
 </div>
+<div class="section" id="modul-sowing-proc">
+<h2>Modul sowing_proc<a class="headerlink" href="#modul-sowing-proc" title="Permalink to this headline">¶</a></h2>
+<p>Musili holiči začátkem černý půjčte? Potrpí zazvonění slečnám. Hm porca cín
+kvašení vraty trestat. S nepořádnou bohatá akt styků darovat petrolejku.
+Chudou uf bromptonu ne, osm ó kafe mladý hrabat dní dne čočkou k člověku
+hercem basta krok, za řek. Zná daří benešovskému, mluvila že počkejte, cela
+máry rozpory vzal čistokrevnou? Tmě ji arch tej analýzou.</p>
+<span class="target" id="module-sowing_proc"></span><dl class="py class">
+<dt id="sowing_proc.SowingProcTimeSeries">
+<em class="property">class </em><code class="sig-prename descclassname">sowing_proc.</code><code class="sig-name descname">SowingProcTimeSeries</code><a class="reference internal" href="_modules/sowing_proc.html#SowingProcTimeSeries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sowing_proc.SowingProcTimeSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class SowingProsTimeSeries is a module for calculation of
+sowing procedure time series in monthly step. Calculation is
+based on order of crops in the sowing procedure and their
+agronomy terms (sowing and harvest)</p>
+<dl class="py method">
+<dt id="sowing_proc.SowingProcTimeSeries.calcMeadows">
+<code class="sig-name descname">calcMeadows</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">meadows_table</span></em>, <em class="sig-param"><span class="n">ID_col_number</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">cut_col_number</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sowing_proc.html#SowingProcTimeSeries.calcMeadows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sowing_proc.SowingProcTimeSeries.calcMeadows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of meadows management (cuts) time series. Output is a
+list containing IDs meadows management (cuts).
+The time series starts in January and ending on the December with
+monthly step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>meadows_table</strong> – </p></li>
+<li><p><strong>ID_col_number</strong> – </p></li>
+<li><p><strong>cut_col_number</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sowing_proc.SowingProcTimeSeries.calcSowingProc">
+<code class="sig-name descname">calcSowingProc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">crops_table</span></em>, <em class="sig-param"><span class="n">ID_col_number</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">sowing_col_number</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">harvest_col_number</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sowing_proc.html#SowingProcTimeSeries.calcSowingProc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sowing_proc.SowingProcTimeSeries.calcSowingProc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of sowing procedure time series for crops
+included in the crops_table. Output is a list containing IDs
+of crops in sowing procedure.
+The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure. The gaps between crops are highlighted as bare
+soil with ID = 999.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>crops_table</strong> – Pandas dataframe containing information</p>
+</dd>
+</dl>
+<p>about crops - ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and harvest
+are numbered according to months: 1 - January, 2 - February etc.
+:param ID_col_number: crops_table column with IDs index
+:param sowing_col_number: crops_table column with sowing date
+index
+:param harvest_col_number: crops_table column with harvest date
+index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List containing IDs of crops in sowing procedure.</p>
+</dd>
+</dl>
+<p>The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="sowing_proc.SowingProcTimeSeries.predictSowingProc">
+<code class="sig-name descname">predictSowingProc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sow_time_series</span></em>, <em class="sig-param"><span class="n">predict_months</span><span class="o">=</span><span class="default_value">12</span></em>, <em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sowing_proc.html#SowingProcTimeSeries.predictSowingProc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sowing_proc.SowingProcTimeSeries.predictSowingProc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prediction of sowing procedure including agricultural crops and
+cuted meadows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sow_time_series</strong> – </p></li>
+<li><p><strong>predict_months</strong> – </p></li>
+<li><p><strong>start</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -803,7 +1072,7 @@ radiation</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
 
     </p>
   </div>

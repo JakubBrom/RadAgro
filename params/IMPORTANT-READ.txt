@@ -1,0 +1,11 @@
+IMPORTANT!
+
+Do not change rows order in current list of crops!
+Add new crops to end of the table - follow actual list of crops.
+Maximal number of crops is 100 in the table!
+
+DŮLEŽITÉ!
+
+Neměňte pořadí stávajícího seznamu plodin!
+Nové plodiny přidávejte na konec tabulky - pokračujte v seznamu plodin
+Maximální počet plodin v tabulce je 100!

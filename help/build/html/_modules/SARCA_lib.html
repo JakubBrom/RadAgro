@@ -207,7 +207,217 @@
         <span class="n">const</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">dw_max</span><span class="o">/</span><span class="p">(</span><span class="n">dw_max</span><span class="o">-</span><span class="mf">0.001</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">slope</span> <span class="o">=</span> <span class="n">intercept</span> <span class="o">+</span> <span class="n">const</span>
 
-        <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span></div></div>
+        <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span></div>
+
+<div class="viewcode-block" id="SARCALib.timeSeriesConst"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.timeSeriesConst">[docs]</a>    <span class="k">def</span> <span class="nf">timeSeriesConst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of relative position of the radioactive accident in the</span>
+<span class="sd">        crop growth time series [0, 1].</span>
+
+<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
+<span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
+
+<span class="sd">        :return: Relative position of the radioactive accident in the</span>
+<span class="sd">        crop growth time series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">t0</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="n">t0</span><span class="p">)</span>
+
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">t0</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">t_accident</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+
+        <span class="n">ts</span><span class="p">[</span><span class="n">ts</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="n">ts</span></div>
+
+<div class="viewcode-block" id="SARCALib.timeScale"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.timeScale">[docs]</a>    <span class="k">def</span> <span class="nf">timeScale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">coef_m</span><span class="p">,</span> <span class="n">coef_n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates scaling value t_scale of crop growth time series.</span>
+
+<span class="sd">        :param ts: Relative position of the radioactive accident in the</span>
+<span class="sd">        crop growth time series</span>
+<span class="sd">        :param coef_m: Scaling parameter</span>
+<span class="sd">        :param coef_n: Scaling parameter</span>
+
+<span class="sd">        :return: Scaling value of growing time series</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">t_scale</span> <span class="o">=</span> <span class="n">coef_m</span> <span class="o">*</span> <span class="n">ts</span> <span class="o">-</span> <span class="n">coef_n</span>
+
+        <span class="k">return</span> <span class="n">t_scale</span></div>
+
+<div class="viewcode-block" id="SARCALib.dryMass"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.dryMass">[docs]</a>    <span class="k">def</span> <span class="nf">dryMass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DW_max</span><span class="p">,</span> <span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">coef_m</span><span class="p">,</span> <span class="n">coef_n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of actual biomass of the particular crop.</span>
+
+<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground biomass in</span>
+<span class="sd">        the growing season :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
+<span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
+<span class="sd">        :param coef_m: Scaling parameter</span>
+<span class="sd">        :param coef_n: Scaling parameter</span>
+
+<span class="sd">        :return: Dry mass of above ground biomass :math:`(t.ha^{-1})`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Time scaling</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeSeriesConst</span><span class="p">(</span><span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+        <span class="n">t_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeScale</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">coef_m</span><span class="p">,</span> <span class="n">coef_n</span><span class="p">)</span>
+
+        <span class="c1"># Dry mas of above ground biomass calculation</span>
+        <span class="n">dry_mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ts</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">DW_max</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t_scale</span><span class="p">)),</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dry_mass</span></div>
+
+<div class="viewcode-block" id="SARCALib.leafAreaIndex"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.leafAreaIndex">[docs]</a>    <span class="k">def</span> <span class="nf">leafAreaIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dw_act</span><span class="p">,</span> <span class="n">DW_max</span><span class="p">,</span> <span class="n">LAI_max</span><span class="p">,</span> <span class="n">R_min</span><span class="p">,</span> <span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of actual LAI of the particular crop.</span>
+
+<span class="sd">        :param dw_act: actual dry mass of the crops above ground biomass :math:`(</span>
+<span class="sd">        t.ha^{-1})`</span>
+<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground biomass in</span>
+<span class="sd">        the growing season :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param LAI_max: Maximal LAI of the crops in the growing season</span>
+<span class="sd">        :param R_min: Minimal relative wight moisture of the biomass (%)</span>
+<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
+<span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
+
+<span class="sd">        :return: Actual LAI of the crop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Time scaling</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeSeriesConst</span><span class="p">(</span><span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+
+        <span class="c1"># Dry mas of above ground biomass calculation</span>
+        <span class="n">LAI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">LAI_max</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dw_act</span> <span class="o">/</span> <span class="n">DW_max</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">3.6511</span> <span class="o">*</span>
+                <span class="n">LAI_max</span> <span class="o">+</span> <span class="mf">0.19993</span> <span class="o">*</span> <span class="n">R_min</span> <span class="o">-</span> <span class="mf">6.66309</span><span class="p">)</span> <span class="o">*</span> <span class="n">ts</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mf">3.9841</span> <span class="o">*</span>
+                <span class="n">LAI_max</span> <span class="o">-</span> <span class="mf">0.14</span> <span class="o">*</span> <span class="n">R_min</span> <span class="o">+</span> <span class="mf">4.6668</span><span class="p">)</span> <span class="o">*</span> <span class="n">ts</span><span class="p">)</span>
+        <span class="n">LAI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">LAI</span> <span class="o">&gt;</span> <span class="n">LAI_max</span><span class="p">,</span> <span class="n">LAI_max</span><span class="p">,</span> <span class="n">LAI</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">LAI</span></div>
+
+<div class="viewcode-block" id="SARCALib.interceptFactor"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.interceptFactor">[docs]</a>    <span class="k">def</span> <span class="nf">interceptFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LAI</span><span class="p">,</span> <span class="n">precip</span><span class="p">,</span> <span class="n">DW</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interception factor for both dry and wet deposition of</span>
+<span class="sd">        radionuclides.</span>
+
+<span class="sd">        :param LAI: Leaf Area Index (unitless)</span>
+<span class="sd">        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0, Cs and \</span>
+<span class="sd">        another radionuclides = 1.0</span>
+<span class="sd">        :param precip: Precipitation amount (mm) for period of deposition \</span>
+<span class="sd">        (ca 24 hours after radiation accident).</span>
+<span class="sd">        :param DW: Amount of fresh biomass :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param S: Mean thickness of water film at plant leaves (mm). \</span>
+<span class="sd">        Default S =	0.2 mm</span>
+
+<span class="sd">        :return: Interception Factor (rel.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">IF</span> <span class="o">=</span> <span class="n">LAI</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">S</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+                    <span class="n">precip</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">)))</span> <span class="o">/</span> <span class="p">(</span><span class="n">precip</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">)</span>
+            <span class="n">IF</span><span class="p">[</span><span class="n">IF</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">IF</span><span class="p">[</span><span class="n">DW</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Interception factor has not been &quot;</span>
+                                  <span class="s2">&quot;calculated&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">IF</span></div>
+
+<div class="viewcode-block" id="SARCALib.contBiomass"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.contBiomass">[docs]</a>    <span class="k">def</span> <span class="nf">contBiomass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depo</span><span class="p">,</span> <span class="n">IF</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Radiaoctive contamination of biomass :math:`(Bq.m^{-2})`</span>
+
+<span class="sd">        :param depo: Total radioactive deposition :math:`(Bq.m^{-2})`</span>
+<span class="sd">        :param IF: Interception Factor (rel.)</span>
+<span class="sd">        :return: Radioactive contamination of biomass :math:`(Bq.m^{-2})`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cont_biomass</span> <span class="o">=</span> <span class="n">depo</span> <span class="o">*</span> <span class="n">IF</span>
+            <span class="n">cont_biomass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cont_biomass</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">cont_biomass</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Vegetation biomass radioactive &quot;</span>
+                                  <span class="s2">&quot;contamination has not been calculated&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cont_biomass</span></div>
+
+<div class="viewcode-block" id="SARCALib.contSoil"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.contSoil">[docs]</a>    <span class="k">def</span> <span class="nf">contSoil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depo</span><span class="p">,</span> <span class="n">IF</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Radiaoctive contamination of soil :math:`(Bq.m^{-2})`</span>
+
+<span class="sd">        :param depo: Total radioactive deposition :math:`(Bq.m^{-2})`</span>
+<span class="sd">        :param IF: Interception Factor (rel.)</span>
+<span class="sd">        :return: Radioactive contamination of soil :math:`(Bq.m^{-2})`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cont_soil</span> <span class="o">=</span> <span class="n">depo</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">IF</span><span class="p">)</span>
+            <span class="n">cont_soil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cont_soil</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">cont_soil</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Soil radioactive &quot;</span>
+                                  <span class="s2">&quot;contamination has not been calculated&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cont_soil</span></div>
+
+<div class="viewcode-block" id="SARCALib.contMass"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.contMass">[docs]</a>    <span class="k">def</span> <span class="nf">contMass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cont_biomass</span><span class="p">,</span> <span class="n">fresh_biomass</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation radioactive contamination of fresh vegetation mass \</span>
+<span class="sd">        :math:`(Bq.kg^{-1})`</span>
+
+<span class="sd">        :param cont_biomass: Radioactive deposition on biomass \</span>
+<span class="sd">        :math:`(Bq.m^{-2})`</span>
+<span class="sd">        :param fresh_biomass: Amount of fresh biomass of vegetation \</span>
+<span class="sd">        :math:`(t.ha^{-1})`</span>
+
+<span class="sd">        :return: Fresh vegetation mass radioactive contamination \</span>
+<span class="sd">        :math:`(Bq.kg^{-1})`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ignore_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cont_mass</span> <span class="o">=</span> <span class="n">cont_biomass</span> <span class="o">/</span> <span class="p">(</span><span class="n">fresh_biomass</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="n">cont_mass</span><span class="p">[</span><span class="n">cont_mass</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Mass Radioactive &quot;</span>
+                                  <span class="s2">&quot;contamination of fresh biomass has not &quot;</span>
+                                  <span class="s2">&quot;been calculated&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cont_mass</span></div>
+
+<div class="viewcode-block" id="SARCALib.referLevel"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.referLevel">[docs]</a>    <span class="k">def</span> <span class="nf">referLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depo</span><span class="p">,</span> <span class="n">ref_level1</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">ref_level2</span><span class="o">=</span><span class="mi">3000000</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mask of radioactive deposition for three reference levels (categories):</span>
+<span class="sd">        \n</span>
+
+<span class="sd">        *0: Low* \n</span>
+
+<span class="sd">        *1: Middle* \n</span>
+
+<span class="sd">        *2: High*</span>
+
+<span class="sd">        \n</span>
+
+<span class="sd">        :param depo: Total radioactive deposition :math:`(Bq.m^{-2})`</span>
+<span class="sd">        :param ref_level1: Lower reference level treshold \</span>
+<span class="sd">        :math:`(Bq.m^{-2})`. Default value = 5000 :math:`Bq.m^{-2}`</span>
+<span class="sd">        :param ref_level2: Upper reference level treshold \</span>
+<span class="sd">        :math:`(Bq.m^{-2})`. Default value = 3000000 :math:`Bq.m^{-2}`</span>
+<span class="sd">        :return: Mask of radioactive deposition for three reference levels</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">reference_groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depo</span> <span class="o">&gt;=</span> <span class="n">ref_level2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+            <span class="n">reference_groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depo</span> <span class="o">&gt;=</span> <span class="n">ref_level1</span><span class="p">,</span> <span class="n">reference_groups</span><span class="p">,</span>
+                                        <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Mask for reference levels has not been&quot;</span>
+                                  <span class="s2">&quot; calculated&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">reference_groups</span></div></div>
 </pre></div>
 
            </div>
@@ -219,7 +429,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
 
     </p>
   </div>

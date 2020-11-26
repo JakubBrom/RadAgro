@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sowing_proc &mdash; RadHydro 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="RadHydro 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> RadHydro
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../description.html">Popis programu RadHydro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../libs.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ackn.html">Poděkování</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">RadHydro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>sowing_proc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sowing_proc</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#-----------------------------------------------------------------------</span>
+<span class="c1"># RadHydro</span>
+<span class="c1">#</span>
+<span class="c1"># Module: sowing_procedure.py</span>
+<span class="c1"># Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,</span>
+<span class="c1">#		  Faculty of Agriculture</span>
+<span class="c1"># Begin: 2020/11/04</span>
+<span class="c1">#</span>
+<span class="c1"># Description: The model methods are suitable for calculation of</span>
+<span class="c1"># sowing procedure time series in monthly step. Usable for geodata.</span>
+<span class="c1">#</span>
+<span class="c1"># License: Copyright (C) 2018-2020, Jakub Brom, University of South</span>
+<span class="c1"># Bohemia</span>
+<span class="c1">#		   in Ceske Budejovice</span>
+<span class="c1">#</span>
+<span class="c1"># Vlastníkem programu RadHydro je Jihočeská univerzita v Českých</span>
+<span class="c1"># Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny</span>
+<span class="c1"># v licenčním ujednání (dále jen &quot;smlouva&quot;).</span>
+<span class="c1"># Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací</span>
+<span class="c1"># souhlasí s podmínkami smlouvy.</span>
+<span class="c1">#-----------------------------------------------------------------------</span>
+
+
+<span class="c1"># imports</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="SowingProcTimeSeries"><a class="viewcode-back" href="../libs.html#sowing_proc.SowingProcTimeSeries">[docs]</a><span class="k">class</span> <span class="nc">SowingProcTimeSeries</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class SowingProsTimeSeries is a module for calculation of</span>
+<span class="sd">    sowing procedure time series in monthly step. Calculation is</span>
+<span class="sd">    based on order of crops in the sowing procedure and their</span>
+<span class="sd">    agronomy terms (sowing and harvest)&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.calcSowingProc"><a class="viewcode-back" href="../libs.html#sowing_proc.SowingProcTimeSeries.calcSowingProc">[docs]</a>    <span class="k">def</span> <span class="nf">calcSowingProc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">sowing_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of sowing procedure time series for crops</span>
+<span class="sd">        included in the crops_table. Output is a list containing IDs</span>
+<span class="sd">        of crops in sowing procedure.</span>
+<span class="sd">        The time series starts in January of the first year and</span>
+<span class="sd">        ending in the December of the last year of the sowing</span>
+<span class="sd">        procedure. The gaps between crops are highlighted as bare</span>
+<span class="sd">        soil with ID = 999.</span>
+
+<span class="sd">        :param crops_table: Pandas dataframe containing information</span>
+<span class="sd">        about crops - ID of crop, term of sowing and term of harvest</span>
+<span class="sd">        in order of the sowing procedure. Terms of sowing and harvest</span>
+<span class="sd">        are numbered according to months: 1 - January, 2 - February etc.</span>
+<span class="sd">        :param ID_col_number: crops_table column with IDs index</span>
+<span class="sd">        :param sowing_col_number: crops_table column with sowing date</span>
+<span class="sd">        index</span>
+<span class="sd">        :param harvest_col_number: crops_table column with harvest date</span>
+<span class="sd">        index</span>
+
+<span class="sd">        :return: List containing IDs of crops in sowing procedure.</span>
+<span class="sd">        The time series starts in January of the first year and</span>
+<span class="sd">        ending in the December of the last year of the sowing</span>
+<span class="sd">        procedure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculation of the sowing procedure TS</span>
+        <span class="n">sow_time_series</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># First part of the first year - from January to sowing</span>
+        <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">]</span> <span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+            <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span>
+
+        <span class="c1"># The following TS </span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]:</span>
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">]</span> <span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span>
+
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">]</span> <span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                                               <span class="n">i</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="p">])</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                                               <span class="n">i</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="p">])</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> \
+                        <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+                    <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span>
+                                                   <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+                <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span>  <span class="c1"># 999 je pro holou půdu</span>
+
+        <span class="c1"># End of TS in the last year - from harvest to December</span>
+        <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                           <span class="n">harvest_col_number</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+            <span class="n">sow_time_series</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">sow_time_series</span></div>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.calcMeadows"><a class="viewcode-back" href="../libs.html#sowing_proc.SowingProcTimeSeries.calcMeadows">[docs]</a>    <span class="k">def</span> <span class="nf">calcMeadows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meadows_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">cut_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of meadows management (cuts) time series. Output is a</span>
+<span class="sd">        list containing IDs meadows management (cuts).</span>
+<span class="sd">        The time series starts in January and ending on the December with</span>
+<span class="sd">        monthly step.</span>
+
+<span class="sd">        :param meadows_table:</span>
+<span class="sd">        :param ID_col_number:</span>
+<span class="sd">        :param cut_col_number:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.predictSowingProc"><a class="viewcode-back" href="../libs.html#sowing_proc.SowingProcTimeSeries.predictSowingProc">[docs]</a>    <span class="k">def</span> <span class="nf">predictSowingProc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sow_time_series</span><span class="p">,</span> <span class="n">predict_months</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                          <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prediction of sowing procedure including agricultural crops and</span>
+<span class="sd">        cuted meadows.</span>
+
+<span class="sd">        :param sow_time_series:</span>
+<span class="sd">        :param predict_months:</span>
+<span class="sd">        :param start:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+        <span class="c1"># TODO: je potřeba rozlišit, jestli se provedlo odstranění biomasy z</span>
+        <span class="c1">#  ploch v časný fázi a nebo ne. Pokud ano, tak daný rok nebude už</span>
+        <span class="c1">#  počítaný OP, biomasa ani další sklizeň</span>
+
+    <span class="k">def</span> <span class="nf">setHarvestTimeSeries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: Vytvoří tabulku s termíny sklizně - asi to bude 1 - sklizeň,</span>
+        <span class="c1">#  0 - nic</span>
+        <span class="c1"># TODO: je potřeba rozlišit, jestli se provedlo odstranění biomasy z</span>
+        <span class="c1">#  ploch v časný fázi a nebo ne. Pokud ano, tak daný rok nebude už</span>
+        <span class="c1">#  počítaný OP, biomasa ani další sklizeň</span>
+
+        <span class="k">pass</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">plodiny_pole</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                     <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                    <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;kat1&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;kat2&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+                    <span class="p">]</span>
+    <span class="n">df_plodiny_pole</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">plodiny_pole</span><span class="p">)</span>
+
+    <span class="n">plodiny_op</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_I&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_II&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;jetel_III&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;pšenice&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen oz.&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                   <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;brambory&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;ječmen j.&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;hrách&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kukuřice&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;oves&#39;</span><span class="p">,</span> <span class="s1">&#39;osev&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;skliz&#39;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+                  <span class="p">]</span>
+
+    <span class="n">plodiny</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">plodiny_op</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">time</span>
+
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">SowingProcTimeSeries</span><span class="p">()</span>
+
+    <span class="n">ts_sp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">calcSowingProc</span><span class="p">(</span><span class="n">plodiny</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ts_sp</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">t2</span><span class="o">-</span><span class="n">t1</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

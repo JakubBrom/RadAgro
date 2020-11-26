@@ -50,11 +50,13 @@ import time
 
 # Import modules
 from .modules.SARCA_lib import SARCALib
+from .modules.sowing_proc import SowingProcTimeSeries
 from .modules.overlap_clip import *
 from .modules.hydrIO import *
 from .modules.zonal_stats import *
 
 sl = SARCALib()
+sp = SowingProcTimeSeries()
 
 class RadHydro:
     """QGIS Plugin Implementation."""
@@ -94,6 +96,7 @@ class RadHydro:
 
         # Read constants
         self.constants()
+        self.df_radio_contamination = None
 
     # noinspection PyMethodMayBeStatic
     def tr(self, message):
@@ -228,6 +231,19 @@ class RadHydro:
                                               self.tableRemoveRow(
                                                   self.dlg.tw_meadow))
 
+        # Create figure after fid selection
+        self.dlg.cbox_ID_select.currentIndexChanged.connect(self.plot)
+
+        # Create plot
+        self.figure = plt.figure(facecolor="white")  # create plot
+        self.canvas = FigureCanvas(self.figure)
+
+        # Add plot in to UI widget
+        lay = QVBoxLayout(self.dlg.widget_plot)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.addWidget(self.canvas)
+        # self.setLayout(lay)
+
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
@@ -243,7 +259,6 @@ class RadHydro:
         self.showInfo()
 
         # set tab with graph disabled
-
         self.dlg.tabWidget.setTabEnabled(2, False)
 
         # Set type of input to input cboxes
@@ -301,23 +316,8 @@ class RadHydro:
         # model to growth model table for particular
         self.dlg.pb_coefs.clicked.connect(lambda: self.calculateGowthCurveCoefs())
 
-        # Buttonbox for creating figure
-        self.dlg.cbox_ID_select.currentIndexChanged.connect(self.plot)
-
-        # Create plot
-        self.figure = plt.figure(facecolor="white")  # create plot
-        self.canvas = FigureCanvas(self.figure)
-
-        # Add plot in to UI widget
-        lay = QVBoxLayout(self.dlg.widget_plot)
-        lay.setContentsMargins(0, 0, 0, 0)
-        lay.addWidget(self.canvas)
-        # self.setLayout(lay)
-
-
         # show the dialog
         self.dlg.show()
-
 
         # # Run the dialog event loop
         # result = self.dlg.exec_()
@@ -358,10 +358,29 @@ class RadHydro:
         t4 = time.time()
         print(t4-t3)
 
+        # Read crops growth model data from UI
+        self.df_growth_model_params = self.readGrowthModelParams()
+
         # Calculate early stage
         self.earlyStage()
         t5 = time.time()
         print(t5-t4)
+
+        # Read crops rotation data and meadows cutting data from UI
+        # self.df_crops_rotation = self.readCropsRotation()
+        # self.df_meadows = self.readMeadowsCut()
+        t6 = time.time()
+        print(t6-t5)
+        # Create time series for crops
+        # self.df_crops_rotation_all = self.createCropsRotationTS()
+        # self.df_crops_harvest = self.createCropsHarvestTS()
+        # self.df_crops_dw_all = self.createDryMassTS()
+        t7 = time.time()
+        print(t7-t6)
+
+        # Export data
+        self.exportTablesToCsv()        # TODO: následně neaktivní
+
         # The page with graph enabled
         self.dlg.tabWidget.setTabEnabled(2, True)
 
@@ -371,6 +390,9 @@ class RadHydro:
         # Date of radiation accident
         self.accident_date = self.dlg.de_accident.date()
         self.accident_jul = self.accident_date.dayOfYear()
+
+        # Early stage management
+        self.early = self.dlg.chbox_management.isChecked()
 
         # Date of prediction
         self.predict_date = self.dlg.de_predict.date()
@@ -497,7 +519,7 @@ class RadHydro:
 
     def earlyStage(self):
         """Calculation of radioactive contamination in early stage of
-        radioactive accident"""
+        radioactive accident."""
 
         # Create df for radioactive contamination
         self.df_radio_contamination = self.df_crops_init.copy(True)
@@ -524,7 +546,8 @@ class RadHydro:
         # Calculates total radioactive contamination after biomass removing
         # in early stage of radioactive contamination
         if self.dlg.chbox_management.isChecked():
-            # 4. Načtení dat pro model a přiřazení dat pro další manipulaci
+            # TODO: upravit - nahradit načítání dat za df_growth_model_params
+            # Reading data from tw_growth_params table
             r_count = self.dlg.tw_growth_params.rowCount()
 
             model_IDs = np.array([self.dlg.tw_growth_params.item(i,0).text()
@@ -592,15 +615,236 @@ class RadHydro:
         # Add reduced radioactive contamination amount to df
         self.df_radio_contamination["Depo_red"] = reduced_cont
 
-        #---------------------------------------------
+    def readGrowthModelParams(self):
+        """Read data from growth model table and add it to df"""
+
+        r_count = self.dlg.tw_growth_params.rowCount()
+
+        model_IDs = np.array(
+            [self.dlg.tw_growth_params.item(i, 0).text()
+             for i in range(r_count)]).astype(int)
+        model_sowing = np.array(
+            [self.dlg.tw_growth_params.cellWidget(i, 2)
+            .date().dayOfYear() for i in range(
+                r_count)]).astype(int)
+        model_harvest = np.array(
+            [self.dlg.tw_growth_params.cellWidget(i, 3)
+            .date().dayOfYear() for i in range(
+                r_count)]).astype(int)
+        model_DWmax = np.array(
+            [self.dlg.tw_growth_params.item(i, 4).text()
+             for i in range(r_count)]).astype(float)
+        model_LAImax = np.array(
+            [self.dlg.tw_growth_params.item(i, 5).text()
+             for i in range(r_count)]).astype(float)
+        model_R_max = np.array(
+            [self.dlg.tw_growth_params.item(i, 6).text()
+             for i in range(r_count)]).astype(float)
+        model_R_min = np.array(
+            [self.dlg.tw_growth_params.item(i, 7).text()
+             for i in range(r_count)]).astype(float)
+        model_coef_m = np.array(
+            [self.dlg.tw_growth_params.item(i, 8).text()
+             for i in range(r_count)]).astype(float)
+        model_coef_n = np.array(
+            [self.dlg.tw_growth_params.item(i, 9).text()
+             for i in range(r_count)]).astype(float)
+
+        df_growth_model_params = pd.DataFrame({
+            "ID_set":model_IDs, "sow":model_sowing,
+            "harv":model_harvest, "DW_max":model_DWmax,
+            "LAI_max":model_LAImax, "R_max":model_R_max,
+            "R_min":model_R_min, "coef_m":model_coef_m,
+            "coef_n":model_coef_n})
+
+        return df_growth_model_params
+
+    def readCropsRotation(self):
+        """Get data from UI for crops rotation and their preparation
+        for next calculation"""
+
+        # No of counts in table
+        r_count = self.dlg.tw_sowing.rowCount()
+
+        # Read data
+        rotation_IDs = np.array([self.dlg.tw_sowing.cellWidget(i,0)
+            .currentIndex() for i in range(r_count)]).astype(int)
+        crops_sowing = np.array([self.dlg.tw_sowing.cellWidget(i, 1)
+            .date().month() for i in range(r_count)]).astype(int)
+        crops_harvest = np.array([self.dlg.tw_sowing.cellWidget(i, 2)
+            .date().month() for i in range(r_count)]).astype(int)
+
+        # Create dataframe from the data
+        df_crops_rotation = pd.DataFrame({"ID_set":rotation_IDs,
+                                          "sow":crops_sowing,
+                                          "harv":crops_harvest})
+
+        return df_crops_rotation
+
+    def readMeadowsCut(self):
+        """Get data from UI for meadows mowing and their preparation
+        for next calculation"""
+
+        # No of columns in table
+        r_count = self.dlg.tw_meadow.rowCount()
+
+        # In case of IDs, the values are increased to 100+ because
+        # the resolution of the meadows cuts in TS
+        meadows_IDs = np.array([self.dlg.tw_meadow.cellWidget(i, 0)
+                               .currentIndex() + 100 for i in
+                                range(r_count)]).astype(int)
+        meadows_cut = np.array([self.dlg.tw_meadow.cellWidget(i, 1)
+                                .date().month() for i in
+                                 range(r_count)]).astype(int)
+
+        # Start of meadows growing after mowing. Start in spring is
+        # 1th March
+        meadows_sowing = [3]
+        for i in range(len(meadows_IDs)-1):
+            meadows_sowing.append(meadows_cut[i])
+
+        df_meadows = pd.DataFrame({"ID_set":meadows_IDs,
+                                          "sow":meadows_sowing,
+                                          "harv":meadows_cut})
+
+        return df_meadows
+
+    def createCropsRotationTS(self):
+        """Create time series for crops and meadows rotation for the
+        area of interest"""
+
+        # Create table for writing data
+        df_rotation_init = self.df_crops_init.copy(True)
+
+        # Create df for all crops in the crops rotation
+        df_crops_rot = sp.predictCropsRotation(self.df_crops_rotation,
+                            ID_col_number=0, sowing_col_number=1,
+                            harvest_col_number=2,
+                            predict_months=self.predict_no_months,
+                            start_month=self.first_month,
+                            early_stage_mng=self.early)
+
+        # Create df for mowing meadows
+        df_meadows_rot = sp.predictCropsRotation(self.df_meadows,
+                            ID_col_number=0, sowing_col_number=1,
+                            harvest_col_number=2,
+                            predict_months=self.predict_no_months,
+                            start_month=self.first_month,
+                            early_stage_mng=self.early)
+
+        # Change ID of the meadows TS to 20 (set in data as meadows)
+        df_meadows_rot["ID_set"][0] = 20
+        df_meadows_rot = pd.DataFrame(df_meadows_rot.iloc[0:1])
+        df_meadows_rot[df_meadows_rot > 99] = 20
+
+        # Merge crops and meadows data together
+        df_all_crops = pd.concat([df_crops_rot, df_meadows_rot],
+                                 ignore_index=True)
+
+        # Merge TS to vector data layer for whole area of interest
+        df_crops_rotation_all = pd.merge(df_rotation_init,
+                                          df_all_crops, how='left',
+                                          on='ID_set', sort=False)
+
+        return df_crops_rotation_all
+
+    def createCropsHarvestTS(self):
+        """Create time series of the harvest time for the area of
+        interest"""
+
+        # Create tables for writing data
+        df_harvest_init = self.df_crops_init.copy(True)
+
+        # Create df for all crops in the crops rotation
+        df_crops_harvest = sp.predictHarvest(self.df_crops_rotation,
+                            ID_col_number=0, sowing_col_number=1,
+                            harvest_col_number=2,
+                            predict_months=self.predict_no_months,
+                            start_month=self.first_month,
+                            early_stage_mng=self.early)
+
+        # Create df for mowing meadows
+        df_meadows_harvest = sp.predictHarvest(self.df_meadows,
+                            ID_col_number=0, sowing_col_number=1,
+                            harvest_col_number=2,
+                            predict_months=self.predict_no_months,
+                            start_month=self.first_month,
+                            early_stage_mng=self.early)
+
+        # Change ID of the meadows TS to 20 (set in data as meadows)
+        df_meadows_harvest["ID_set"][0] = 20
+        df_meadows_harvest = pd.DataFrame(df_meadows_harvest.iloc[0:1])
+
+        # Merge crops and meadows data together
+        df_all_harvest = pd.concat([df_crops_harvest,
+                                    df_meadows_harvest],
+                                    ignore_index=True)
+
+        # Merge TS to vector data layer for whole area of interest
+        df_crops_harvest = pd.merge(df_harvest_init,
+                                         df_all_harvest, how='left',
+                                         on='ID_set', sort=False)
+
+        return df_crops_harvest
+
+    def createDryMassTS(self):
+        """Create time series table for dry weight of the crops for
+        the area of interest"""
+
+        # Create table for writing data
+        df_dw_init = self.df_crops_init.copy(True)
+
+        # Create df for all crops in the crops rotation
+        df_crops_dw = sp.predictDryMass(self.df_crops_rotation,
+                                             self.df_growth_model_params,
+                                             ID_col_number=0,
+                                             sowing_col_number=1,
+                                             harvest_col_number=2,
+                                             predict_months=self.predict_no_months,
+                                             start_month=self.first_month,
+                                             early_stage_mng=self.early)
+
+        # Create df for mowing meadows
+        df_meadows_dw = sp.predictDryMass(self.df_meadows,
+                                               self.df_growth_model_params,
+                                               ID_col_number=0,
+                                               sowing_col_number=1,
+                                               harvest_col_number=2,
+                                               predict_months=self.predict_no_months,
+                                               start_month=self.first_month,
+                                               early_stage_mng=self.early)
+
+        # Change ID of the meadows TS to 20 (set in data as meadows)
+        df_meadows_dw.loc[0, "ID_set"] = 20
+        df_meadows_dw = pd.DataFrame(df_meadows_dw.iloc[0:1])
+        # Merge crops and meadows data together
+        df_all_dw = pd.concat([df_crops_dw, df_meadows_dw],
+                              ignore_index=True)
+        # Merge TS to vector data layer for whole area of interest
+        df_crops_dw_all = pd.merge(df_dw_init, df_all_dw,
+                                        how='left', on='ID_set',
+                                        sort=False)
+
+        return df_crops_dw_all
+
+    def calculateRadioactiveContamination(self):
+        """TODO"""
+
+        pass
+
+    def exportTablesToCsv(self):
+        """Exporting tables created by RadHydro to csv"""
+
+        # TODO: zatim se budou data ukládat do /home
+
         self.df_radio_contamination.to_csv("kontam.csv")
         self.df_ref_levels.to_csv("RU.csv")
-        df_dw_lai_all.to_csv("prod.csv")
+        # self.df_crops_rotation_all.to_csv("OP.csv")
+        # self.df_crops_harvest.to_csv("Sklizne.csv")
+        # self.df_crops_dw_all.to_csv("susina.csv")
 
     def pathToLyr(self, comboBox):
         """Get path to input file from combobox"""
-
-        # TODO: vyřešit výjimku - hláška do infoboxu
 
         try:
             get_index = comboBox.currentIndex()
@@ -640,19 +884,28 @@ class RadHydro:
     def plot(self):
         "Create plot in the UI"
 
-        # TODO: načítání dat z databáze podle ID a celková úprava,
-        #  definice časové osy
+        # TODO: případná úprava definice časové osy - teď je po měsících
+        # TODO: vložit do grafu nástroje na analýzu a hodnocení grafu
 
         # Data
         ignore_zero = np.seterr(all="ignore")
 
-        x = [float(i) for i in range(100)]
-        x = np.array(x)
-        rand = np.random.rand(100)
-        y = rand * (10000000.0 / x)
+        if self.df_radio_contamination is not None:
+            # Get position in the table
+            pl_ID_text = self.dlg.cbox_ID_select.currentText()
+            pl_ID = int(pl_ID_text)
 
-        # Legend text
-        pl_ID = self.dlg.cbox_ID_select.currentText()
+            # get data for plotting from selected row (polygon)
+            y_row = self.df_radio_contamination.loc[
+                self.df_radio_contamination['fid'] == pl_ID]
+            y = y_row.iloc[0, 5:]
+
+        else:
+            pl_ID_text = self.dlg.cbox_ID_select.currentText()
+            x = [float(i) for i in range(100)]
+            x = np.array(x)
+            rand = np.random.rand(100)
+            y = rand * (10000000.0 / x)
 
         # Clear last figure
         self.figure.clear()
@@ -667,7 +920,7 @@ class RadHydro:
             ax.set_aspect("auto", "box")
 
             # Axes names
-            x_name = self.tr("Čas")
+            x_name = self.tr("Čas (měs.)")
             y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
 
             # Axes labels
@@ -676,8 +929,8 @@ class RadHydro:
             ax.set_yscale('log')
 
             # plot data
-            ax.plot(x, y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
-                                                                         pl_ID))
+            ax.plot(y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
+                                                                         pl_ID_text))
 
             # Legend position
             ax.legend(loc='best')
@@ -1055,16 +1308,18 @@ class RadHydro:
         """Some constants used in the program"""
 
         # Read crops to pd.DataFrame
-        if self.locale == "cs": # TODO: přeložit názvy rostlin
-            crops_params_table = os.path.join(self.plugin_dir, "Params/crops_params_cs.csv")
+        if self.locale == "cs":
+            crops_params_table = os.path.join(self.plugin_dir,
+                                              "params/crops_params_cs.csv")
         else:
-            crops_params_table = os.path.join(self.plugin_dir, "Params/crops_params_en.csv")
+            crops_params_table = os.path.join(self.plugin_dir,
+                                              "params/crops_params_en.csv")
 
         self.crops = pd.read_csv(crops_params_table)
 
         # Read Main soil units (HPJ) and hydrological soil groups
         soil_hps_table = os.path.join(self.plugin_dir,
-                                      "Params/Soil_hydr_cat.csv")
+                                      "params/Soil_hydr_cat.csv")
         self.soil_hydr = pd.read_csv(soil_hps_table)
 
         # The state of soil saturation by soil water: good (Do) or

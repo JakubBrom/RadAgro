@@ -1,35 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#  Project: RadHydro
+#  File: SARCA_lib.py
+#
+#  Author: Dr. Jakub Brom
+#
+#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in
+#  České Budějovice, Faculty of Agriculture.
+#
+#  This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
+#  Last changes: 26.11.20 16:58
+#
+#  Begin: 2020/10/31
+#
+#  Description: Calculation of crop growth features and radioactivity
+#  contamination features
 
-
-#-----------------------------------------------------------------------
-# RadHydro
-#
-# Module: SARCA_lib.py
-#
-# Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,
-#		  Faculty of Agriculture
-#
-# Date: 2020/10/31
-#
-# Description: Calculation of crop growth features and radioactivity
-# contamination features
-#
-# License: Copyright (C) 2020, Jakub Brom, University of South Bohemia
-#		   in Ceske Budejovice
-#
-# Vlastníkem programu RadHydro je Jihočeská univerzita v Českých
-# Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny
-# v licenčním ujednání (dále jen "smlouva").
-# Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací
-# souhlasí s podmínkami smlouvy.
-#-----------------------------------------------------------------------
 
 import numpy as np
 
 class SARCALib:
-    """Library for calculation of crops growth parameters and radioactivity
-    contamination of crops"""
+    """Library for calculation of crops growth parameters and
+    radioactivity contamination of crops"""
 
     def __init__(self):
         return
@@ -57,16 +61,19 @@ class SARCALib:
 
     def timeSeriesConst(self, t_accident, t0, t1):
         """
-        Calculation of relative position of the radioactive accident in the
-        crop growth time series [0, 1].
+        Calculation of relative position of the radioactive accident
+        in the crop growth time series [0, 1].
 
-        :param t_accident: Date of radioactive accident as number of day in year
+        :param t_accident: Date of radioactive accident as number of
+        day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
 
         :return: Relative position of the radioactive accident in the
         crop growth time series
         """
+
+        ignore_zero = np.seterr(all="ignore")
 
         t0 = np.where(t0 >= t1, 92, t0)
 
@@ -96,9 +103,10 @@ class SARCALib:
         """
         Calculation of actual biomass of the particular crop.
 
-        :param DW_max: Maximal dry mass of the crops above ground biomass in
-        the growing season :math:`(t.ha^{-1})`
-        :param t_accident: Date of radioactive accident as number of day in year
+        :param DW_max: Maximal dry mass of the crops above ground
+        biomass in the growing season :math:`(t.ha^{-1})`
+        :param t_accident: Date of radioactive accident as number of
+        day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
         :param coef_m: Scaling parameter
@@ -120,13 +128,14 @@ class SARCALib:
         """
         Calculation of actual LAI of the particular crop.
 
-        :param dw_act: actual dry mass of the crops above ground biomass :math:`(
-        t.ha^{-1})`
-        :param DW_max: Maximal dry mass of the crops above ground biomass in
-        the growing season :math:`(t.ha^{-1})`
+        :param dw_act: actual dry mass of the crops above ground
+        biomass :math:`(t.ha^{-1})`
+        :param DW_max: Maximal dry mass of the crops above ground
+        biomass in the growing season :math:`(t.ha^{-1})`
         :param LAI_max: Maximal LAI of the crops in the growing season
         :param R_min: Minimal relative wight moisture of the biomass (%)
-        :param t_accident: Date of radioactive accident as number of day in year
+        :param t_accident: Date of radioactive accident as number of
+        day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
 
@@ -150,12 +159,12 @@ class SARCALib:
         radionuclides.
 
         :param LAI: Leaf Area Index (unitless)
-        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0, Cs and \
-        another radionuclides = 1.0
-        :param precip: Precipitation amount (mm) for period of deposition \
-        (ca 24 hours after radiation accident).
+        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0,
+        Cs and another radionuclides = 1.0
+        :param precip: Precipitation amount (mm) for period of
+        deposition (ca 24 hours after radiation accident).
         :param DW: Amount of fresh biomass :math:`(t.ha^{-1})`
-        :param S: Mean thickness of water film at plant leaves (mm). \
+        :param S: Mean thickness of water film at plant leaves (mm).
         Default S =	0.2 mm
 
         :return: Interception Factor (rel.)
@@ -164,6 +173,7 @@ class SARCALib:
         try:
             IF = LAI * k * S * (1.0 - np.exp((-np.log(2.0)) / (3.0 * S) * (
                     precip + 0.0001))) / (precip + 0.0001)
+            IF = np.array(IF)
             IF[IF > 1.0] = 1.0
             IF[DW < 0.1] = 0.0
         except ArithmeticError:
@@ -186,7 +196,8 @@ class SARCALib:
             cont_biomass = np.where(cont_biomass < 0.0, 0.0, cont_biomass)
         except ArithmeticError:
             raise ArithmeticError("Vegetation biomass radioactive "
-                                  "contamination has not been calculated")
+                                  "contamination has not been "
+                                  "calculated")
 
         return cont_biomass
 
@@ -203,8 +214,8 @@ class SARCALib:
             cont_soil = depo * (1 - IF)
             cont_soil = np.where(cont_soil < 0.0, 0.0, cont_soil)
         except ArithmeticError:
-            raise ArithmeticError("Soil radioactive "
-                                  "contamination has not been calculated")
+            raise ArithmeticError("Soil radioactive contamination"
+                                  " has not been calculated")
 
         return cont_soil
 
@@ -229,8 +240,8 @@ class SARCALib:
             cont_mass[cont_mass < 0.0] = 0.0
         except ArithmeticError:
             raise ArithmeticError("Mass Radioactive "
-                                  "contamination of fresh biomass has not "
-                                  "been calculated")
+                                  "contamination of fresh biomass has"
+                                  " not been calculated")
 
         return cont_mass
 
@@ -257,10 +268,10 @@ class SARCALib:
 
         try:
             reference_groups = np.where(depo >= ref_level2, 2.0, 1.0)
-            reference_groups = np.where(depo >= ref_level1, reference_groups,
-                                        0.0)
+            reference_groups = np.where(depo >= ref_level1,
+                                        reference_groups, 0.0)
         except ArithmeticError:
-            raise ArithmeticError("Mask for reference levels has not been"
-                                  " calculated")
+            raise ArithmeticError("Mask for reference levels has not "
+                                  "been calculated")
 
         return reference_groups
