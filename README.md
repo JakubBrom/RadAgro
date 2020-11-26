@@ -24,6 +24,7 @@ Licence
 GNU GPL v. 3 or later
 
 © 2020 Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture
+
 E-mail: jbrom@zf.jcu.cz
 
 Acknowledgement
