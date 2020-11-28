@@ -79,7 +79,7 @@ class SARCALib:
 
         ts = np.where(t0 >= t1, 0, (t_accident - t0) / (t1 - t0))
 
-        ts[ts > 1.0] = 0.0
+        ts[ts > 1.0] = 1.0
 
         return ts
 
@@ -174,8 +174,9 @@ class SARCALib:
             IF = LAI * k * S * (1.0 - np.exp((-np.log(2.0)) / (3.0 * S) * (
                     precip + 0.0001))) / (precip + 0.0001)
             IF = np.array(IF)
-            IF[IF > 1.0] = 1.0
+            IF[IF > 0.8] = 0.8
             IF[DW < 0.1] = 0.0
+            
         except ArithmeticError:
             raise ArithmeticError("Interception factor has not been "
                                   "calculated")

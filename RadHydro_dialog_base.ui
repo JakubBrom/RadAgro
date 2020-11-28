@@ -24,16 +24,6 @@
    <bool>false</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="6" column="0">
-    <widget class="QDialogButtonBox" name="button_box">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="0">
     <widget class="QgsFileWidget" name="out_folder">
      <property name="storageMode">
@@ -45,6 +35,16 @@
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Adresář pro výstupy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QDialogButtonBox" name="button_box">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -1151,8 +1151,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>423</width>
-                <height>305</height>
+                <width>719</width>
+                <height>534</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1688,8 +1688,8 @@ a vláhovém stavu půdy</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>337</width>
-                <height>465</height>
+                <width>719</width>
+                <height>534</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1699,192 +1699,76 @@ a vláhovém stavu půdy</string>
                <item row="0" column="0">
                 <layout class="QGridLayout" name="gridLayout_14">
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_21">
-                   <property name="text">
-                    <string>Poločasy přeměny</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QTableWidget" name="tw_halflive">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>150</height>
-                    </size>
-                   </property>
-                   <property name="sizeAdjustPolicy">
-                    <enum>QAbstractScrollArea::AdjustToContents</enum>
-                   </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>200</number>
-                   </attribute>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string>Nový řádek</string>
-                    </property>
-                   </row>
-                   <row>
-                    <property name="text">
-                     <string>Nový řádek</string>
-                    </property>
-                   </row>
-                   <column>
-                    <property name="text">
-                     <string>Radionuklid</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Poločas přeměny (let)</string>
-                    </property>
-                   </column>
-                   <item row="0" column="0">
-                    <property name="text">
-                     <string>Cs137</string>
-                    </property>
-                   </item>
-                   <item row="0" column="1">
-                    <property name="text">
-                     <string>30.08</string>
-                    </property>
-                   </item>
-                   <item row="1" column="0">
-                    <property name="text">
-                     <string>Sr90</string>
-                    </property>
-                   </item>
-                   <item row="1" column="1">
-                    <property name="text">
-                     <string>28.79</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
                   <widget class="QLabel" name="label_20">
                    <property name="text">
                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Transferový koeficient půda-voda (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.mm&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QTableWidget" name="tw_soil_water_tc">
+                 <item row="0" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>150</height>
-                    </size>
+                   <property name="decimals">
+                    <number>5</number>
                    </property>
-                   <property name="sizeAdjustPolicy">
-                    <enum>QAbstractScrollArea::AdjustToContents</enum>
+                   <property name="value">
+                    <double>0.000100000000000</double>
                    </property>
-                   <property name="rowCount">
-                    <number>2</number>
-                   </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>200</number>
-                   </attribute>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                   <row/>
-                   <row/>
-                   <column>
-                    <property name="text">
-                     <string>Radionuklid</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Koeficient</string>
-                    </property>
-                   </column>
-                   <item row="0" column="0">
-                    <property name="text">
-                     <string>Cs137</string>
-                    </property>
-                   </item>
-                   <item row="0" column="1">
-                    <property name="text">
-                     <string>0.0001</string>
-                    </property>
-                   </item>
-                   <item row="1" column="0">
-                    <property name="text">
-                     <string>Sr90</string>
-                    </property>
-                   </item>
-                   <item row="1" column="1">
-                    <property name="text">
-                     <string>0.0001</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_22">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Koeficienty radiotransferu pro plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; suš.))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QTableWidget" name="tw_radio_coefs">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="sizeAdjustPolicy">
-                    <enum>QAbstractScrollArea::AdjustToContents</enum>
-                   </property>
-                   <property name="alternatingRowColors">
-                    <bool>true</bool>
-                   </property>
-                   <property name="rowCount">
-                    <number>0</number>
-                   </property>
-                   <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>200</number>
-                   </attribute>
-                   <attribute name="verticalHeaderVisible">
-                    <bool>false</bool>
-                   </attribute>
-                   <column>
-                    <property name="text">
-                     <string>ID</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Plodina</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Koeficient</string>
-                    </property>
-                   </column>
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Koeficienty radiotransferu pro plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; suš.))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QTableWidget" name="tw_radio_coefs">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="sizeAdjustPolicy">
+                  <enum>QAbstractScrollArea::AdjustToContents</enum>
+                 </property>
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="rowCount">
+                  <number>0</number>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>200</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>ID</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Plodina</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Koeficient</string>
+                  </property>
+                 </column>
+                </widget>
                </item>
               </layout>
              </widget>

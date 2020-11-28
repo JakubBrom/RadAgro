@@ -36,8 +36,10 @@ from qgis.core import Qgis, QgsMapLayerProxyModel, QgsVectorLayer, QgsVectorFile
 # Import the code for the dialog
 from .RadHydro_dialog import RadHydroDialog
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as \
+    FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 import sys
 import urllib.request
 import os.path
@@ -47,16 +49,19 @@ import datetime
 import shutil
 import tempfile
 import time
+import copy
 
 # Import modules
 from .modules.SARCA_lib import SARCALib
 from .modules.sowing_proc import SowingProcTimeSeries
+from .modules.activity_decay import ActivityDecay
 from .modules.overlap_clip import *
 from .modules.hydrIO import *
 from .modules.zonal_stats import *
 
 sl = SARCALib()
 sp = SowingProcTimeSeries()
+ad = ActivityDecay()
 
 class RadHydro:
     """QGIS Plugin Implementation."""
@@ -237,10 +242,12 @@ class RadHydro:
         # Create plot
         self.figure = plt.figure(facecolor="white")  # create plot
         self.canvas = FigureCanvas(self.figure)
+        # toolbar = NavigationToolbar(self.canvas, self)
 
         # Add plot in to UI widget
         lay = QVBoxLayout(self.dlg.widget_plot)
         lay.setContentsMargins(0, 0, 0, 0)
+        # lay.addWidget(toolbar)
         lay.addWidget(self.canvas)
         # self.setLayout(lay)
 
@@ -259,7 +266,7 @@ class RadHydro:
         self.showInfo()
 
         # set tab with graph disabled
-        self.dlg.tabWidget.setTabEnabled(2, False)
+        # self.dlg.tabWidget.setTabEnabled(2, False)
 
         # Set type of input to input cboxes
         self.dlg.cbox_rad_depo.setFilters(
@@ -361,22 +368,34 @@ class RadHydro:
         # Read crops growth model data from UI
         self.df_growth_model_params = self.readGrowthModelParams()
 
+        # Read transfer coefficients from UI
+        self.df_transf_coefs = self.readTransferCoef()
+
         # Calculate early stage
         self.earlyStage()
         t5 = time.time()
         print(t5-t4)
 
         # Read crops rotation data and meadows cutting data from UI
-        # self.df_crops_rotation = self.readCropsRotation()
-        # self.df_meadows = self.readMeadowsCut()
+        self.df_crops_rotation = self.readCropsRotation()
+        self.df_meadows = self.readMeadowsCut()
         t6 = time.time()
         print(t6-t5)
         # Create time series for crops
-        # self.df_crops_rotation_all = self.createCropsRotationTS()
-        # self.df_crops_harvest = self.createCropsHarvestTS()
-        # self.df_crops_dw_all = self.createDryMassTS()
+        self.df_crops_rotation_all = self.createCropsRotationTS()
+        self.df_crops_harvest = self.createCropsHarvestTS()
+        self.df_crops_dw_all = self.createDryMassTS()
         t7 = time.time()
         print(t7-t6)
+
+        # Calculate USLE
+
+        # Calculate hydrology
+
+        # Calculate total radioactive contamination time series table
+        self.calculateRadioactiveContamination()
+        t8 = time.time()
+        print(t8 - t7)
 
         # Export data
         self.exportTablesToCsv()        # TODO: následně neaktivní
@@ -406,7 +425,8 @@ class RadHydro:
         self.rl_2 = int(self.dlg.sbox_ru2.value())
 
         # Coefficients for interception factor calculation
-        if self.dlg.cbox_contaminant.currentIndex() == 0:
+        self.radionuclide = self.dlg.cbox_contaminant.currentIndex()
+        if self.radionuclide == 0:
             self.coef_k = 1.0       # Cs
         else:
             self.coef_k = 2.0       # Sr
@@ -670,9 +690,9 @@ class RadHydro:
         rotation_IDs = np.array([self.dlg.tw_sowing.cellWidget(i,0)
             .currentIndex() for i in range(r_count)]).astype(int)
         crops_sowing = np.array([self.dlg.tw_sowing.cellWidget(i, 1)
-            .date().month() for i in range(r_count)]).astype(int)
+            .currentText() for i in range(r_count)]).astype(int)
         crops_harvest = np.array([self.dlg.tw_sowing.cellWidget(i, 2)
-            .date().month() for i in range(r_count)]).astype(int)
+            .currentText() for i in range(r_count)]).astype(int)
 
         # Create dataframe from the data
         df_crops_rotation = pd.DataFrame({"ID_set":rotation_IDs,
@@ -680,6 +700,25 @@ class RadHydro:
                                           "harv":crops_harvest})
 
         return df_crops_rotation
+
+    def readTransferCoef(self):
+        """Reading transfer coefficient table fro UI"""
+
+        # Calculate no. of rows
+        r_count = self.dlg.tw_radio_coefs.rowCount()
+
+        # Read data
+        IDs = np.array([self.dlg.tw_radio_coefs.item(i,0).text() for i
+                        in range(r_count)]).astype(int)
+        transf_coefs = np.array([self.dlg.tw_radio_coefs.item(i,
+                        2).text() for i in range(r_count)]).astype(
+                        float)
+
+        # Create dataframe from the data
+        df_transf_coefs = pd.DataFrame({"ID_set": IDs,
+                                          "TK": transf_coefs})
+
+        return df_transf_coefs
 
     def readMeadowsCut(self):
         """Get data from UI for meadows mowing and their preparation
@@ -694,7 +733,7 @@ class RadHydro:
                                .currentIndex() + 100 for i in
                                 range(r_count)]).astype(int)
         meadows_cut = np.array([self.dlg.tw_meadow.cellWidget(i, 1)
-                                .date().month() for i in
+                                .currentText() for i in
                                  range(r_count)]).astype(int)
 
         # Start of meadows growing after mowing. Start in spring is
@@ -828,20 +867,87 @@ class RadHydro:
         return df_crops_dw_all
 
     def calculateRadioactiveContamination(self):
-        """TODO"""
+        """Calculation of total radioactive contamination of
+        particular fields"""
 
-        pass
+        # Calculation cycle of total radioactive contamination (RC) for
+        # prediction time series
+        for i in range(self.predict_no_months):
+            # Month name
+            month_name = "M{no}".format(no=str(i+1))
+
+            # 1. Read RC from previous month
+            radio_cont_tot_init = np.array(
+                self.df_radio_contamination.iloc[:,i+6])
+
+            # 2. Read column for harvest
+            harvest = np.array(self.df_crops_harvest.iloc[:,i+5])
+            harvest = np.nan_to_num(harvest)
+
+            # 3. Read dry mass of crops
+            dry_mass = np.array(self.df_crops_dw_all.iloc[:,i+5])
+            dry_mass = np.nan_to_num(dry_mass)
+
+            # 4. Merge Tk to actual crops
+            crops_act = self.df_crops_rotation_all.iloc[:,i+5]
+            crops_act = pd.DataFrame({"ID_set":crops_act})
+            df_transf_coefs_all = pd.merge(crops_act,
+                                           self.df_transf_coefs,
+                                           on="ID_set", how="left")
+            tr_coefs_arr = np.array(df_transf_coefs_all.iloc[:,1])
+            tr_coefs_arr = np.nan_to_num(tr_coefs_arr)
+
+            # 5. Calculation of radioactive contamination reduced by
+            # removing crops biomass
+            radio_cont_tot = radio_cont_tot_init - radio_cont_tot_init\
+                             * dry_mass * 0.1 * tr_coefs_arr * harvest
+
+            # 6. Apply reference levels - combine RLs with new values
+            ref_levels = np.array(self.df_ref_levels.iloc[:,i+5])
+            radio_cont_tot = np.where(ref_levels == 3,
+                                      radio_cont_tot_init,
+                                      radio_cont_tot)
+            radio_cont_tot = np.nan_to_num(radio_cont_tot)
+
+            # 7. Hydrology - reducing radioactivity by outlow of
+            # TODO: doplnit celou hydrologii
+            radio_cont_tot = radio_cont_tot * (1-0.0001)     # TODO
+
+            # 8. Erosion - reducing readioactive contamination by
+            # erosion
+            # TODO: doplnit celou erozi
+            radio_cont_tot = radio_cont_tot * (1-0.001)     # TODO
+
+            # 9. Radioactive decay
+            # Extraction of current month
+            acc_day = copy.deepcopy(self.accident_date)
+            current_date = acc_day.addMonths(i + 1)
+            current_month = current_date.month()
+
+            # Calculation of radioactivity decay
+            radio_cont_tot = ad.activityDecay(radio_cont_tot,
+                                              current_month,
+                                              self.radionuclide)
+
+            # 10. Add data to df with radioactive contamination
+            self.df_radio_contamination[month_name] = radio_cont_tot
+
+            # 11. Create new reference levels and add it to df
+            new_ref_levels = sl.referLevel(radio_cont_tot, self.rl_1,
+                                           self.rl_2)
+            self.df_ref_levels[month_name] = new_ref_levels
 
     def exportTablesToCsv(self):
         """Exporting tables created by RadHydro to csv"""
 
-        # TODO: zatim se budou data ukládat do /home
+        # TODO: zatim se budou data ukládat do /home, následně bude export do
+        #  gdpg - všechny vrstvy do jedný databáze
 
         self.df_radio_contamination.to_csv("kontam.csv")
         self.df_ref_levels.to_csv("RU.csv")
-        # self.df_crops_rotation_all.to_csv("OP.csv")
-        # self.df_crops_harvest.to_csv("Sklizne.csv")
-        # self.df_crops_dw_all.to_csv("susina.csv")
+        self.df_crops_rotation_all.to_csv("OP.csv")
+        self.df_crops_harvest.to_csv("Sklizne.csv")
+        self.df_crops_dw_all.to_csv("susina.csv")
 
     def pathToLyr(self, comboBox):
         """Get path to input file from combobox"""
@@ -910,8 +1016,8 @@ class RadHydro:
         # Clear last figure
         self.figure.clear()
 
-        # # set size of the plot - margins
-        # self.figure.subplots_adjust(left=0.2, bottom=0.15, right=0.95,
+        # # # set size of the plot - margins
+        # self.figure.subplots_adjust(left=0.25, bottom=0.2, right=0.95,
         #                             top=0.95, wspace=0, hspace=0)
 
         with plt.xkcd():
@@ -928,12 +1034,21 @@ class RadHydro:
             ax.set_ylabel(y_name)
             ax.set_yscale('log')
 
+            # Set number of ticks on x-axis
+            if len(y) > 10:
+                ax.set_xticks([0, 1, len(y) // 4, len(y) // 2 - 1,
+                               len(y) / 2 ** 0.5 - 1, len(y) - 1])
+
+            ax.tick_params(axis='x', rotation=90)
+
             # plot data
             ax.plot(y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
                                                                          pl_ID_text))
 
             # Legend position
             ax.legend(loc='best')
+
+            plt.tight_layout()
 
             # Draw plot
             self.canvas.draw()
@@ -993,7 +1108,7 @@ class RadHydro:
         crop_unique_ID = np.unique(crop_ind)
         crop_unique_names = [self.crops["crop"][i] for i in crop_unique_ID]
 
-        if self.dlg.cbox_contaminant.currentIndex() == 0:   # Cs
+        if self.radionuclide == 0:   # Cs
             radio_coefs = [self.crops["R_transf_Cs"][i] for i in crop_unique_ID]
         else:       # Sr
             radio_coefs = [self.crops["R_transf_Sr"][i] for i in crop_unique_ID]
@@ -1225,21 +1340,24 @@ class RadHydro:
                      1:self.tr("Druhá seč"),
                      2:self.tr("Třetí seč")}
 
+        # Months list
+        months = np.arange(1,13,1).astype(str)
+
         # Set new row
         table.setRowCount(row_count + 1)
 
         # Add cboxes and dateEdit boxes to tw_sowing table
         # create cboxes
-        combo = QComboBox()
-        combo.addItems(cuts_list.values())
-        # Create date edit boxes
-        date_edit_har = QDateEdit()
-        date_edit_har.setDisplayFormat("dd.MM")
-        date_edit_har.setCalendarPopup(True)
+        combo_crops = QComboBox()
+        combo_crops.addItems(cuts_list.values())
+
+        # Create date cboxes
+        combo_har = QComboBox()
+        combo_har.addItems(months)
         # add cboxes to table
-        table.setCellWidget(row_count, 0, combo)
+        table.setCellWidget(row_count, 0, combo_crops)
         # add date edit widgets to table
-        table.setCellWidget(row_count, 1, date_edit_har)
+        table.setCellWidget(row_count, 1, combo_har)
 
     def cropTableAddRow(self, table):
         """Add row with crops and terms of sowing and harvest to
@@ -1253,6 +1371,9 @@ class RadHydro:
         row_count = table.rowCount()
         crops_list = list(self.crops["crop"])
 
+        # Months list
+        months = np.arange(1,13,1).astype(str)
+
         # Set new row
         table.setRowCount(row_count + 1)
 
@@ -1261,17 +1382,15 @@ class RadHydro:
         combo = QComboBox()
         combo.addItems(crops_list)
         # Create date edit boxes
-        date_edit_sow = QDateEdit()
-        date_edit_sow.setDisplayFormat("dd.MM")
-        date_edit_sow.setCalendarPopup(True)
-        date_edit_har = QDateEdit()
-        date_edit_har.setDisplayFormat("dd.MM")
-        date_edit_har.setCalendarPopup(True)
+        combo_sow = QComboBox()
+        combo_sow.addItems(months)
+        combo_har = QComboBox()
+        combo_har.addItems(months)
         # add cboxes to table
         table.setCellWidget(row_count, 0, combo)
         # add date edit widgets to table
-        table.setCellWidget(row_count, 1, date_edit_sow)
-        table.setCellWidget(row_count, 2, date_edit_har)
+        table.setCellWidget(row_count, 1, combo_sow)
+        table.setCellWidget(row_count, 2, combo_har)
 
     def setOrigCropsToTable(self):
         """Set crops from crop field defined by user to table

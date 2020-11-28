@@ -86,6 +86,7 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../description.html">Popis programu RadHydro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../crops.html">Osevní postupy a plodiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../libs.html">Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ackn.html">Poděkování</a></li>
 </ul>
@@ -154,36 +155,40 @@
   <h1>Source code for SARCA_lib</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#  Project: RadHydro</span>
+<span class="c1">#  File: SARCA_lib.py</span>
+<span class="c1">#</span>
+<span class="c1">#  Author: Dr. Jakub Brom</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in</span>
+<span class="c1">#  České Budějovice, Faculty of Agriculture.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#      it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#      the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#      (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#      This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#      but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#      GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#      You should have received a copy of the GNU General Public License</span>
+<span class="c1">#      along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#  Last changes: 26.11.20 16:58</span>
+<span class="c1">#</span>
+<span class="c1">#  Begin: 2020/10/31</span>
+<span class="c1">#</span>
+<span class="c1">#  Description: Calculation of crop growth features and radioactivity</span>
+<span class="c1">#  contamination features</span>
 
-
-<span class="c1">#-----------------------------------------------------------------------</span>
-<span class="c1"># RadHydro</span>
-<span class="c1">#</span>
-<span class="c1"># Module: SARCA_lib.py</span>
-<span class="c1">#</span>
-<span class="c1"># Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,</span>
-<span class="c1">#		  Faculty of Agriculture</span>
-<span class="c1">#</span>
-<span class="c1"># Date: 2020/10/31</span>
-<span class="c1">#</span>
-<span class="c1"># Description: Calculation of crop growth features and radioactivity</span>
-<span class="c1"># contamination features</span>
-<span class="c1">#</span>
-<span class="c1"># License: Copyright (C) 2020, Jakub Brom, University of South Bohemia</span>
-<span class="c1">#		   in Ceske Budejovice</span>
-<span class="c1">#</span>
-<span class="c1"># Vlastníkem programu RadHydro je Jihočeská univerzita v Českých</span>
-<span class="c1"># Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny</span>
-<span class="c1"># v licenčním ujednání (dále jen &quot;smlouva&quot;).</span>
-<span class="c1"># Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací</span>
-<span class="c1"># souhlasí s podmínkami smlouvy.</span>
-<span class="c1">#-----------------------------------------------------------------------</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <div class="viewcode-block" id="SARCALib"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib">[docs]</a><span class="k">class</span> <span class="nc">SARCALib</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Library for calculation of crops growth parameters and radioactivity</span>
-<span class="sd">    contamination of crops&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Library for calculation of crops growth parameters and</span>
+<span class="sd">    radioactivity contamination of crops&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span>
@@ -211,16 +216,19 @@
 
 <div class="viewcode-block" id="SARCALib.timeSeriesConst"><a class="viewcode-back" href="../libs.html#SARCA_lib.SARCALib.timeSeriesConst">[docs]</a>    <span class="k">def</span> <span class="nf">timeSeriesConst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_accident</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculation of relative position of the radioactive accident in the</span>
-<span class="sd">        crop growth time series [0, 1].</span>
+<span class="sd">        Calculation of relative position of the radioactive accident</span>
+<span class="sd">        in the crop growth time series [0, 1].</span>
 
-<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param t_accident: Date of radioactive accident as number of</span>
+<span class="sd">        day in year</span>
 <span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
 <span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
 
 <span class="sd">        :return: Relative position of the radioactive accident in the</span>
 <span class="sd">        crop growth time series</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">ignore_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 
         <span class="n">t0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">t0</span> <span class="o">&gt;=</span> <span class="n">t1</span><span class="p">,</span> <span class="mi">92</span><span class="p">,</span> <span class="n">t0</span><span class="p">)</span>
 
@@ -250,9 +258,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculation of actual biomass of the particular crop.</span>
 
-<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground biomass in</span>
-<span class="sd">        the growing season :math:`(t.ha^{-1})`</span>
-<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground</span>
+<span class="sd">        biomass in the growing season :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param t_accident: Date of radioactive accident as number of</span>
+<span class="sd">        day in year</span>
 <span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
 <span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
 <span class="sd">        :param coef_m: Scaling parameter</span>
@@ -274,13 +283,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculation of actual LAI of the particular crop.</span>
 
-<span class="sd">        :param dw_act: actual dry mass of the crops above ground biomass :math:`(</span>
-<span class="sd">        t.ha^{-1})`</span>
-<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground biomass in</span>
-<span class="sd">        the growing season :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param dw_act: actual dry mass of the crops above ground</span>
+<span class="sd">        biomass :math:`(t.ha^{-1})`</span>
+<span class="sd">        :param DW_max: Maximal dry mass of the crops above ground</span>
+<span class="sd">        biomass in the growing season :math:`(t.ha^{-1})`</span>
 <span class="sd">        :param LAI_max: Maximal LAI of the crops in the growing season</span>
 <span class="sd">        :param R_min: Minimal relative wight moisture of the biomass (%)</span>
-<span class="sd">        :param t_accident: Date of radioactive accident as number of day in year</span>
+<span class="sd">        :param t_accident: Date of radioactive accident as number of</span>
+<span class="sd">        day in year</span>
 <span class="sd">        :param t0: Date of sowing crop as number of day in year</span>
 <span class="sd">        :param t1: Date of harvesting crop as number of day in year</span>
 
@@ -304,12 +314,12 @@
 <span class="sd">        radionuclides.</span>
 
 <span class="sd">        :param LAI: Leaf Area Index (unitless)</span>
-<span class="sd">        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0, Cs and \</span>
-<span class="sd">        another radionuclides = 1.0</span>
-<span class="sd">        :param precip: Precipitation amount (mm) for period of deposition \</span>
-<span class="sd">        (ca 24 hours after radiation accident).</span>
+<span class="sd">        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0,</span>
+<span class="sd">        Cs and another radionuclides = 1.0</span>
+<span class="sd">        :param precip: Precipitation amount (mm) for period of</span>
+<span class="sd">        deposition (ca 24 hours after radiation accident).</span>
 <span class="sd">        :param DW: Amount of fresh biomass :math:`(t.ha^{-1})`</span>
-<span class="sd">        :param S: Mean thickness of water film at plant leaves (mm). \</span>
+<span class="sd">        :param S: Mean thickness of water film at plant leaves (mm).</span>
 <span class="sd">        Default S =	0.2 mm</span>
 
 <span class="sd">        :return: Interception Factor (rel.)</span>
@@ -318,6 +328,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">IF</span> <span class="o">=</span> <span class="n">LAI</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">S</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">S</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
                     <span class="n">precip</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">)))</span> <span class="o">/</span> <span class="p">(</span><span class="n">precip</span> <span class="o">+</span> <span class="mf">0.0001</span><span class="p">)</span>
+            <span class="n">IF</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">IF</span><span class="p">)</span>
             <span class="n">IF</span><span class="p">[</span><span class="n">IF</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
             <span class="n">IF</span><span class="p">[</span><span class="n">DW</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
@@ -340,7 +351,8 @@
             <span class="n">cont_biomass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cont_biomass</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">cont_biomass</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Vegetation biomass radioactive &quot;</span>
-                                  <span class="s2">&quot;contamination has not been calculated&quot;</span><span class="p">)</span>
+                                  <span class="s2">&quot;contamination has not been &quot;</span>
+                                  <span class="s2">&quot;calculated&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cont_biomass</span></div>
 
@@ -357,8 +369,8 @@
             <span class="n">cont_soil</span> <span class="o">=</span> <span class="n">depo</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">IF</span><span class="p">)</span>
             <span class="n">cont_soil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cont_soil</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">cont_soil</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Soil radioactive &quot;</span>
-                                  <span class="s2">&quot;contamination has not been calculated&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Soil radioactive contamination&quot;</span>
+                                  <span class="s2">&quot; has not been calculated&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cont_soil</span></div>
 
@@ -383,8 +395,8 @@
             <span class="n">cont_mass</span><span class="p">[</span><span class="n">cont_mass</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Mass Radioactive &quot;</span>
-                                  <span class="s2">&quot;contamination of fresh biomass has not &quot;</span>
-                                  <span class="s2">&quot;been calculated&quot;</span><span class="p">)</span>
+                                  <span class="s2">&quot;contamination of fresh biomass has&quot;</span>
+                                  <span class="s2">&quot; not been calculated&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cont_mass</span></div>
 
@@ -411,11 +423,11 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">reference_groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depo</span> <span class="o">&gt;=</span> <span class="n">ref_level2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-            <span class="n">reference_groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depo</span> <span class="o">&gt;=</span> <span class="n">ref_level1</span><span class="p">,</span> <span class="n">reference_groups</span><span class="p">,</span>
-                                        <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">reference_groups</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">depo</span> <span class="o">&gt;=</span> <span class="n">ref_level1</span><span class="p">,</span>
+                                        <span class="n">reference_groups</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Mask for reference levels has not been&quot;</span>
-                                  <span class="s2">&quot; calculated&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ArithmeticError</span><span class="p">(</span><span class="s2">&quot;Mask for reference levels has not &quot;</span>
+                                  <span class="s2">&quot;been calculated&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">reference_groups</span></div></div>
 </pre></div>
