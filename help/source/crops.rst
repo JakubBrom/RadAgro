@@ -1,0 +1,33 @@
+Osevní postupy a plodiny
+========================
+
+Přenos radioaktivní kontaminace v biomase
+-----------------------------------------
+
+V biomase rostlin dochází v průběhu jejich života k akumulaci
+radionuklidů. Množství kontaminantu, který je akumulován rostlinou
+závisí na mnoha faktorech, jako je druh rostliny, její fyziologická
+kondice, půdní prostředí, vodní režim apod. Pro účely programu
+RadHydro byl pro výpočet akumulace radionuklidu v biomase rostlin
+použit jednoduchý přístup, který předpokládá homogenní akumulaci
+radionuklidu v jednotlivých druzích rostlin, bez ohledu na půdní
+prostředí a další faktory. Relativní míra akumulace radionuklidu v
+rostlině je vyjádřena specifickým transferovým koeficientem
+:math:`T_k \ (m^{2}\cdot kg^{-1})` pro konkrétní radionuklid. Měrná
+aktivita porostu (:math:`A_p; \ Bq.kg^{-1}`) je součinem celkové měrné
+aktivity (:math:`A_t; \ Bq.m^{-2}`) a transferového koeficientu:
+
+.. math::
+
+    A_p=T_k \cdot A_t
+
+Snížení celkové měrné aktivity plochy na základě odstranění biomasy
+porostů při sklizni je vypočteno se zahrnutím sušiny nadzemní biomasy
+rostlin vypočtené pro termín sklizně konkrétní plodiny:
+
+.. math::
+
+    A_{t[i+1]} = A_{t[i]} - A_{p[i]} D_{w[i]}
+
+kde :math:`Dw` je sušina dané plodiny v :math:`kg.m^{-2}` a `i` je označení
+časového kroku.

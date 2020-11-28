@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Osevní postupy a plodiny &mdash; RadHydro 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="RadHydro 0.1 documentation" href="index.html"/>
+        <link rel="next" title="Documentation" href="libs.html"/>
+        <link rel="prev" title="Popis programu RadHydro" href="description.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RadHydro
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="description.html">Popis programu RadHydro</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Osevní postupy a plodiny</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RadHydro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Osevní postupy a plodiny</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crops.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="osevni-postupy-a-plodiny">
+<h1>Osevní postupy a plodiny<a class="headerlink" href="#osevni-postupy-a-plodiny" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="prenos-radioaktivni-kontaminace-v-biomase">
+<h2>Přenos radioaktivní kontaminace v biomase<a class="headerlink" href="#prenos-radioaktivni-kontaminace-v-biomase" title="Permalink to this headline">¶</a></h2>
+<p>V biomase rostlin dochází v průběhu jejich života k akumulaci
+radionuklidů. Množství kontaminantu, který je akumulován rostlinou
+závisí na mnoha faktorech, jako je druh rostliny, její fyziologická
+kondice, půdní prostředí, vodní režim apod. Pro účely programu
+RadHydro byl pro výpočet akumulace radionuklidu v biomase rostlin
+použit jednoduchý přístup, který předpokládá homogenní akumulaci
+radionuklidu v jednotlivých druzích rostlin, bez ohledu na půdní
+prostředí a další faktory. Relativní míra akumulace radionuklidu v
+rostlině je vyjádřena specifickým transferovým koeficientem
+<img class="math" src="_images/math/d5c937c726f208e5cf6f17bf251d6f567993776a.svg" alt="T_k \ (m^{2}\cdot kg^{-1})"/> pro konkrétní radionuklid. Měrná
+aktivita porostu (<img class="math" src="_images/math/df35e6cfcd6bbeb1719b7cdd2817dd01a3c5719b.svg" alt="A_p; \ Bq.kg^{-1}"/>) je součinem celkové měrné
+aktivity (<img class="math" src="_images/math/d0684273a9c89ee8d64b0b7b69789d190dc19cae.svg" alt="A_t; \ Bq.m^{-2}"/>) a transferového koeficientu:</p>
+<div class="math">
+<p><img src="_images/math/a39a7bd96e313df010bbfb15bd62faba394e247f.svg" alt="A_p=T_k \cdot A_t"/></p>
+</div><p>Snížení celkové měrné aktivity plochy na základě odstranění biomasy
+porostů při sklizni je vypočteno se zahrnutím sušiny nadzemní biomasy
+rostlin vypočtené pro termín sklizně konkrétní plodiny:</p>
+<div class="math">
+<p><img src="_images/math/e021eace49c7b82c6d2bdc495f5d79f62ca9b564.svg" alt="A_{t[i+1]} = A_{t[i]} - A_{p[i]} D_{w[i]}"/></p>
+</div><p>kde <img class="math" src="_images/math/8a3581a9c15e487dbf03eb79d069a9aa9f959523.svg" alt="Dw"/> je sušina dané plodiny v <img class="math" src="_images/math/d1cedeb5467e7586f11cfdbac54b8858bb44fcdb.svg" alt="kg.m^{-2}"/>.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="libs.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="description.html" class="btn btn-neutral" title="Popis programu RadHydro" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
