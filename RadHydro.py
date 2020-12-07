@@ -55,6 +55,7 @@ import copy
 from .modules.SARCA_lib import SARCALib
 from .modules.sowing_proc import SowingProcTimeSeries
 from .modules.activity_decay import ActivityDecay
+from .modules.usle import RadUSLE
 from .modules.overlap_clip import *
 from .modules.hydrIO import *
 from .modules.zonal_stats import *
@@ -62,6 +63,7 @@ from .modules.zonal_stats import *
 sl = SARCALib()
 sp = SowingProcTimeSeries()
 ad = ActivityDecay()
+ru = RadUSLE()
 
 class RadHydro:
     """QGIS Plugin Implementation."""
@@ -238,6 +240,7 @@ class RadHydro:
 
         # Create figure after fid selection
         self.dlg.cbox_ID_select.currentIndexChanged.connect(self.plot)
+        self.dlg.cbox_y_scale.currentIndexChanged.connect(self.plot)
 
         # Create plot
         self.figure = plt.figure(facecolor="white")  # create plot
@@ -266,7 +269,7 @@ class RadHydro:
         self.showInfo()
 
         # set tab with graph disabled
-        # self.dlg.tabWidget.setTabEnabled(2, False)
+        self.dlg.tabWidget.setTabEnabled(2, False)
 
         # Set type of input to input cboxes
         self.dlg.cbox_rad_depo.setFilters(
@@ -326,19 +329,6 @@ class RadHydro:
         # show the dialog
         self.dlg.show()
 
-        # # Run the dialog event loop
-        # result = self.dlg.exec_()
-        # # See if OK was pressed
-        # if result:
-        #
-        #     # Do something useful here - delete the line containing pass and
-        #     # substitute with your code.
-        #     print("Hola, startujeme....")
-        #     self.resultsRun()
-        #
-        #     # reset settings and remove temporary files
-        #     self.reset()
-
 #-----------------------------------------------------------------------
 # Calculation
 
@@ -389,13 +379,23 @@ class RadHydro:
         print(t7-t6)
 
         # Calculate USLE
-
+        k_factor_tab = self.readKFactorTable()
+        self.k_factor = ru.fK(self.su_lyr_path, self.su_field,
+                              k_factor_tab, self.tmp_file_name)
+        self.ls_factor = ru.fLS(self.dmt_path, self.tmp_file_name,
+                                self.ls_factor_m, self.ls_factor_n)
+        self.c_factor_tab = self.readCFactorTable()
+        self.r_perc = self.readRFactorPercTable()
+        t8 = time.time()
+        print(t8 - t7)
         # Calculate hydrology
+        # TODO
 
         # Calculate total radioactive contamination time series table
         self.calculateRadioactiveContamination()
-        t8 = time.time()
-        print(t8 - t7)
+        t9 = time.time()
+        print(t9-t8)
+
 
         # Export data
         self.exportTablesToCsv()        # TODO: následně neaktivní
@@ -436,14 +436,26 @@ class RadHydro:
         # Precipitation amount during radioactivity deposition
         self.precip_const = self.dlg.sbox_precip.value()
 
+        # Erosion constants
+        self.r_factor_const = self.dlg.sbox_r_factor.value()
+        self.ls_factor_m = self.dlg.sbox_LS_m.value()
+        self.ls_factor_n = self.dlg.sbox_LS_n.value()
+        self.p_factor = self.dlg.sbox_P_fact.value()
+        self.soil_depth = self.dlg.sbox_soil_depth.value()
+        self.soil_vol_mass = self.dlg.sbox_vol_soil.value()
+
+        # Main soil units layer path and field name
+        self.su_lyr_path = self.getLyrPath(self.dlg.cbox_HPJ)
+        self.su_field = self.dlg.cbox_HPJ_key.currentField()
+
     def loadRasters(self):
         """Reading rasters of radioactivity deposition, precipitation
         and DMT."""
 
         # Read original rasters
-        depo_path = self.pathToLyr(self.dlg.cbox_rad_depo)
-        precip_path = self.pathToLyr(self.dlg.cbox_precip)
-        dmt_path = self.pathToLyr(self.dlg.cbox_dmt)
+        depo_path = self.getLyrPath(self.dlg.cbox_rad_depo)
+        precip_path = self.getLyrPath(self.dlg.cbox_precip)
+        dmt_path = self.getLyrPath(self.dlg.cbox_dmt)
 
         # Clipping the rasters
         if precip_path != None and precip_path != "":
@@ -469,7 +481,7 @@ class RadHydro:
         which is used as primary key."""
 
         # Load crops layer to qgis
-        crops_path = self.pathToLyr(self.dlg.cbox_crop_lyr)
+        crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
         crops_lyr = QgsVectorLayer(crops_path, self.tr(
             "Plodiny_orig"), "ogr")
 
@@ -545,10 +557,9 @@ class RadHydro:
         self.df_radio_contamination = self.df_crops_init.copy(True)
 
         # Calculation of total deposition for all fields in the area of interest
-        total_depo_zonal = np.array(zonal_stats(self.tmp_file_name,
-                                            self.depo_path, method="median"))
-        total_deposition = np.array([total_depo_zonal[i]["median"] for i in \
-                range(len(total_depo_zonal))])
+        total_depo_zonal = pd.DataFrame(zonal_stats(self.tmp_file_name,
+                                       self.depo_path, method="median"))
+        total_deposition = np.array(total_depo_zonal["median"])
         total_deposition = np.nan_to_num(total_deposition)
         total_deposition = np.where(total_deposition < 0.0, 0.0, total_deposition)
 
@@ -622,7 +633,8 @@ class RadHydro:
                                                   actual_precip,
                                                   df_dw_lai_all["dw_act"],
                                                   self.coef_k, self.coef_S)
-            intercept_factor = np.where(ref_levels == 3, 0, intercept_factor)
+            intercept_factor = np.where(ref_levels == 2, 0,
+                                        intercept_factor)
 
             # Soil contamination
             reduced_cont = sl.contSoil(total_deposition, intercept_factor)
@@ -866,6 +878,64 @@ class RadHydro:
 
         return df_crops_dw_all
 
+    def readRFactorPercTable(self):
+        """Read table with percentage of R factor throughout the
+        year."""
+
+        # Read number of columns in table
+        n_cols = self.dlg.tw_r_factor_perc.columnCount()
+
+        r_perc = np.array([self.dlg.tw_r_factor_perc.item(0,
+                    i).text() for i in range(n_cols)]).astype(float)
+
+        return r_perc
+
+    def readKFactorTable(self):
+        """Read R factors values of USLE equation corresponding to Main
+        Soil Units (MSU) according to Janeček et al. 2007. The first
+        column of output is MSU, the second is K factor of USLE
+        equation."""
+
+        # No of counts in table
+        r_count = self.dlg.tw_HPJ_params.rowCount()
+
+        # Read data
+        su_values = np.array([self.dlg.tw_HPJ_params.item(i, 0).text()
+                              for i in range(r_count)]).astype(int)
+        k_factor_values = np.array([self.dlg.tw_HPJ_params.item(i,
+                        2).text() for i in range(r_count)]).astype(
+                        float)
+
+        df_k_factor = pd.DataFrame({"MSU":su_values,
+                                         "K_factor":k_factor_values})
+
+        return df_k_factor
+
+    def readCFactorTable(self):
+        """Read C factors values of USLE equation corresponding to
+        particular crops according to Janeček et al. 2007. The first
+        column of output is crop ID, the second is C factor of USLE
+        equation."""
+
+        # No of counts in table
+        r_count = self.dlg.tw_C_factor.rowCount()
+
+        # Read data
+        crops_values = np.array([self.dlg.tw_C_factor.item(i, 0).text()
+                              for i in range(r_count)]).astype(int)
+        c_factor_values = np.array([self.dlg.tw_C_factor.item(i,
+                2).text() for i in range(r_count)]).astype(float)
+
+        df_c_factor = pd.DataFrame({"ID_set": crops_values,
+                                         "C_factor": c_factor_values})
+
+        # Add values for bare soil
+        df_bare_soil = pd.DataFrame({"ID_set":[-999], "C_factor":[0.9]})
+
+        df_c_factor = pd.concat([df_c_factor, df_bare_soil], ignore_index=True)
+
+        return df_c_factor
+
     def calculateRadioactiveContamination(self):
         """Calculation of total radioactive contamination of
         particular fields"""
@@ -875,6 +945,11 @@ class RadHydro:
         for i in range(self.predict_no_months):
             # Month name
             month_name = "M{no}".format(no=str(i+1))
+
+            # Extraction of current month number
+            acc_day = copy.deepcopy(self.accident_date)
+            current_date = acc_day.addMonths(i + 1)
+            current_month = current_date.month()
 
             # 1. Read RC from previous month
             radio_cont_tot_init = np.array(
@@ -898,33 +973,56 @@ class RadHydro:
             tr_coefs_arr = np.nan_to_num(tr_coefs_arr)
 
             # 5. Calculation of radioactive contamination reduced by
-            # removing crops biomass
+            # crops biomass removing
             radio_cont_tot = radio_cont_tot_init - radio_cont_tot_init\
                              * dry_mass * 0.1 * tr_coefs_arr * harvest
 
             # 6. Apply reference levels - combine RLs with new values
             ref_levels = np.array(self.df_ref_levels.iloc[:,i+5])
-            radio_cont_tot = np.where(ref_levels == 3,
+            radio_cont_tot = np.where(ref_levels == 2,
                                       radio_cont_tot_init,
                                       radio_cont_tot)
             radio_cont_tot = np.nan_to_num(radio_cont_tot)
 
-            # 7. Hydrology - reducing radioactivity by outlow of
+            # 7. Hydrology - reducing radioactivity by outflow of
             # TODO: doplnit celou hydrologii
-            radio_cont_tot = radio_cont_tot * (1-0.0001)     # TODO
+            radio_cont_tot = radio_cont_tot * (1)     # TODO
 
-            # 8. Erosion - reducing readioactive contamination by
+            # 8. Erosion - reducing radioactive contamination by
             # erosion
-            # TODO: doplnit celou erozi
-            radio_cont_tot = radio_cont_tot * (1-0.001)     # TODO
+            # R factor
+            r_factor = ru.fR(self.r_factor_const, self.r_perc[current_month-1])
+
+            # C factor
+            c_factor = pd.merge(crops_act, self.c_factor_tab, how="left",
+                                on="ID_set")
+
+            # Water erosion in t/ha/month
+            usle_all = r_factor * self.ls_factor.iloc[:,1]\
+                    * self.k_factor.iloc[:,1] * c_factor["C_factor"] * \
+                    self.p_factor
+
+            # USLE for reference level 3
+            usle_r3 = r_factor * self.ls_factor.iloc[:,
+                                 1] * self.k_factor.iloc[:,1] * 0.1
+
+            usle = np.where(ref_levels == 2, usle_r3, usle_all)
+
+            # Dry soil mas for mixture layer (ca 0.2 m; kg)
+            soil_mass = self.soil_depth * self.soil_vol_mass
+
+            # Activity released by water erosion
+            radio_usle = radio_cont_tot * usle * 0.1/soil_mass
+
+            radio_cont_tot = radio_cont_tot - radio_usle
 
             # 9. Radioactive decay
-            # Extraction of current month
-            acc_day = copy.deepcopy(self.accident_date)
-            current_date = acc_day.addMonths(i + 1)
-            current_month = current_date.month()
+            # Replace nans in RC by init RC
+            radio_cont_tot = np.nan_to_num(radio_cont_tot)
+            radio_cont_tot = np.where(radio_cont_tot == 0,
+                                radio_cont_tot_init, radio_cont_tot)
 
-            # Calculation of radioactivity decay
+            # Calculate radioactivity decay
             radio_cont_tot = ad.activityDecay(radio_cont_tot,
                                               current_month,
                                               self.radionuclide)
@@ -949,7 +1047,7 @@ class RadHydro:
         self.df_crops_harvest.to_csv("Sklizne.csv")
         self.df_crops_dw_all.to_csv("susina.csv")
 
-    def pathToLyr(self, comboBox):
+    def getLyrPath(self, comboBox):
         """Get path to input file from combobox"""
 
         try:
@@ -996,6 +1094,9 @@ class RadHydro:
         # Data
         ignore_zero = np.seterr(all="ignore")
 
+        # Clear last figure
+        self.figure.clear()
+
         if self.df_radio_contamination is not None:
             # Get position in the table
             pl_ID_text = self.dlg.cbox_ID_select.currentText()
@@ -1008,50 +1109,43 @@ class RadHydro:
 
         else:
             pl_ID_text = self.dlg.cbox_ID_select.currentText()
-            x = [float(i) for i in range(100)]
-            x = np.array(x)
-            rand = np.random.rand(100)
-            y = rand * (10000000.0 / x)
+            x = [1]
+            y = [1]
 
-        # Clear last figure
-        self.figure.clear()
+        # with plt.xkcd():
+        # create an axis
+        ax = self.figure.add_subplot(111)
+        ax.set_aspect("auto", "box")
 
-        # # # set size of the plot - margins
-        # self.figure.subplots_adjust(left=0.25, bottom=0.2, right=0.95,
-        #                             top=0.95, wspace=0, hspace=0)
+        # Axes names
+        x_name = self.tr("Čas (měs.)")
+        y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
 
-        with plt.xkcd():
-            # create an axis
-            ax = self.figure.add_subplot(111)
-            ax.set_aspect("auto", "box")
+        # Axes labels
+        ax.set_xlabel(x_name)
+        ax.set_ylabel(y_name)
 
-            # Axes names
-            x_name = self.tr("Čas (měs.)")
-            y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
-
-            # Axes labels
-            ax.set_xlabel(x_name)
-            ax.set_ylabel(y_name)
+        if self.dlg.cbox_y_scale.currentText() == "log":
             ax.set_yscale('log')
 
-            # Set number of ticks on x-axis
-            if len(y) > 10:
-                ax.set_xticks([0, 1, len(y) // 4, len(y) // 2 - 1,
-                               len(y) / 2 ** 0.5 - 1, len(y) - 1])
+        # Set number of ticks on x-axis
+        if len(y) > 10:
+            ax.set_xticks([0, 1, len(y) // 4, len(y) // 2 - 1,
+                           len(y) / 2 ** 0.5 - 1, len(y) - 1])
 
-            ax.tick_params(axis='x', rotation=90)
+        ax.tick_params(axis='x', rotation=90)
 
-            # plot data
-            ax.plot(y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
-                                                                         pl_ID_text))
+        # plot data
+        ax.plot(y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
+                                                                     pl_ID_text))
 
-            # Legend position
-            ax.legend(loc='best')
+        # Legend position
+        ax.legend(loc='best')
 
-            plt.tight_layout()
+        plt.tight_layout()
 
-            # Draw plot
-            self.canvas.draw()
+        # Draw plot
+        self.canvas.draw()
 
     def fillParams(self):
         "Fill parameters of the model to tables"
@@ -1108,7 +1202,7 @@ class RadHydro:
         crop_unique_ID = np.unique(crop_ind)
         crop_unique_names = [self.crops["crop"][i] for i in crop_unique_ID]
 
-        if self.radionuclide == 0:   # Cs
+        if self.dlg.cbox_contaminant.currentIndex() == 0:   # Cs
             radio_coefs = [self.crops["R_transf_Cs"][i] for i in crop_unique_ID]
         else:       # Sr
             radio_coefs = [self.crops["R_transf_Sr"][i] for i in crop_unique_ID]
@@ -1467,15 +1561,17 @@ class RadHydro:
         shutil.rmtree(self.tmp_folder)
 
     def showInfo(self):
-        icon_path = 'https://upload.wikimedia.org/wikipedia/commons/7/79/MV_%C4%8CR.png'
-        data = urllib.request.urlopen(icon_path).read()
-        # TODO: import obrazku z lokalniho souboru --> nacitani z internetu
-        #  je sileny...
+        """Create infobox with acknowledgement. The inforbox is shown
+        during the start of the plugin."""
 
-        image = QImage()
-        image.loadFromData(data)
-        pixmap = QPixmap(image).scaledToHeight(128,
+        image_path = os.path.join(self.plugin_dir, "help", "source",
+                                 "MV_CR2.png")
+
+        # image = QImage()
+        # image.loadFromData(data)
+        pixmap = QPixmap(image_path).scaledToHeight(128,
                                             Qt.SmoothTransformation)
+
         msgBox = QMessageBox()
         msgBox.setIconPixmap(pixmap)
         msgBox.setText(self.tr("Vývoj programu RadHydro for QGIS byl "

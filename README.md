@@ -5,18 +5,27 @@ RadHydro - a QGIS plug-in for analysis of temporal changes of radioactivity cont
 Description
 -----------
 
-RadHydro je program určený pro odhad vývoje radiační kontaminace zemědělských plodin a zemědělské krajiny. RadHydro do vývoje radiační kontaminace zahrnuje hlavní složky a procesy, které v krajině probíhají a významně mohou ovlivnit vývoj radiační zátěže krajiny. Jedná se především o management zemědělských ploch daný osevním postupem, vlastnosti plodin, půdní erozi a hydrologické vlastnosti zájmového území. Model do odhadu vývoje zahrnuje časnou fázi radiační události a managementová opatření ve formě odstranění kontaminované biomasy z postižených ploch. Vlastní model pracuje s měsíčním časovým krokem. Výstupem je geodatabáze obsahující informace o vývoji radioaktivní kontaminace jednotlivých ploch v zájmovém území.
+RadHydro is software designated for estimation of a radiation contamination
+ progress in agricultural landscape. It involves the principal landscape
+ elements and processes which could significantly influence the radiation
+ load in landscape. Especially important is the field management based on
+ crop rotation; also crop characteristics, soil erosion and hydrologic
+ parameters of the area of interest are involved. RadHydro simulates the
+ early phase of radiation event at monthly intervals and estimates the
+ amount of contaminated biomass to be removed from the afflicted area. The
+ output of the software is a geodatabase of radiation contamination of
+ individual fields of the studied area. 
 
 Authors and collaborators
 -------------------------
 
-Jakub Brom - libreto, hra, postavy, účinkující, jeviště, osvětlení, nápověda, masky, kávička a ostatní činnosti
+Jakub Brom - libretto, drama, roles, actors, stage, light design, prompter, masks, coffeelings and other issues 
 
-Kateřina Křováková - ikona :-)
+Kateřina Křováková –  icon
 
-Václav Nedbal - odborná konzultace a podklady
+Václav Nedbal - expert consultation and sources 
 
-Jan Procházka - Náčelník
+Jan Procházka - Sachem
 
 Licence
 -------
@@ -30,4 +39,7 @@ E-mail: jbrom@zf.jcu.cz
 Acknowledgement
 ---------------
 
-Vývoj programu RadHydro for QGIS byl podpořen z projektu Ministerstva vnitra České republiky **VI20172020098 Likvidace radiačně kontaminované biomasy po havárii JE - distribuce v krajině, logistika sklizně, využití bioplynovou technologií.**
+The RadHydro software development was supported by the Ministry of the
+ Interior of the Czech Republic research project **VI20172020098 Disposal of
+  radiation-contaminated biomass after NPP accident-distribution, logistic of
+   harvesting, exploring in biogas technology.**

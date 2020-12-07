@@ -267,8 +267,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>264</width>
-                <height>107</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -370,8 +370,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>500</width>
-                <height>80</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -453,8 +453,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>193</width>
-                <height>172</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -546,8 +546,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>366</width>
-                <height>240</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -729,8 +729,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>119</width>
-                <height>79</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -789,8 +789,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>397</width>
-                <height>141</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -932,8 +932,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>150</width>
-                <height>50</height>
+                <width>719</width>
+                <height>449</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1013,393 +1013,695 @@
                </property>
               </widget>
              </item>
-            </layout>
-           </item>
-           <item row="1" column="0">
-            <widget class="QToolBox" name="toolBox">
-             <property name="frameShadow">
-              <enum>QFrame::Plain</enum>
-             </property>
-             <property name="currentIndex">
-              <number>0</number>
-             </property>
-             <widget class="QWidget" name="page">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>719</width>
-                <height>534</height>
-               </rect>
-              </property>
-              <attribute name="label">
-               <string>Růstový model</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_38">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_28">
-                 <item row="1" column="1">
-                  <widget class="QPushButton" name="pb_coefs">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provede výpočet koeficientů růstového modelu z dat zadaných v tabulce (z hodnot maximální sušiny). Jedná se o defaultní hodnoty sklonu a interceptu růstové křivky (viz nápověda).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="text">
-                    <string>Přepočítat</string>
-                   </property>
-                  </widget>
+             <item row="1" column="0">
+              <widget class="QToolBox" name="toolBox">
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <widget class="QWidget" name="page">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>717</width>
+                  <height>534</height>
+                 </rect>
+                </property>
+                <attribute name="label">
+                 <string>Růstový model</string>
+                </attribute>
+                <layout class="QGridLayout" name="gridLayout_38">
+                 <item row="0" column="0">
+                  <layout class="QGridLayout" name="gridLayout_28">
+                   <item row="1" column="1">
+                    <widget class="QPushButton" name="pb_coefs">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="toolTip">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provede výpočet koeficientů růstového modelu z dat zadaných v tabulce (z hodnot maximální sušiny). Jedná se o defaultní hodnoty sklonu a interceptu růstové křivky (viz nápověda).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="text">
+                      <string>Přepočítat</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_12">
+                     <property name="text">
+                      <string>Parametry růstového modelu (defaultní hodnoty)</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_12">
-                   <property name="text">
-                    <string>Parametry růstového modelu (defaultní hodnoty)</string>
-                   </property>
+                  <widget class="QTableWidget" name="tw_growth_params">
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>ID</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Plodina</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Výsev</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín výsevu nebo výsadby&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Sklizeň</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín sklizně&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>W_max</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota sušiny biomasy (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>LAI_max</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota indexu listové pokryvnosti plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>R_max</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota objemové vlhkosti biomasy (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>R_min</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimální hodnota objemové vlhkosti biomasy při sklizni (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Koef_M</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sklon křivky růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Koef_N</string>
+                    </property>
+                    <property name="toolTip">
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Intercep růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    </property>
+                   </column>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QTableWidget" name="tw_growth_params">
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string>ID</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Plodina</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Výsev</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín výsevu nebo výsadby&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Sklizeň</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín sklizně&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>W_max</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota sušiny biomasy (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>LAI_max</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota indexu listové pokryvnosti plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>R_max</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota objemové vlhkosti biomasy (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>R_min</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimální hodnota objemové vlhkosti biomasy při sklizni (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Koef_M</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sklon křivky růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Koef_N</string>
-                  </property>
-                  <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Intercep růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_2">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>719</width>
-                <height>534</height>
-               </rect>
-              </property>
-              <attribute name="label">
-               <string>Hydrologický model</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_33">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_32">
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_27">
-                   <property name="text">
-                    <string>Konstanta separace odtoku a</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_26">
-                   <property name="text">
-                    <string>Koeficient intercepce b</string>
-                   </property>
-                  </widget>
-                 </item>
+               </widget>
+               <widget class="QWidget" name="page_2">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>719</width>
+                  <height>534</height>
+                 </rect>
+                </property>
+                <attribute name="label">
+                 <string>Hydrologický model</string>
+                </attribute>
+                <layout class="QGridLayout" name="gridLayout_33">
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_24">
+                  <layout class="QGridLayout" name="gridLayout_32">
+                   <item row="6" column="0">
+                    <widget class="QLabel" name="label_27">
+                     <property name="text">
+                      <string>Konstanta separace odtoku a</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0">
+                    <widget class="QLabel" name="label_26">
+                     <property name="text">
+                      <string>Koeficient intercepce b</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_24">
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adiabatický gradient (°C.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_25">
+                     <property name="text">
+                      <string>Koeficient intercepce a</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="0">
+                    <widget class="QLabel" name="label_29">
+                     <property name="text">
+                      <string>Konstanta separace odtoku c</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="0">
+                    <widget class="QLabel" name="label_28">
+                     <property name="text">
+                      <string>Konstanta separace odtoku b</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_adiabata">
+                     <property name="decimals">
+                      <number>4</number>
+                     </property>
+                     <property name="value">
+                      <double>0.006500000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_interc_a">
+                     <property name="decimals">
+                      <number>3</number>
+                     </property>
+                     <property name="value">
+                      <double>0.100000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_interc_b">
+                     <property name="decimals">
+                      <number>3</number>
+                     </property>
+                     <property name="value">
+                      <double>0.200000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="6" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_separ_a">
+                     <property name="decimals">
+                      <number>4</number>
+                     </property>
+                     <property name="value">
+                      <double>0.005000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="8" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_separ_b">
+                     <property name="decimals">
+                      <number>4</number>
+                     </property>
+                     <property name="value">
+                      <double>0.005000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="10" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_separ_c">
+                     <property name="decimals">
+                      <number>3</number>
+                     </property>
+                     <property name="value">
+                      <double>0.500000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_34">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adiabatický gradient (°C.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>Čísla CN křivek v závislosti na plodině, hydrologické půdní jednotce
+a vláhovém stavu půdy</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QLabel" name="label_25">
-                   <property name="text">
-                    <string>Koeficient intercepce a</string>
+                  <widget class="QTableWidget" name="tw_CN">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="10" column="0">
-                  <widget class="QLabel" name="label_29">
-                   <property name="text">
-                    <string>Konstanta separace odtoku c</string>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="8" column="0">
-                  <widget class="QLabel" name="label_28">
-                   <property name="text">
-                    <string>Konstanta separace odtoku b</string>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_adiabata">
-                   <property name="decimals">
-                    <number>4</number>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::ExtendedSelection</enum>
                    </property>
-                   <property name="value">
-                    <double>0.006500000000000</double>
+                   <property name="rowCount">
+                    <number>0</number>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_interc_a">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="value">
-                    <double>0.100000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_interc_b">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="value">
-                    <double>0.200000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_separ_a">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="value">
-                    <double>0.005000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="8" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_separ_b">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="value">
-                    <double>0.005000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="10" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_separ_c">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="value">
-                    <double>0.500000000000000</double>
-                   </property>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>163</number>
+                   </attribute>
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>ID</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Plodina</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - A, Do</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - A, Šp</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - B, Do</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - B, Šp</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - C, Do</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - C, Šp</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - D, Do</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>CN - D, Šp</string>
+                    </property>
+                   </column>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_34">
-                 <property name="text">
-                  <string>Čísla CN křivek v závislosti na plodině, hydrologické půdní jednotce
-a vláhovém stavu půdy</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QTableWidget" name="tw_CN">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustToContents</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="selectionMode">
-                  <enum>QAbstractItemView::ExtendedSelection</enum>
-                 </property>
-                 <property name="rowCount">
-                  <number>0</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>163</number>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string>ID</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Plodina</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - A, Do</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - A, Šp</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - B, Do</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - B, Šp</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - C, Do</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - C, Šp</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - D, Do</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>CN - D, Šp</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_12">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>261</width>
-                <height>487</height>
-               </rect>
-              </property>
-              <attribute name="label">
-               <string>Erozní model</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_39">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_34">
-                 <item row="0" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_r_factor">
-                   <property name="maximum">
-                    <double>200.000000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>40.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
+               </widget>
+               <widget class="QWidget" name="page_12">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>717</width>
+                  <height>534</height>
+                 </rect>
+                </property>
+                <attribute name="label">
+                 <string>Erozní model</string>
+                </attribute>
+                <layout class="QGridLayout" name="gridLayout_45">
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label_30">
-                   <property name="text">
-                    <string>R faktor</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0">
-                <layout class="QGridLayout" name="gridLayout_35">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_31">
-                   <property name="text">
-                    <string>Procentický podíl faktoru R v měsících</string>
-                   </property>
-                  </widget>
+                  <layout class="QGridLayout" name="gridLayout_34">
+                   <item row="0" column="1">
+                    <widget class="QgsDoubleSpinBox" name="sbox_r_factor">
+                     <property name="maximum">
+                      <double>200.000000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>40.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_30">
+                     <property name="text">
+                      <string>R faktor</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QTableWidget" name="tw_r_factor_perc">
+                  <layout class="QGridLayout" name="gridLayout_35">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_31">
+                     <property name="text">
+                      <string>Procentický podíl faktoru R v měsících</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QTableWidget" name="tw_r_factor_perc">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>100</height>
+                      </size>
+                     </property>
+                     <property name="sizeAdjustPolicy">
+                      <enum>QAbstractScrollArea::AdjustToContents</enum>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <property name="columnCount">
+                      <number>12</number>
+                     </property>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>60</number>
+                     </attribute>
+                     <attribute name="verticalHeaderVisible">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderHighlightSections">
+                      <bool>true</bool>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>Nový řádek</string>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>I</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>II</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>III</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>IV</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>V</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>VI</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>VII</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>VIII</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>IX</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>X</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>XI</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>XII</string>
+                      </property>
+                     </column>
+                     <item row="0" column="0">
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                     </item>
+                     <item row="0" column="1">
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                     </item>
+                     <item row="0" column="2">
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                     </item>
+                     <item row="0" column="3">
+                      <property name="text">
+                       <string>1</string>
+                      </property>
+                     </item>
+                     <item row="0" column="4">
+                      <property name="text">
+                       <string>11</string>
+                      </property>
+                     </item>
+                     <item row="0" column="5">
+                      <property name="text">
+                       <string>22</string>
+                      </property>
+                     </item>
+                     <item row="0" column="6">
+                      <property name="text">
+                       <string>30</string>
+                      </property>
+                     </item>
+                     <item row="0" column="7">
+                      <property name="text">
+                       <string>26</string>
+                      </property>
+                     </item>
+                     <item row="0" column="8">
+                      <property name="text">
+                       <string>8</string>
+                      </property>
+                     </item>
+                     <item row="0" column="9">
+                      <property name="text">
+                       <string>2</string>
+                      </property>
+                     </item>
+                     <item row="0" column="10">
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                     </item>
+                     <item row="0" column="11">
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="2" column="0">
+                  <layout class="QGridLayout" name="gridLayout_44">
+                   <item row="0" column="0">
+                    <layout class="QGridLayout" name="gridLayout_30">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_32">
+                       <property name="text">
+                        <string>LS faktor - koeficient m</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QgsDoubleSpinBox" name="sbox_LS_m">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="value">
+                        <double>0.400000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="0" column="1">
+                    <layout class="QGridLayout" name="gridLayout_42">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_36">
+                       <property name="text">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Průměrná obj. hmotnost půdy (kg.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QgsDoubleSpinBox" name="sbox_vol_soil">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="decimals">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <double>4000.000000000000000</double>
+                       </property>
+                       <property name="value">
+                        <double>1400.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="1" column="0">
+                    <layout class="QGridLayout" name="gridLayout_36">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_33">
+                       <property name="text">
+                        <string>LS faktor - koeficient n</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QgsDoubleSpinBox" name="sbox_LS_n">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="value">
+                        <double>1.400000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="1" column="1" rowspan="2">
+                    <layout class="QGridLayout" name="gridLayout_43">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_37">
+                       <property name="text">
+                        <string>Průměrná hloubka homog. vrstvy půdy (m)</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QgsDoubleSpinBox" name="sbox_soil_depth">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="value">
+                        <double>0.200000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <spacer name="verticalSpacer_8">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                   <item row="2" column="0">
+                    <layout class="QGridLayout" name="gridLayout_39">
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_35">
+                       <property name="text">
+                        <string>Průměrná hodnota P faktoru</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QgsDoubleSpinBox" name="sbox_P_fact">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="value">
+                        <double>1.000000000000000</double>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QTableWidget" name="tw_C_factor">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -1407,372 +1709,181 @@ a vláhovém stavu půdy</string>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
-                     <height>100</height>
+                     <height>120</height>
+                    </size>
+                   </property>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QAbstractScrollArea::AdjustToContents</enum>
+                   </property>
+                   <property name="defaultDropAction">
+                    <enum>Qt::IgnoreAction</enum>
+                   </property>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
+                   </property>
+                   <property name="rowCount">
+                    <number>0</number>
+                   </property>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>180</number>
+                   </attribute>
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>ID</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Plodina</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Faktor C</string>
+                    </property>
+                   </column>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QTableWidget" name="tw_HPJ_params">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>120</height>
                     </size>
                    </property>
                    <property name="sizeAdjustPolicy">
                     <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
                    <property name="rowCount">
-                    <number>1</number>
-                   </property>
-                   <property name="columnCount">
-                    <number>12</number>
+                    <number>0</number>
                    </property>
                    <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>60</number>
+                    <number>180</number>
                    </attribute>
                    <attribute name="verticalHeaderVisible">
                     <bool>false</bool>
                    </attribute>
-                   <attribute name="verticalHeaderHighlightSections">
-                    <bool>true</bool>
-                   </attribute>
-                   <row>
-                    <property name="text">
-                     <string>Nový řádek</string>
-                    </property>
-                   </row>
                    <column>
                     <property name="text">
-                     <string>I</string>
+                     <string>HPJ</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>II</string>
+                     <string>Hydrol. půdní skupina</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>III</string>
+                     <string>K faktor</string>
                     </property>
                    </column>
-                   <column>
-                    <property name="text">
-                     <string>IV</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>V</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>VI</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>VII</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>VIII</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>IX</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>X</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>XI</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>XII</string>
-                    </property>
-                   </column>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="page_11">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>382</width>
+                  <height>141</height>
+                 </rect>
+                </property>
+                <attribute name="label">
+                 <string>Radioaktivita a radiotransfer</string>
+                </attribute>
+                <layout class="QGridLayout" name="gridLayout_29">
+                 <item row="0" column="0">
+                  <layout class="QGridLayout" name="gridLayout_14">
                    <item row="0" column="0">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
+                    <widget class="QLabel" name="label_20">
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Transferový koeficient půda-voda (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.mm&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
                    </item>
                    <item row="0" column="1">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="decimals">
+                      <number>5</number>
+                     </property>
+                     <property name="value">
+                      <double>0.000100000000000</double>
+                     </property>
+                    </widget>
                    </item>
-                   <item row="0" column="2">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="3">
-                    <property name="text">
-                     <string>1</string>
-                    </property>
-                   </item>
-                   <item row="0" column="4">
-                    <property name="text">
-                     <string>11</string>
-                    </property>
-                   </item>
-                   <item row="0" column="5">
-                    <property name="text">
-                     <string>22</string>
-                    </property>
-                   </item>
-                   <item row="0" column="6">
-                    <property name="text">
-                     <string>30</string>
-                    </property>
-                   </item>
-                   <item row="0" column="7">
-                    <property name="text">
-                     <string>26</string>
-                    </property>
-                   </item>
-                   <item row="0" column="8">
-                    <property name="text">
-                     <string>8</string>
-                    </property>
-                   </item>
-                   <item row="0" column="9">
-                    <property name="text">
-                     <string>2</string>
-                    </property>
-                   </item>
-                   <item row="0" column="10">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                   <item row="0" column="11">
-                    <property name="text">
-                     <string>0</string>
-                    </property>
-                   </item>
-                  </widget>
+                  </layout>
                  </item>
-                </layout>
-               </item>
-               <item row="2" column="0">
-                <layout class="QGridLayout" name="gridLayout_36">
                  <item row="1" column="0">
-                  <widget class="QLabel" name="label_32">
+                  <widget class="QLabel" name="label_22">
                    <property name="text">
-                    <string>LS faktor - koeficient m</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Koeficienty radiotransferu pro plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; suš.))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_LS_m">
-                   <property name="value">
-                    <double>0.400000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_33">
-                   <property name="text">
-                    <string>LS faktor - koeficient n</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QgsDoubleSpinBox" name="sbox_LS_n">
-                   <property name="value">
-                    <double>1.400000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="3" column="0">
-                <widget class="QTableWidget" name="tw_C_factor">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>120</height>
-                  </size>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustToContents</enum>
-                 </property>
-                 <property name="defaultDropAction">
-                  <enum>Qt::IgnoreAction</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="rowCount">
-                  <number>0</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>180</number>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string>ID</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Plodina</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Faktor C</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QTableWidget" name="tw_HPJ_params">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>120</height>
-                  </size>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustToContents</enum>
-                 </property>
-                 <property name="rowCount">
-                  <number>0</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>180</number>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string>HPJ</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Hydrol. půdní skupina</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>K faktor</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_11">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>719</width>
-                <height>534</height>
-               </rect>
-              </property>
-              <attribute name="label">
-               <string>Radioaktivita a radiotransfer</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_29">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_14">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_20">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Transferový koeficient půda-voda (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.mm&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                 <item row="2" column="0">
+                  <widget class="QTableWidget" name="tw_radio_coefs">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <property name="decimals">
-                    <number>5</number>
+                   <property name="sizeAdjustPolicy">
+                    <enum>QAbstractScrollArea::AdjustToContents</enum>
                    </property>
-                   <property name="value">
-                    <double>0.000100000000000</double>
+                   <property name="alternatingRowColors">
+                    <bool>true</bool>
                    </property>
+                   <property name="rowCount">
+                    <number>0</number>
+                   </property>
+                   <attribute name="horizontalHeaderDefaultSectionSize">
+                    <number>200</number>
+                   </attribute>
+                   <attribute name="verticalHeaderVisible">
+                    <bool>false</bool>
+                   </attribute>
+                   <column>
+                    <property name="text">
+                     <string>ID</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Plodina</string>
+                    </property>
+                   </column>
+                   <column>
+                    <property name="text">
+                     <string>Koeficient</string>
+                    </property>
+                   </column>
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_22">
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Koeficienty radiotransferu pro plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; suš.))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QTableWidget" name="tw_radio_coefs">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="sizeAdjustPolicy">
-                  <enum>QAbstractScrollArea::AdjustToContents</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="rowCount">
-                  <number>0</number>
-                 </property>
-                 <attribute name="horizontalHeaderDefaultSectionSize">
-                  <number>200</number>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string>ID</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Plodina</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Koeficient</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -1844,6 +1955,19 @@ a vláhovém stavu půdy</string>
              </item>
              <item row="1" column="0">
               <layout class="QGridLayout" name="gridLayout_16">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string>Škála osy Y</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_7">
                  <property name="text">
@@ -1851,7 +1975,7 @@ a vláhovém stavu půdy</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
+               <item row="0" column="2">
                 <widget class="QComboBox" name="cbox_ID_select">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -1862,6 +1986,20 @@ a vláhovém stavu půdy</string>
                  <property name="duplicatesEnabled">
                   <bool>false</bool>
                  </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QComboBox" name="cbox_y_scale">
+                 <item>
+                  <property name="text">
+                   <string>log</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>lin</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
               </layout>

@@ -1,28 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#-----------------------------------------------------------------------
-# RadHydro 
+#  Project: RadHydro
+#  File: mdaylight.py
 #
-# Module: mdaylight.py
-# Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,
-#		  Faculty of Agriculture 
-# Date: 2018/10/16
+#  Author: Dr. Jakub Brom
 #
-# Description: The script mdaylight calculates list of monthly mean
-#			   daylights according to geographical position
-# 
-# License: Copyright (C) 2018-2020, Jakub Brom, University of South
-# Bohemia
-#		   in Ceske Budejovice
-# 
-# Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 
-# Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny
-# v licenčním ujednání (dále jen "smlouva").
-# Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací
-# souhlasí s podmínkami smlouvy.
-#-----------------------------------------------------------------------
-
+#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in České
+#  Budějovice, Faculty of Agriculture.
+#
+#  This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
+#  Last changes: 28.11.20 23:40
+#
+#  Begin: 2018/10/16
+#
+#  Description: The script mdaylight calculates list of monthly mean
+#  daylights according to geographical position
 
 # imports
 import datetime
@@ -31,7 +36,6 @@ import math as mt
 
 
 class MonthlyDaylight:
-	
 	"""Calculates list of monthly mean daylight, timezone and length of
 	dailight for particular day according to geographical position."""
 
@@ -39,7 +43,6 @@ class MonthlyDaylight:
 		return
 		
 	def dayLength(self, nday=1, lat=49.1797903):
-		
 		"""
 		Calculation of dalight according to geographic position and day
 		number (1-365).
@@ -77,9 +80,8 @@ class MonthlyDaylight:
 		return day_length
 	
 	def monthlyDaylights(self, lat=49.1797903):
-		
 		"""
-		Calculation of monthly mean dalight - potential duration of solar 
+		Calculation of monthly mean daylight - potential duration of solar
 		radiation
 		
 		Inputs:

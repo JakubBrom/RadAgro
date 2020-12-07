@@ -1,33 +1,48 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
-#-----------------------------------------------------------------------
-# RadHydro 
+#  Project: RadHydro
+#  File: usle.py
 #
-# Module: usle.py
+#  Author: Dr. Jakub Brom
 #
-# Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,
-#		  Faculty of Agriculture 
+#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in
+#  České Budějovice, Faculty of Agriculture.
 #
-# Date: 2018/11/19
+#  This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
 #
-# Description: Calculation of soil loss using USLE equation.
-# 
-# License: Copyright (C) 2018, Jakub Brom, University of South Bohemia
-#		   in Ceske Budejovice
-# 
-# Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 
-# Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny
-# v licenčním ujednání (dále jen "smlouva").
-# Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací
-# souhlasí s podmínkami smlouvy.
-#-----------------------------------------------------------------------
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
+#  Last changes: 06.12.20 16:15
+#
+#  Begin: 2018/11/19
+#
+#  Description: Calculation of soil loss using USLE equation.
 
 
 # Imports
 
+import os
+import shutil
+import tempfile
+
+import pandas as pd
 import numpy as np
+
+from .hydrIO import *
+from .waterflow import WaterBalance
+from .zonal_stats import *
+
+wb = WaterBalance()
 
 
 class RadUSLE:
@@ -36,69 +51,25 @@ class RadUSLE:
 	def __init__(self):
 		return
 		
-	def usle(self, R, K, LS, C, P=1):
+	@staticmethod
+	def slope(dmt, x_size=1, y_size=1):
 		"""
-		Universal Soil Loss Equation.
-
-		Inputs:
-		:param R: R erosivity factor of USLE.
-		:type R: Numpy array (float)
-		:param K: K erodibility factor of USLE.
-		:type K: Numpy array (float)
-		:param LS: Combined factor of slope length and slope steepness
-				   factor of USLE.  
-		:type LS: Numpy array (float)
-		:param C: C cover management impact factor of USLE.
-		:type C: Numpy array (float)
-		:param P: P support practices factor of USLE.
-		:type P: Numpy array (float) or float.
-
-		Returns:
-		:return: Spatial and temporal soil loss (t/ha). Here,
-				   the equation is calculated for monthly data.
-		:rtype: Numpy array (float)
-		"""
-
-		# Inputs:
-		if R is None:
-			raise IOError("Error: R factor has not been calculated! Calculation has been terminated.")
-		if K is None:
-			raise IOError("Error: K factor has not been calculated! Calculation has been terminated.")
-		if LS is None:
-			raise IOError("Error: LS factor has not been calculated! Calculation has been terminated.")
-		if C is None:
-			raise IOError("Error: C factor has not been calculated! Calculation has been terminated.")
-		if P is None:
-			raise IOError("Error: P factor has not been calculated! Calculation has been terminated.")
-
-		# Wischmeier & Smith USLE equation 
-		G = R * K * LS * C * P
-
-		# Replace nans to 0
-		G_mask = np.isnan(G)
-		G[G_mask] = 0
-
-		return G
+		Slope of terrain calculation (degrees)
 		
-	def slope(self, dmt, xSize = 1, ySize=1):
-		"""
-		Function calculates slope of terrain (DMT) in degrees
-		
-		Inputs:
 		:param dmt: Digital elevation model.
 		:type dmt: Numpy array
-		:param xSize: Size of pixel in x axis (m)
-		:type xSze: float
-		:param ySize: Size of pixel in y axis (m)
-		:type ySize: float
+		:param x_size: Size of pixel in x axis (m)
+		:type x_size: float
+		:param y_size: Size of pixel in y axis (m)
+		:type y_size: float
 		
-		Returns: float
-		:return slope: Slope of terrain (DMT) in degrees
-		:rtype slope: Numpy array
+		:return: Slope of terrain (DMT) in degrees
+		:rtype: Numpy array
 		"""
 		
 		x, y = np.gradient(dmt)
-		slope = np.arctan(np.sqrt((x/(xSize))**2.0 + (y/(ySize))**2.0))*180/np.pi
+		slope = np.arctan(np.sqrt((x/(x_size)) ** 2.0 + (y / (
+			y_size)) ** 2.0)) * 180/np.pi
 	
 		# Replacing nan values to 0 and inf to value
 		slope = np.nan_to_num(slope)
@@ -107,141 +78,221 @@ class RadUSLE:
 		
 		return slope
 		
-	def fLS(self, flowac, slope, xSize=1, m=0.4, n=1.4):
+	def fLS(self, dmt_path, crops_lyr_path=None, m=0.4, n=1.4):
 		"""
 		Combined factor of slope length and slope steepness factor
 		of USLE.
 		
-		Inputs:
-		:param flowac: Flow accumulation probability grid.
-		:type flowac: Numpy array
-		:param slope: Slope grid (degrees)
-		:type slope: Numpy array
-		:param xSize: Size of pixel (m)
-		:type xSize: float
+		:param dmt_path: Path to DMT raster.
+		:type dmt_path: str
+		:param crops_lyr_path: Path to vector for calculation of zonal
+		statistics.
+		:type crops_lyr_path: str
 		:param m: Exponent representing the Rill-to-Interrill Ratio.
-				  Default m = 0.4
+		Default m = 0.4
 		:type m: float
 		:param n: Constant. Default n = 1.4
 		:type n: float
 		
-		Returns:
-		:return LS: Combined factor of slope length and slope steepness
-					factor of USLE
-		:rtype LS: Numpy array
+		:return: Combined factor of slope length and slope steepness
+		factor of USLE. If the vector_path is none the method returns
+		Numpy array matrix of LS factor corresponding to input DMT
+		raster layer. If a vector layer is used the zonal statistic
+		is calculated for each polygon of the vector layer. Output is
+		pandas dataframe containing FIDs of original vector and LS
+		medians.
+		:rtype: Numpy array or Pandas DataFrame
 		"""
-		
-		# Inputs
-		if flowac is None:
-			raise IOError("Error: Flow accumulation probability grid has not been calculated! Calculation has been terminated.")
-		if slope is None:
-			raise IOError("Error: Slope grid has not been calculated! Calculation has been terminated.")
+
+		# Dividing by zero is ignored
+		ignore_zero = np.seterr(all = "ignore")
+
+		# Check the crops vector path
+		try:
+			crops_path = os.path.abspath(
+				crops_lyr_path).split("|")[0]
+		except Exception:
+			crops_path = crops_lyr_path
+
+		# Read the DMT raster to Numpy array
+		dmt = rasterToArray(dmt_path)
+		gtransf, prj, xSize, ySize, EPSG = readGeo(dmt_path)
+
+		# Flow accumulation probability layer calculation
+		flowac = wb.flowAccProb(dmt, xSize, ySize)
+
+		# Slope calculation
+		slope = self.slope(dmt, xSize, ySize)
 
 		# LS calculation
-		LS = n * (flowac * xSize/22.1)**m * (np.sin((slope * np.pi/180)/0.09))**n
-		
-		return LS
+		ls_factor = n * (flowac * xSize/22.1)**m * (np.sin((slope *
+													np.pi/180)/0.09))**n
 
-	def fR(self, R_const = 40, month_perc=32.2):
+		ls_factor = np.nan_to_num(ls_factor)
+
+		# Calculate zonal stats of LS for fields in vector layer
+		if crops_path is not None:
+			# Paths handling
+			# ls_dir = os.path.dirname(dmt_path)
+			# ls_name = "LS_factor.tif"
+			# ls_path = os.path.join(ls_dir, ls_name)
+
+			# Make temporary folder
+			tmp_folder = None
+			try:
+				# Create temporal folder
+				tmp_folder = tempfile.mkdtemp()
+
+				# Create path of temporal raster file
+				tmp_file = tempfile.NamedTemporaryFile(
+					suffix=".tif", dir=tmp_folder, delete=False)
+				ls_path = tmp_file.name
+				ls_name = os.path.basename(ls_path)
+				ls_dir = os.path.dirname(ls_path)
+
+			except OSError as err:
+				raise err
+
+			# Convert array of LS to raster
+			arrayToRast(ls_factor, ls_name, prj, gtransf, EPSG,
+						ls_dir)
+
+			# Calculate zonal stats
+			ls_factor = pd.DataFrame(zonal_stats(crops_path,
+												 ls_path, "median"))
+			ls_factor = ls_factor.fillna(0)
+
+		# Remove data from memory
+		del flowac
+		del slope
+		del dmt
+		if tmp_folder is not None:
+			shutil.rmtree(tmp_folder)
+
+		return ls_factor
+
+	@staticmethod
+	def fR(r_const=40, month_perc=32.2):
 		"""
-		R erosivity factor of USLE for monthly data.
+		R factor of USLE for monthly data.
 
-		Inputs:
-		:param R_const: Constant year value of R factor for particular
+		:param r_const: Constant year value of R factor for particular
 						area (MJ/ha)
-		:type R_const: float
+		:type r_const: float
 		:param month_perc: Percentage of R for particular months.
 		:type month_perc: float
 
-		Returns:
-		:return R: R value for particular month.
-		:rtype R: float
+		:return: R value for particular month.
+		:rtype: float
 		"""
 		
-		R = R_const * month_perc/100
+		r_factor = r_const * month_perc / 100
 
-		return R
+		return r_factor
 
-	def fK(self, HPJ, k_values):
+	@staticmethod
+	def fK(soil_units_lyr_path, soil_units_field_name, k_data,
+		   crops_lyr_path, x_size=30, y_size=30):
 		"""
-		K erodibility factor of USLE.
+		K erosivity factor of USLE.
 
-		Inputs:
-		:param HPJ: Numpy array with Main soil units codes (HPJ - hlavní
-					půdní jednotky, after Janeček et al. 2007).
-		:type HPJ: Numpy array, int
-		:param k_values: K values corresponding to Main soil units
-		codes are set according to Janeček et al. (2007)
-		:type k_values: list
+		:param soil_units_lyr_path: Path to vector layer with Main
+		soil units codes (HPJ - hlavní půdní jednotky, after Janeček
+		et al. 2007).
+		:type soil_units_lyr_path: str
+		:param soil_units_field_name: Name of vector attribute field
+		with Main soil units.
+		:type soil_units_field_name: str
+		:param k_data: Numpy dataframe containing K values with
+		corresponding Main soil units which are used as IDs.
+		:type k_data: Pandas DataFrame
+		:param crops_lyr_path: Path to vector layer which is used
+		for calculation of zonal statistics. FID values are used in
+		output.
+		:type crops_lyr_path: str
+		:param x_size: Size of newly created raster resolution
+		:type x_size: float
+		:param y_size: Size of newly created raster resolution
+		:type y_size: float
 
-		Returns:
-		:return K_matrix: Matrix of K values.
-		:rtype K_matrix: Numpy array, float
+		:return: Pandas dataframe containing FIDs corresponding to
+		vector layer used for zonal statistics calculation and K
+		factor values for each field/polygon
+		:rtype: Pandas DataFrame
 		"""
 
-		# Input handling
-		if HPJ is None:
-			raise IOError("Error: Main soil units data are not available! Calculation has been terminated.")
-		HPJ = HPJ.astype(int)
+		# Check the soil vector path
+		try:
+			su_lyr_path = os.path.abspath(
+				soil_units_lyr_path).split("|")[0]
+		except Exception:
+			su_lyr_path = soil_units_lyr_path
 
-		# Join matrix of HPJ data with K values
-		for i in range(len(k_values)):
-			j = i+1
-			K_matrix = np.where(HPJ == j, k_values[i], np.isnan(True))
+		# Check the crops vector path
+		try:
+			crops_path = os.path.abspath(
+				crops_lyr_path).split("|")[0]
+		except Exception:
+			crops_path = crops_lyr_path
 
-		return K_matrix
+		# Get name of layer used for rasterization
+		try:
+			su_file_name = os.path.basename(soil_units_lyr_path).split(
+							"=")[1]
+		except Exception:
+			su_file_name = ""
 
-	def fC(self, crops, c_values):
-		"""
-		Crop factor of USLE.
+		if su_file_name == "":
+			su_file_name = os.path.basename(soil_units_lyr_path).split(
+				".")[0]
 
-		:param crops: Layer with codes of C factor for particular crops.
-					  The codes are following: 
-		
-						Crops:
-						1: winter wheat
-						2: spring wheat
-						3: winter rye
-						4: spring barley
-						5: winter barley
-						6: oat
-						7: maize (corn)
-						8: legumes
-						9: early potatoes
-						10: late potatoes
-						11: meadows
-						12: hoppers
-						13: winter rape
-						14:	sunflower
-						15: poppy
-						16: another oilseeds
-						17:	maize (silage)
-						18: another one-year-olds fodder crops
-						19: another perenial fodder crops
-						20:	vegetables
-						21: orchards
-						22: forests
-						23: municipalities
-						24: bare soil
+		# Make temporary folder
+		tmp_folder = None
+		try:
+			# Create temporal folder
+			tmp_folder = tempfile.mkdtemp()
 
-		:type crops: Numpy array (int)
-		:param c_values: C values corresponding to crop categories
-		are set according to Janeček et al. (2007)
-		:type c_values: list
+			# Create path of temporal raster file
+			tmp_file = tempfile.NamedTemporaryFile(
+				suffix=".tif", dir=tmp_folder, delete=False)
+			soil_units_raster_path = tmp_file.name
 
-		Returns:
-		:return: Matrix of C values.
-		:rtype: Numpy array (float)
-		"""
-		
-		# Input handling
-		if crops is None:
-			raise IOError("Error: Main soil units data are not available! Calculation has been terminated.")
-		crops = crops.astype(int)
+		except OSError as err:
+			raise err
 
-		# Join matrix of HPJ data with K values
-		for i in range(len(c_values)):
-			j = i+1
-			C_matrix = np.where(crops == j, c_values[i], np.isnan(True))
+		# Rasterize
+		os.system("gdal_rasterize -a {su_field} -tr {x_size} "
+				"{y_size} -l {su_name} {su_path} {su_rast}".format(
+					su_field=soil_units_field_name, x_size=x_size,
+					y_size=y_size, su_name=su_file_name,
+					su_path=su_lyr_path,
+					su_rast=soil_units_raster_path))
 
-		return C_matrix
+		# Zonal stats by crops layer --> pandas df
+		df_soil_units = pd.DataFrame(zonal_stats(crops_path,
+												 soil_units_raster_path,
+												 "mode"))
+		df_soil_units = df_soil_units.astype(int)
+
+		# Join K values to HPJ column and make new df with K values
+		# Get names of keys
+		k_id_name = k_data.columns[0]
+		su_id_name = df_soil_units.columns[1]
+
+		# Merge dfs
+		df_merge = pd.merge(df_soil_units, k_data, how="left",
+							left_on=su_id_name, right_on=k_id_name)
+
+		# Create new df for K factor values
+		k_factor = pd.DataFrame({"FID":df_merge.iloc[:,0]})
+		k_factor["k_value"] = df_merge.iloc[:,3]
+		k_factor = k_factor.fillna(0)
+
+		# Clear tmp and memory
+		del df_soil_units
+		del df_merge
+
+		if tmp_folder is not None:
+			shutil.rmtree(tmp_folder)
+
+		return k_factor

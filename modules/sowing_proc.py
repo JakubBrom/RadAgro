@@ -3,7 +3,8 @@
 #
 #  Author: Dr. Jakub Brom
 #
-#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture.
+#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia
+#  in České Budějovice, Faculty of Agriculture.
 #
 #  This program is free software: you can redistribute it and/or modify
 #      it under the terms of the GNU General Public License as published by

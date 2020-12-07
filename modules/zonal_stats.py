@@ -13,6 +13,7 @@ Options:
 """
 from osgeo import gdal, ogr, osr
 from osgeo.gdalconst import *
+from scipy import stats
 import numpy as np
 import sys
 from matplotlib import pyplot as plt
@@ -74,7 +75,7 @@ def zonal_stats(vector_path, raster_path, method = 'median', nodata_value=None, 
 	driver = gdal.GetDriverByName('MEM')
 
 	# Loop through vectors
-	stats = []
+	statists = []
 	feat = vlyr.GetNextFeature()
 	while feat is not None:
 
@@ -145,9 +146,12 @@ def zonal_stats(vector_path, raster_path, method = 'median', nodata_value=None, 
 			feature_stats = {'fid': int(feat.GetFID()),'count': float(np.count_nonzero(~np.isnan(masked)))}
 		elif method == 'mean':
 			feature_stats = {'fid': int(feat.GetFID()),'mean': float(np.nanmean(masked))}
+		elif method == 'mode':
+			masked_flat = masked.flatten()
+			feature_stats = {'fid': int(feat.GetFID()),'mode':
+				int(np.nan_to_num(stats.mode(masked_flat)[0]))}
 
-
-		stats.append(feature_stats)
+		statists.append(feature_stats)
 
 		rvds = None
 		mem_ds = None
@@ -155,5 +159,5 @@ def zonal_stats(vector_path, raster_path, method = 'median', nodata_value=None, 
 
 	vds = None
 	rds = None
-	return stats
+	return statists
 

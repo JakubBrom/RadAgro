@@ -12,9 +12,6 @@
 #
 # Date: 2018/11/08
 #
-# Description:
-# 
-# License: Copyright (C) 2018, Jakub Brom, University of South Bohemia
 #		   in Ceske Budejovice
 # 
 # Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 
@@ -29,7 +26,7 @@
 import numpy as np
 import math as mt
 import warnings
-from mdaylight import MonthlyDaylight
+from .mdaylight import MonthlyDaylight
 
 
 class WaterBalance:
@@ -41,8 +38,8 @@ class WaterBalance:
 
 	def airTemperToGrid(self, tm_list, dmt, altitude, adiab=0.65):
 		"""
-		Calculation of spatial temperature distribution in accordance
-		to altitude (DEM). The function provides list (Numpy array) of air
+		Calculation of spatial temperature distribution on the altitude (
+		DEM). The function provides list (Numpy array) of air
 		temperature arrays corresponding to list of measured temperature
 		data.
 		
@@ -276,7 +273,7 @@ class WaterBalance:
 		
 		# Input data processing
 		x,y = win_dmt.shape
-		if x is not 3 or y is not 3:
+		if x != 3 or y != 3:
 			raise IOError("Error: Probability of water flow direction can not be calculated! Calculation has been terminated.")
 		
 		#find difference between lower cells and center cell
@@ -429,8 +426,10 @@ class WaterBalance:
 		DEM is calculated on basis of shape of the surface (outflow
 		changes linearly with changing angle between neighbour pixels) 
 		and surface resistance for surface runoff (rel.).
-		The function was inspired by Multipath-Flow-Accumulation developed
-		by Alex Stum: https://github.com/StumWhere/Multipath-Flow-Accumulation.git
+		The method calculation procedure was inspired by
+		Multipath-Flow-Accumulation developed
+		by Alex Stum: https://github.com/StumWhere/Multipath-Flow
+		-Accumulation.git
 		
 		:param dmt: Digital elevation model of the surface (m).
 		:type dmt: numpy.ndarray
@@ -438,14 +437,14 @@ class WaterBalance:
 		:type xsize: float
 		:param ysize: Size of pixel in y axis (m)
 		:type ysize: float
-		:param rs: Surface resistance wor surface runoff of water scaled
-				   to interval <0; 1>, where 0 is no resistance
-				   and 1 is 100% resistance (no flow). Scaled Mannings n
-				   should be used. Default is None (zero resistance is used).
+		:param rs: Surface resistance for surface runoff of water
+		scaled to interval <0; 1>, where 0 is no resistance and 1 is
+		100% resistance (no flow). Scaled Mannings n should be used.
+		Default is None (zero resistance is used).
 		:type rs: numpy.ndarray
 		
-		:return accum: Flow accumulation grid.
-		:rtype accum: numpy.ndarray
+		:return: Flow accumulation grid.
+		:rtype: numpy.ndarray
 		"""
 	
 		# dividing by zero is ignored
@@ -453,58 +452,74 @@ class WaterBalance:
 	
 		# Handling dmt data
 		if dmt is None:
-			raise IOError("Error: Elevation data are not available! Calculation has been terminated.")
+			raise IOError("Error: Elevation data are not available! "
+						  "Calculation has been terminated.")
 		
 		## Fill NANs by mean of neighbour values in raster (by rows)
 		if np.isnan(np.sum(dmt)) == True:
 			mask = np.isnan(dmt)
-			dmt[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), dmt[~mask])
-			warnings.warn("Warning: The elevation data contains NANs. No data has been filled.", stacklevel=3)
+			dmt[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(
+				~mask), dmt[~mask])
+			warnings.warn("Warning: The elevation data contains NANs."
+						  "No data has been filled.", stacklevel=3)
 	
-		# Handling surface resistance
+		# Handling surface resistance - zero resistance is default
 		if rs is None:
-			rs = np.zeros_like(dmt).astype(float)		# zero resistance is default
+			rs = np.zeros_like(dmt).astype(float)
 		
 		## Fill NANs by 0
 		if np.isnan(np.sum(rs)) == True:
 			rs = np.nan_to_num(rs)
-			warnings.warn("Warning: The surface resistance data contains NANs. No data has been filled.", stacklevel=3)
+			warnings.warn("Warning: The surface resistance data "
+						  "contains NANs. No data has been filled.",
+						  stacklevel=3)
 		
 		## Trimm values of rs to interval <0,1> 
 		if np.max(rs) > 1 or np.min(rs) < 0:
-			warnings.warn("Warning: The surface resistance data contains values out of required interval!\nValues out of interval <0; 1> were replaced either by 1 if the values are bigger than 1\n or by 0 if the values are lower than 0", stacklevel=3)
+			warnings.warn("Warning: The surface resistance data "
+						  "contains values out of required "
+						  "interval! Values out of interval <0; 1> "
+						  "were replaced either by 1 if the values "
+						  "are bigger than 1 or by 0 if the values "
+						  "are lower than 0", stacklevel=3)
 			rs = np.where(rs > 1, 1, rs)
 			rs = np.where(rs < 0, 0, rs)
 		
 		## All values of rs are bigger than 1
 		if np.mean(rs) >= 1:
-			raise ValueError("Error: Flow accumulation can not be calculated! Surface resistance does not allow runoff.")
+			raise ValueError("Error: Flow accumulation can not be "
+							 "calculated! Surface resistance does"
+							 "not allow runoff.")
 		
 		## Control of spatial extent
 		if rs.shape[0] != dmt.shape[0] or rs.shape[1] != dmt.shape[1]:
-			raise ValueError("Error: Flow accumulation can not be calculated! Spatial extent of digital elevation model and surface resistance layer does not match.")
+			raise ValueError("Error: Flow accumulation can not be "
+							 "calculated! Spatial extent of digital "
+							 "elevation model and surface resistance "
+							 "layer does not match.")
 		
 		# Preparation DEM data
 		dmt_flat = dmt[1:-1,1:-1].flatten("F")		# prevedeni na radu podle sloupcu (Fortran styl) --> je to asi jedno. Hodnoty jsou orizle o okrajove bunky.
 		index_dmt = np.argsort(dmt_flat,axis=0,kind='mergesort')	# usporadani hodnot podle vyskopisu --> od nejmensi po nejvetsi hodnotu. Algoritmus vraci indexy pozice hodnot v puvodnim souboru.
 		accum = np.ones_like(dmt).astype(float) #* precip		# startovni vrstva akumulace odtoku --> predpoklada jednickovy odtok
 
-		nrows=dmt.shape[0]-2		# pocet sloupcu a radku bez okrajovych
+		nrows = dmt.shape[0]-2		# pocet sloupcu a radku bez
+		# okrajovych
 		
 		# Calculation of precip. water accumulation
 		for i in index_dmt[::-1]:		# postupuje podle indexu v poradi od nejvetsi do nejmensi hodnoty
 			
-			
-			#define position of calculation window
-			y=int(i%nrows)		# vrati zbytek po deleni
-			x=int(i/nrows)		# 
+			# Define position of calculation window
+			y = int(i%nrows)		# vrati zbytek po deleni
+			x = int(i/nrows)		#
 
 			# create 3x3 windows for calculation
 			win_dmt = dmt[y:y+3,x:x+3] 			# vyreze matice 3x3 z dmt v poradi podle index_dmt
 			win_rs = rs[y:y+3,x:x+3]			# vyrez matice 3x3 z odporu povrchu pro odtok (něco jako Manning: hodnoty v intervalu <0, 1>, kde 0 => zadny odpor, 1 => blokovany odtok)
 
-			#find difference between lower cells and center cell
-			diff=np.where(win_dmt < win_dmt[1,1], win_dmt[1,1] - win_dmt, 0) # spocte rozdíl mezi centralni bunkou a hodnotami mensimi nez centralni bunka. Ostatni jsou 0 vcetne centralni
+			# Find difference between lower cells and center cell
+			diff = np.where(win_dmt < win_dmt[1,1], win_dmt[1,
+					1] - win_dmt, 0) 			# spocte rozdíl mezi centralni bunkou a hodnotami mensimi nez centralni bunka. Ostatni jsou 0 vcetne centralni
 
 			# reseni plochych mist bez sklonu - predpokladem je vsesmerny odtok
 			if diff.sum() == 0:
@@ -530,7 +545,7 @@ class WaterBalance:
 			#proportionally distribute
 			accum[y:y+3,x:x+3] += probab * accum[y+1,x+1]	# pripocte ke stavajici matici accum pravdepodobnosti odtoku. Pravdepodobnost dtoku se nasobi uhrnem srazek (pro centralni bunku)
 															# accum[y+1,x+1] je suma srazek z predchoziho vypoctu
-		
+
 		#accum = np.nan_to_num(accum)
 		acc_mask = np.isnan(accum)
 		accum[acc_mask] = 1.0
