@@ -1,37 +1,45 @@
-# This file contains metadata for your plugin.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
 name=RadHydro for QGIS
 qgisMinimumVersion=3.0
-description=QGIS plugin for temporal analysis of radioactivity contamination changes in field crops
+description=QGIS plugin for temporal analysis of radioactivity contamination changes in agricultural landscape
 version=0.1
 author=Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic
+
 email=jbrom@zf.jcu.cz
 
-about=Some descr.
+about=RadHydro is software designated for estimation of a radiation
+ contamination progress in agricultural landscape. It involves the
+ principal landscape elements and processes which could significantly
+ influence the radiation load in landscape. Especially important is the
+ field management based on crop rotation; also crop characteristics and
+ soil erosion are involved. RadHydro simulates the early phase of
+ radiation event and following development of radiation contamination
+ of the area of interest at monthly intervals.The output of the software
+ is a geodatabase of radiation contamination of individual fields of the
+ studied area.
 
-tracker=http://bugs
-repository=http://repo
+ The RadHydro software development was supported by the Ministry of the
+ Interior of the Czech Republic research project VI20172020098
+ Disposal of radiation-contaminated biomass after NPP
+ accident-distribution, logistic of harvesting, exploring in biogas
+ technology.
+
+tracker=https://github.com/JakubBrom/RadHydro/issues
+repository=https://github.com/JakubBrom/RadHydro
 # End of mandatory metadata
 
 # Recommended items:
 
 hasProcessingProvider=no
-# Uncomment the following line and add your changelog:
 # changelog=
 
-# Tags are comma separated with spaces allowed
-tags=python
+tags=radioactive accident, contamination, radioactivity, radioactive decay, vegetation, soil, crops rotation, erosion, landscape
 
-homepage=http://homepage
+homepage=http://www.zf.jcu.cz
 category=Plugins
 icon=icon.png
-# experimental flag
 experimental=False
 
-# deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
 
 # Since QGIS 3.8, a comma separated list of plugins to be installed

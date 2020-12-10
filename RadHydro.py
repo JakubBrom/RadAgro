@@ -271,6 +271,10 @@ class RadHydro:
         # set tab with graph disabled
         self.dlg.tabWidget.setTabEnabled(2, False)
 
+        # Hide hydrology tabs
+        self.dlg.toolBox.setItemEnabled(1, False)
+        self.dlg.toolBox_2.setItemEnabled(6, False)
+
         # Set type of input to input cboxes
         self.dlg.cbox_rad_depo.setFilters(
             QgsMapLayerProxyModel.RasterLayer)
@@ -343,17 +347,10 @@ class RadHydro:
 
         # Load rasters of radioactivity, precip. and DMT and clip to
         # the overlapping area with the smallest pixel
-        t1 = time.time()
         self.loadRasters()
-        t2 = time.time()
-        print(t2-t1)
-        # Loading crops layer and creating initial layer with FID
-        self.loadCropsLayer()
-        t3 = time.time()
-        print(t3-t2)
-        self.createCropsInitDf()
-        t4 = time.time()
-        print(t4-t3)
+
+        # Loading crops layer and creating initial crops dataframe
+        self.df_crops_init = self.createCropsInitDf()
 
         # Read crops growth model data from UI
         self.df_growth_model_params = self.readGrowthModelParams()
@@ -363,20 +360,15 @@ class RadHydro:
 
         # Calculate early stage
         self.earlyStage()
-        t5 = time.time()
-        print(t5-t4)
 
         # Read crops rotation data and meadows cutting data from UI
         self.df_crops_rotation = self.readCropsRotation()
         self.df_meadows = self.readMeadowsCut()
-        t6 = time.time()
-        print(t6-t5)
+
         # Create time series for crops
         self.df_crops_rotation_all = self.createCropsRotationTS()
         self.df_crops_harvest = self.createCropsHarvestTS()
         self.df_crops_dw_all = self.createDryMassTS()
-        t7 = time.time()
-        print(t7-t6)
 
         # Calculate USLE
         k_factor_tab = self.readKFactorTable()
@@ -386,19 +378,15 @@ class RadHydro:
                                 self.ls_factor_m, self.ls_factor_n)
         self.c_factor_tab = self.readCFactorTable()
         self.r_perc = self.readRFactorPercTable()
-        t8 = time.time()
-        print(t8 - t7)
+
         # Calculate hydrology
         # TODO
 
         # Calculate total radioactive contamination time series table
         self.calculateRadioactiveContamination()
-        t9 = time.time()
-        print(t9-t8)
-
 
         # Export data
-        self.exportTablesToCsv()        # TODO: následně neaktivní
+        # self.exportTablesToCsv()        # TODO: následně neaktivní
 
         # The page with graph enabled
         self.dlg.tabWidget.setTabEnabled(2, True)
@@ -475,33 +463,6 @@ class RadHydro:
         # Read geo information from rasters
         self.rasters_geoinfo = readGeo(self.depo_path)
 
-    def loadCropsLayer(self):
-        """Load crops vector layer and create new initial layer for
-        following manipulation. Initial layer have got a FID only
-        which is used as primary key."""
-
-        # Load crops layer to qgis
-        crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
-        crops_lyr = QgsVectorLayer(crops_path, self.tr(
-            "Plodiny_orig"), "ogr")
-
-        # Create new initial layer - copy of the crops_lyr - will be used for
-        # further manipulation
-        # Definition of temporary file path and name
-        tmp_file = tempfile.NamedTemporaryFile(
-            suffix=".gpkg", dir=self.tmp_folder, delete=False)
-        self.tmp_file_name = tmp_file.name
-
-        # create new vector lyr
-        save_options = QgsVectorFileWriter.SaveVectorOptions()
-        transform_context = crops_lyr.transformContext()
-        init_lyr_driver = QgsVectorFileWriter.writeAsVectorFormatV2(
-            crops_lyr, self.tmp_file_name, transform_context, save_options)
-
-        # read new initial vector lyr to memory
-        self.initial_crops_lyr = QgsVectorLayer(self.tmp_file_name,
-                                           "Crops_init", "ogr")
-
     def createCropsInitDf(self):
         """Read indices of crops corresponding to original crops from
         tw_crops_orig table and write them to the initial vector
@@ -523,20 +484,25 @@ class RadHydro:
                                        "ID_set":crops_IDs, self.tr(
                 "Nazev"):crops_names})
 
+        # Load crops layer to qgis
+        crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
+        crops_lyr = QgsVectorLayer(crops_path, self.tr(
+            "Plodiny_orig"), "ogr")
+
         # Read original crops IDs from crop vector - for all rows
         crop_IDs_field_name = self.dlg.cbox_crop_lyr_key.currentText()
         crops_IDs_orig_list_all = []
-        for feature in self.initial_crops_lyr.getFeatures():
+        for feature in crops_lyr.getFeatures():
             crops_IDs_orig_list_all.append(feature[crop_IDs_field_name])
 
-        # Read FID filed from crop layer
+        # Read FID field from crop layer
         crops_fid = []
-        for feature in self.initial_crops_lyr.getFeatures():
+        for feature in crops_lyr.getFeatures():
             crops_fid.append(feature.id())
 
         # Calculate area of fields in the vector layer
         crops_area_ha = []
-        for feature in self.initial_crops_lyr.getFeatures():
+        for feature in crops_lyr.getFeatures():
             crops_area_ha.append(feature.geometry().area()/10000)
 
         # Create new Pandas dataframe containing IDs of fields,
@@ -546,8 +512,10 @@ class RadHydro:
                                       self.tr("Plocha_ha"):crops_area_ha})
 
         # Merge df_crops_coupling and df_crops_rows to initial dataframe
-        self.df_crops_init = pd.merge(df_crops_rows, df_crops_coupling,
+        df_crops_init = pd.merge(df_crops_rows, df_crops_coupling,
                                       how="left", on="ID_orig")
+
+        return df_crops_init
 
     def earlyStage(self):
         """Calculation of radioactive contamination in early stage of

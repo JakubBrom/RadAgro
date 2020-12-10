@@ -5,16 +5,16 @@ RadHydro - a QGIS plug-in for analysis of temporal changes of radioactivity cont
 Description
 -----------
 
-RadHydro is software designated for estimation of a radiation contamination
- progress in agricultural landscape. It involves the principal landscape
- elements and processes which could significantly influence the radiation
- load in landscape. Especially important is the field management based on
- crop rotation; also crop characteristics, soil erosion and hydrologic
- parameters of the area of interest are involved. RadHydro simulates the
- early phase of radiation event at monthly intervals and estimates the
- amount of contaminated biomass to be removed from the afflicted area. The
- output of the software is a geodatabase of radiation contamination of
- individual fields of the studied area. 
+RadHydro is software designated for estimation of a radiation
+ contamination progress in agricultural landscape. It involves the
+ principal landscape elements and processes which could significantly
+ influence the radiation load in landscape. Especially important is the
+ field management based on crop rotation; also crop characteristics and
+ soil erosion are involved. RadHydro simulates the early phase of
+ radiation event and following development of radiation contamination
+ of the area of interest at monthly intervals.The output of the software
+ is a geodatabase of radiation contamination of individual fields of the
+ studied area.
 
 Authors and collaborators
 -------------------------

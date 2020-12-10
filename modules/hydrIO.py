@@ -1,37 +1,46 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# -----------------------------------------------------------------------
-# RadHydro 
+#  Project: RadHydro
+#  File: hydrIO.py
 #
-# Module: hydrIO.py
+#  Author: Dr. Jakub Brom
 #
-# Author: Jakub Brom, University of South Bohemia in Ceske Budejovice,
-#		  Faculty of Agriculture 
+#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in
+#  České Budějovice, Faculty of Agriculture.
+#
+#  This program is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      This program is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with this program.  If not, see <https://www.gnu.org/licenses/>
+#
+#  Last changes: 07.12.20 18:11
 #
 # Date: 2018/11/08
 #
 # Description:
-# 
-# License: Copyright (C) 2018-2020, Jakub Brom, University of South Bohemia
-#		   in Ceske Budejovice
-# 
-# Vlastníkem programu RadHydro je Jihočeská univerzita v Českých 
-# Budějovicích. Všechna práva vyhrazena. Licenční podmínky jsou uvedeny
-# v licenčním ujednání (dále jen "smlouva").
-# Uživatel instalací nebo použitím programu, jeho verzí nebo aktualizací
-# souhlasí s podmínkami smlouvy.
-# -----------------------------------------------------------------------
+
+
+import os
 
 # imports
 import numpy as np
-import os
-
 from osgeo import gdal, osr, ogr
+from qgis.PyQt.QtCore import QVariant
+from qgis.core import QgsVectorLayer, QgsField
 
 
 def rasterToArray(layer):
 	"""Conversion of raster layer to numpy array.
+
 	:param layer: Path to raster layer.
 	:type layer: str
 	
@@ -49,22 +58,19 @@ def rasterToArray(layer):
 		in_layer = None
 		return in_layer
 
+
 def readGeo(rast):
 	"""Reading important geographical information from raster using GDAL.
 	
 	:param rast: Path to raster file in GDAL accepted format.
-	:type rast: str
-	
-	:return gtransf: The affine transformation coefficients.
-	:rtype gtransf: tuple
-	:return prj: Projection information of the raster (dataset). 
-	:rtype prj: str
-	:return xSize: Pixel width (m).
-	:rtype xSize: float
-	:return ySize: Pixel heigth (m)
-	:rtype ySize: float
-	:return EPSG: EPSG Geodetic Parameter Set code.
-	:rtype EPSG: int
+
+	:returns: The tuple of important geographic information about a
+	raster. The tuple contains:
+	*The affine transformation coefficients (tuple)*
+	*Projection information of the raster or dataset (str)*
+	*Size of pixel at X scale (float)*
+	*Size of pixel at Y scale (float)*
+	*EPSG Geodetic Parameter Set code (int)*
 	"""
 
 	ds = gdal.Open(rast)
@@ -85,18 +91,17 @@ def readGeo(rast):
 
 	return (gtransf, prj, xSize, ySize, EPSG)
 
+
 def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
                 out_file_name=None, driver_name="GTiff", multiband=False):
-	"""Export numpy 2D arrays to multiband or singleband raster files. Following
-	common raster formats are accepted for export:
-	\n
-	- ENVI .hdr labeled raster format
-	- Erdas Imagine (.img) raster format
-	- Idrisi raster format (.rst) 
-	- TIFF / BigTIFF / GeoTIFF (.tif) raster format
-	- PCI Geomatics Database File (.pix) raster format
-	
-	**Required inputs**
+	"""Export numpy 2D arrays to multiband or singleband raster
+	files. Following common raster formats are accepted for export:
+	*ENVI .hdr labeled raster format*
+	*Erdas Imagine (.img) raster format*
+	*Idrisi raster format (.rst)*
+	*TIFF / BigTIFF / GeoTIFF (.tif) raster format*
+	*PCI Geomatics Database File (.pix) raster format*
+
 	:param arrays: Numpy array or list of arrays for export to raster.
 	:type arrays: numpy.ndarray or list of numpy.ndarray
 	:param names: Name or list of names of the exported bands (in case
@@ -111,8 +116,6 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 	:type EPSG: int
 	:param out_folder: Path to folder where the raster(s) will be created.
 	:type out_folder: str
-	
-	**Optional inputs**
 	:param driver_name: GDAL driver. 'GTiff' is default.
 	:type driver_name: str
 	:param out_file_name: Name of exported multiband raster. Default is None.
@@ -120,7 +123,6 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 	:param multiband: Option of multiband raster creation. Default is False.
 	:type multiband: bool
 	
-	**Returns**
 	:returns: Raster singleband or multiband file(s)
 	:rtype: raster
 	"""
@@ -174,7 +176,7 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 				ds.GetRasterBand(j).FlushCache()
 				j = j + 1
 			ds = None
-		except:
+		except Exception:
 			raise Exception("Raster file %s has not been created." % (
 						out_file_name + suffix))
 
@@ -197,7 +199,7 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 				ds.GetRasterBand(1).SetMetadataItem("Band name", names[i])
 				ds.GetRasterBand(1).FlushCache()
 				ds = None
-			except:
+			except Exception:
 				raise Exception("Raster file %s has not been created." % (
 							names[i] + suffix))
 	return
@@ -205,7 +207,13 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
 
 def readLatLong(rast_path):
 	"""Automatic setting of the lyrs coordinates according to the
-	projection of NIR band in to the form."""
+	projection of NIR band in to the form.
+
+	:param rast_path: Raster path.
+
+	:return: Longitude in decimal scale
+	:return: Latitude in decimal scale
+	"""
 
 	inputEPSG = None
 
@@ -250,8 +258,8 @@ def readLatLong(rast_path):
 			outSpatialRef = osr.SpatialReference()
 			outSpatialRef.ImportFromEPSG(outputEPSG)
 
-			coordTransform = osr.CoordinateTransformation(inSpatialRef,
-			                                              outSpatialRef)
+			coordTransform = osr.CoordinateTransformation(
+				inSpatialRef, outSpatialRef)
 
 			# transform point
 			point.Transform(coordTransform)
@@ -263,5 +271,72 @@ def readLatLong(rast_path):
 			return long_dec, lat_dec
 
 		except IOError:
-			raise IOError(
-				"Latitude and longitude of the raster has not been calculated. Input raster probably has no geographical reference.")
+			raise IOError("Latitude and longitude of the raster has"
+						  "not been calculated. Input raster probably "
+						  "has no geographical reference.")
+
+
+def joinLyrWithDataFrame(in_layer_path, df_data, out_layer_path):
+	"""
+	Create GeoPackage layer from input vector data for crops and data
+	of radioactive contamination of the are of interest.
+	Radioactivity data are stored in pandas dataframe.
+
+	:param in_layer_path: Path to original input vector layer which is
+	used as a template for a new layer.
+	:type in_layer_path: str
+	:param df_data: Joining Pandas dataframe corresponding with
+	vector_layer. FID values must be equal.
+	:type df_data: Pandas DataFrame
+	:param out_layer_path: Path to output vector file.
+	:type out_layer_path: str
+	"""
+
+	# Translate input layer to gpkg format and create new vector 
+	# instance
+	os.system("ogr2ogr -f GPKG -nln 'Radioactive contamination' " +
+			  out_layer_path + " " + in_layer_path)
+
+	vector_layer = QgsVectorLayer(out_layer_path, "New_layer", "ogr")
+
+	# Remove all columns
+	count = vector_layer.fields().count()
+	ind_list = list(range(0, count))
+	vector_layer.dataProvider().deleteAttributes(ind_list)
+	vector_layer.updateFields()
+
+	# Add new fields from df
+	no_cols = df_data.shape[1]
+	field_names = list(df_data.columns)
+	field_names[0] = "fid2"
+
+	fields_list = [QgsField(field_names[1], QVariant.String),
+				   QgsField(field_names[2], QVariant.Double),
+				   QgsField(field_names[3], QVariant.LongLong),
+				   QgsField(field_names[4], QVariant.String)]
+
+	for i in range(5,no_cols):
+		fields_list.append(QgsField(field_names[i], QVariant.Double))
+
+	vector_layer.dataProvider().addAttributes(fields_list)
+	vector_layer.updateFields()
+
+	# Get FID data from vector layer
+	fid = []
+	for feature in vector_layer.getFeatures():
+		fid.append(feature.id())
+
+	# Get data from Pandas df and add them to layer
+	vector_layer.startEditing()
+	for i in range(len(fid)):
+		# Get data form df - index i is from 1
+		features_data = list(df_data.iloc[i, :])[1::]
+
+		# Set data to vector layer
+		for j in range(len(features_data)):
+			vector_layer.changeAttributeValue(
+				fid[i], j+1, str(features_data[j]))
+
+	vector_layer.commitChanges()
+
+	return
