@@ -345,6 +345,13 @@ class RadHydro:
         # Read constants from UI
         self.readConstants()
 
+        # Main soil units layer path and field name
+        self.su_lyr_path = self.getLyrPath(self.dlg.cbox_HPJ)
+        self.su_field = self.dlg.cbox_HPJ_key.currentField()
+
+        # Crops layer path
+        self.crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
+
         # Load rasters of radioactivity, precip. and DMT and clip to
         # the overlapping area with the smallest pixel
         self.loadRasters()
@@ -373,8 +380,8 @@ class RadHydro:
         # Calculate USLE
         k_factor_tab = self.readKFactorTable()
         self.k_factor = ru.fK(self.su_lyr_path, self.su_field,
-                              k_factor_tab, self.tmp_file_name)
-        self.ls_factor = ru.fLS(self.dmt_path, self.tmp_file_name,
+                              k_factor_tab, self.crops_path)
+        self.ls_factor = ru.fLS(self.dmt_path, self.crops_path,
                                 self.ls_factor_m, self.ls_factor_n)
         self.c_factor_tab = self.readCFactorTable()
         self.r_perc = self.readRFactorPercTable()
@@ -387,6 +394,7 @@ class RadHydro:
 
         # Export data
         # self.exportTablesToCsv()        # TODO: následně neaktivní
+        self.exportRadioCont2GeoPackage()
 
         # The page with graph enabled
         self.dlg.tabWidget.setTabEnabled(2, True)
@@ -431,10 +439,6 @@ class RadHydro:
         self.p_factor = self.dlg.sbox_P_fact.value()
         self.soil_depth = self.dlg.sbox_soil_depth.value()
         self.soil_vol_mass = self.dlg.sbox_vol_soil.value()
-
-        # Main soil units layer path and field name
-        self.su_lyr_path = self.getLyrPath(self.dlg.cbox_HPJ)
-        self.su_field = self.dlg.cbox_HPJ_key.currentField()
 
     def loadRasters(self):
         """Reading rasters of radioactivity deposition, precipitation
@@ -485,8 +489,7 @@ class RadHydro:
                 "Nazev"):crops_names})
 
         # Load crops layer to qgis
-        crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
-        crops_lyr = QgsVectorLayer(crops_path, self.tr(
+        crops_lyr = QgsVectorLayer(self.crops_path, self.tr(
             "Plodiny_orig"), "ogr")
 
         # Read original crops IDs from crop vector - for all rows
@@ -525,7 +528,7 @@ class RadHydro:
         self.df_radio_contamination = self.df_crops_init.copy(True)
 
         # Calculation of total deposition for all fields in the area of interest
-        total_depo_zonal = pd.DataFrame(zonal_stats(self.tmp_file_name,
+        total_depo_zonal = pd.DataFrame(zonal_stats(self.crops_path,
                                        self.depo_path, method="median"))
         total_deposition = np.array(total_depo_zonal["median"])
         total_deposition = np.nan_to_num(total_deposition)
@@ -545,7 +548,6 @@ class RadHydro:
         # Calculates total radioactive contamination after biomass removing
         # in early stage of radioactive contamination
         if self.dlg.chbox_management.isChecked():
-            # TODO: upravit - nahradit načítání dat za df_growth_model_params
             # Reading data from tw_growth_params table
             r_count = self.dlg.tw_growth_params.rowCount()
 
@@ -589,7 +591,7 @@ class RadHydro:
             # Calculation of soil contamination
             # Precipitation
             if self.precip_path != None and self.precip_path != "":
-                actual_prec_zonal = zonal_stats(self.tmp_file_name,
+                actual_prec_zonal = zonal_stats(self.crops_path,
                                             self.precip_path, method="median")
                 actual_precip = np.array([actual_prec_zonal[i]["median"] for
                                     i in range(len(actual_prec_zonal))])
@@ -1015,6 +1017,16 @@ class RadHydro:
         self.df_crops_harvest.to_csv("Sklizne.csv")
         self.df_crops_dw_all.to_csv("susina.csv")
 
+    def exportRadioCont2GeoPackage(self):
+        """Export dataframe with radioactive contamination to
+        Geo Package (gpkg)."""
+
+        in_lyr = self.getLyrPath(self.dlg.cbox_crop_lyr)
+        out_lyr_path = self.dlg.out_file.filePath()
+
+        joinLyrWithDataFrame(in_lyr, self.df_radio_contamination,
+                             out_lyr_path)
+
     def getLyrPath(self, comboBox):
         """Get path to input file from combobox"""
 
@@ -1025,6 +1037,7 @@ class RadHydro:
             get_path = comboBox.currentText()
 
         return get_path
+
 #-----------------------------------------------------------------------
 # UI manipulation
 

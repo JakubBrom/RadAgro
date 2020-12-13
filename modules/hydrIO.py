@@ -279,8 +279,7 @@ def readLatLong(rast_path):
 def joinLyrWithDataFrame(in_layer_path, df_data, out_layer_path):
 	"""
 	Create GeoPackage layer from input vector data for crops and data
-	of radioactive contamination of the are of interest.
-	Radioactivity data are stored in pandas dataframe.
+	of radioactive contamination stored in pandas dataframe.
 
 	:param in_layer_path: Path to original input vector layer which is
 	used as a template for a new layer.

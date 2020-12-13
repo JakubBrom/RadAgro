@@ -37,6 +37,8 @@ def bbox_to_pixel_offsets(gt, bbox):
 
 def zonal_stats(vector_path, raster_path, method='median',
                 nodata_value=None, global_src_extent=False):
+
+    # Get raster
     rds = gdal.Open(raster_path, GA_ReadOnly)
     assert (rds)
     rb = rds.GetRasterBand(1)
@@ -46,12 +48,26 @@ def zonal_stats(vector_path, raster_path, method='median',
         nodata_value = float(nodata_value)
         rb.SetNoDataValue(nodata_value)
 
+    # Get vector
+    # 1. Get vector or geopackage path and layer name
+    try:
+        layer_name = vector_path.split("=")[1]
+        vector_path = vector_path.split("|")[0]
+
+    except Exception:
+        layer_name = None
+
+    # 2. Open vector file
     vds = ogr.Open(vector_path,
                    GA_ReadOnly)  # TODO maybe open update if we want to write stats
     assert (vds)
-    vlyr = vds.GetLayer(0)
 
-    # create an in-memory numpy array of the source raster data
+    if layer_name is not None:
+        vlyr = vds.GetLayerByName(layer_name)
+    else:
+        vlyr = vds.GetLayer(0)
+
+    # Create an in-memory numpy array of the source raster data
     # covering the whole extent of the vector layer
     # Reproject vector geometry to same projection as raster
     if global_src_extent:

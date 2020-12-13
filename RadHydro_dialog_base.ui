@@ -25,9 +25,15 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="5" column="0">
-    <widget class="QgsFileWidget" name="out_folder">
+    <widget class="QgsFileWidget" name="out_file">
+     <property name="dialogTitle">
+      <string>Uložit soubor</string>
+     </property>
+     <property name="filter">
+      <string>GeoPackage (*.gpkg)</string>
+     </property>
      <property name="storageMode">
-      <enum>QgsFileWidget::GetDirectory</enum>
+      <enum>QgsFileWidget::SaveFile</enum>
      </property>
     </widget>
    </item>
@@ -97,7 +103,7 @@
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="page_3">
               <property name="geometry">
@@ -1356,7 +1362,7 @@ a vláhovém stavu půdy</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>676</width>
+                  <width>382</width>
                   <height>583</height>
                  </rect>
                 </property>
