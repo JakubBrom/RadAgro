@@ -22,16 +22,18 @@
  ***************************************************************************/
 """
 from qgis.PyQt.QtCore import QSettings, QTranslator, \
-    QCoreApplication, Qt, QUrl, QDate, QVariant
+    QCoreApplication, Qt, QUrl, QDate, QVariant, QThread, QObject
 from qgis.PyQt.QtGui import QIcon, QDesktopServices, QImage, QPixmap
 from qgis.PyQt.QtWidgets import QAction, QFileDialog, QComboBox, \
     QPushButton, QMessageBox, QTableWidgetItem, QDateEdit, \
-    QDateTimeEdit, QVBoxLayout, QDoubleSpinBox, QCompleter
+    QDateTimeEdit, QVBoxLayout, QDoubleSpinBox, QCompleter, \
+    QProgressBar, QDialogButtonBox
 
 # Initialize Qt resources from file resources.py
 from .resources import *
 
-from qgis.core import Qgis, QgsMapLayerProxyModel, QgsVectorLayer, QgsVectorFileWriter
+from qgis.core import Qgis, QgsMapLayerProxyModel, QgsProject, \
+    QgsVectorLayer, QgsVectorFileWriter
 
 # Import the code for the dialog
 from .RadHydro_dialog import RadHydroDialog
@@ -50,6 +52,7 @@ import shutil
 import tempfile
 import time
 import copy
+import traceback
 
 # Import modules
 from .modules.SARCA_lib import SARCALib
@@ -65,15 +68,17 @@ sp = SowingProcTimeSeries()
 ad = ActivityDecay()
 ru = RadUSLE()
 
+
 class RadHydro:
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
+
         """Constructor.
 
-        :param iface: An interface instance that will be passed to this class
-            which provides the hook by which you can manipulate the QGIS
-            application at run time.
+        :param iface: An interface instance that will be passed to
+        this class which provides the hook by which you can
+        manipulate the QGIS application at run time.
         :type iface: QgsInterface
         """
         # Save reference to the QGIS interface
@@ -213,6 +218,11 @@ class RadHydro:
         # Help
         self.dlg.button_box.helpRequested.connect(self.pluginHelp)
 
+        # Set disabled OK dialog button
+        self.dlg.button_box.button(QDialogButtonBox.Ok).setEnabled(
+            False)
+
+        # Run results calculation
         self.dlg.button_box.accepted.connect(self.resultsRun)
 
         # Set initial index of cbox_precip as 0
@@ -337,67 +347,86 @@ class RadHydro:
 # Calculation
 
     def resultsRun(self):
-        """Running the calculation"""
-
-        # TODO: add signals for progressbar
-        # TODO: threading
+        """Run the process of calculation in threads"""
 
         # Read constants from UI
         self.readConstants()
+        # Read HPJ field
+        self.su_field = self.dlg.cbox_HPJ_key.currentField()
+        # Run Working thread
+        self.startWorker()
+
+    def resultsCalculate(self):
+        """Running the calculation without threading and progress bar
+        showing."""
 
         # Main soil units layer path and field name
-        self.su_lyr_path = self.getLyrPath(self.dlg.cbox_HPJ)
-        self.su_field = self.dlg.cbox_HPJ_key.currentField()
+        su_lyr_path = self.getLyrPath(self.dlg.cbox_HPJ)
+        su_field = self.dlg.cbox_HPJ_key.currentField()
 
         # Crops layer path
-        self.crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
+        crops_path = self.getLyrPath(self.dlg.cbox_crop_lyr)
 
         # Load rasters of radioactivity, precip. and DMT and clip to
         # the overlapping area with the smallest pixel
-        self.loadRasters()
+        depo_path, precip_path, dmt_path = self.loadRasters()
 
         # Loading crops layer and creating initial crops dataframe
-        self.df_crops_init = self.createCropsInitDf()
+        df_crops_init = self.createCropsInitDf(crops_path)
 
         # Read crops growth model data from UI
-        self.df_growth_model_params = self.readGrowthModelParams()
+        df_growth_model_params = self.readGrowthModelParams()
 
         # Read transfer coefficients from UI
-        self.df_transf_coefs = self.readTransferCoef()
+        df_transf_coefs = self.readTransferCoef()
 
         # Calculate early stage
-        self.earlyStage()
+        self.earlyStage(depo_path, precip_path, crops_path, 
+                        df_crops_init)
 
         # Read crops rotation data and meadows cutting data from UI
-        self.df_crops_rotation = self.readCropsRotation()
-        self.df_meadows = self.readMeadowsCut()
+        df_crops_rotation = self.readCropsRotation()
+        df_meadows = self.readMeadowsCut()
 
         # Create time series for crops
-        self.df_crops_rotation_all = self.createCropsRotationTS()
-        self.df_crops_harvest = self.createCropsHarvestTS()
-        self.df_crops_dw_all = self.createDryMassTS()
+        df_crops_rotation_all = self.createCropsRotationTS(
+            df_crops_init, df_crops_rotation, df_meadows)
+        df_crops_harvest = self.createCropsHarvestTS(df_crops_init,
+                                                          df_crops_rotation,
+                                                          df_meadows)
+        df_crops_dw_all = self.createDryMassTS(df_crops_init,
+                                                    df_growth_model_params,
+                                                    df_crops_rotation,
+                                                    df_meadows)
 
         # Calculate USLE
         k_factor_tab = self.readKFactorTable()
-        self.k_factor = ru.fK(self.su_lyr_path, self.su_field,
-                              k_factor_tab, self.crops_path)
-        self.ls_factor = ru.fLS(self.dmt_path, self.crops_path,
-                                self.ls_factor_m, self.ls_factor_n)
-        self.c_factor_tab = self.readCFactorTable()
-        self.r_perc = self.readRFactorPercTable()
+        k_factor = ru.fK(su_lyr_path, su_field, k_factor_tab,
+                         crops_path)
+        ls_factor = ru.fLS(dmt_path, crops_path, self.ls_factor_m,
+                           self.ls_factor_n)
+        c_factor_tab = self.readCFactorTable()
+        r_perc = self.readRFactorPercTable()
 
         # Calculate hydrology
         # TODO
 
         # Calculate total radioactive contamination time series table
-        self.calculateRadioactiveContamination()
+        self.calculateRadioactiveContamination(df_transf_coefs,
+                                               df_crops_rotation_all,
+                                               df_crops_harvest,
+                                               df_crops_dw_all,
+                                               k_factor, ls_factor,
+                                               c_factor_tab, r_perc)
 
         # Export data
-        # self.exportTablesToCsv()        # TODO: následně neaktivní
+        # self.exportTablesToCsv()        # Export to csv
         self.exportRadioCont2GeoPackage()
 
         # The page with graph enabled
         self.dlg.tabWidget.setTabEnabled(2, True)
+
+        return
 
     def readConstants(self):
         """Read all constants from UI"""
@@ -452,25 +481,25 @@ class RadHydro:
         # Clipping the rasters
         if precip_path != None and precip_path != "":
             in_lyrs = [depo_path, precip_path, dmt_path]
-            (self.depo_path, self.precip_path, self.dmt_path) = \
+            (depo_path_new, precip_path_new, dmt_path_new) = \
                 clipOverlappingArea(in_lyrs, tmp_out=True)
 
         else:
             in_lyrs = [depo_path, dmt_path]
-            (self.depo_path, self.dmt_path) = \
+            (depo_path_new, dmt_path_new) = \
                 clipOverlappingArea(in_lyrs, tmp_out=True)
-            self.precip_path = None
+            precip_path_new = None
 
         # Get temporary folder path
-        self.tmp_folder = os.path.split(self.depo_path)[0]
+        self.tmp_folder = os.path.dirname(depo_path_new)
 
-        # Read geo information from rasters
-        self.rasters_geoinfo = readGeo(self.depo_path)
+        return depo_path_new, precip_path_new, dmt_path_new
 
-    def createCropsInitDf(self):
+    def createCropsInitDf(self, crops_path):
         """Read indices of crops corresponding to original crops from
         tw_crops_orig table and write them to the initial vector
-        layer"""
+        layer
+        :param crops_path: """
 
         # Get number of rows in the table
         r_count = self.dlg.tw_crops_orig.rowCount()
@@ -489,7 +518,7 @@ class RadHydro:
                 "Nazev"):crops_names})
 
         # Load crops layer to qgis
-        crops_lyr = QgsVectorLayer(self.crops_path, self.tr(
+        crops_lyr = QgsVectorLayer(crops_path, self.tr(
             "Plodiny_orig"), "ogr")
 
         # Read original crops IDs from crop vector - for all rows
@@ -520,16 +549,23 @@ class RadHydro:
 
         return df_crops_init
 
-    def earlyStage(self):
+    def earlyStage(self, depo_path, precip_path, crops_path,
+                   df_crops_init):
         """Calculation of radioactive contamination in early stage of
-        radioactive accident."""
+        radioactive accident.
+
+        :param df_crops_init:
+        :param crops_path:
+        :param depo_path:
+        :param precip_path:
+        """
 
         # Create df for radioactive contamination
-        self.df_radio_contamination = self.df_crops_init.copy(True)
+        self.df_radio_contamination = df_crops_init.copy(True)
 
         # Calculation of total deposition for all fields in the area of interest
-        total_depo_zonal = pd.DataFrame(zonal_stats(self.crops_path,
-                                       self.depo_path, method="median"))
+        total_depo_zonal = pd.DataFrame(zonal_stats(crops_path,
+                                       depo_path, method="median"))
         total_deposition = np.array(total_depo_zonal["median"])
         total_deposition = np.nan_to_num(total_deposition)
         total_deposition = np.where(total_deposition < 0.0, 0.0, total_deposition)
@@ -538,7 +574,7 @@ class RadHydro:
         self.df_radio_contamination["Tot_depo"] = total_deposition
 
         # Create df for reference levels
-        self.df_ref_levels = self.df_crops_init.copy(True)
+        self.df_ref_levels = df_crops_init.copy(True)
 
         # Calculated Ref.levels and add them to df
         ref_levels = sl.referLevel(total_deposition, self.rl_1, self.rl_2)
@@ -585,14 +621,14 @@ class RadHydro:
 
             # Join dw_act and LAI to new df corresponding with the input vector
             # layer
-            df_dw_lai_all = pd.merge(self.df_crops_init, dw_lai_table,
+            df_dw_lai_all = pd.merge(df_crops_init, dw_lai_table,
                                      on="ID_set", how="left")
 
             # Calculation of soil contamination
             # Precipitation
-            if self.precip_path != None and self.precip_path != "":
-                actual_prec_zonal = zonal_stats(self.crops_path,
-                                            self.precip_path, method="median")
+            if precip_path != None and precip_path != "":
+                actual_prec_zonal = zonal_stats(crops_path,
+                                            precip_path, method="median")
                 actual_precip = np.array([actual_prec_zonal[i]["median"] for
                                     i in range(len(actual_prec_zonal))])
             else:
@@ -730,15 +766,19 @@ class RadHydro:
 
         return df_meadows
 
-    def createCropsRotationTS(self):
+    def createCropsRotationTS(self, df_crops_init, df_crops_rotation,
+                              df_meadows):
         """Create time series for crops and meadows rotation for the
-        area of interest"""
+        area of interest
+        :param df_meadows:
+        :param df_crops_rotation:
+        :param df_crops_init: """
 
         # Create table for writing data
-        df_rotation_init = self.df_crops_init.copy(True)
+        df_rotation_init = df_crops_init.copy(True)
 
         # Create df for all crops in the crops rotation
-        df_crops_rot = sp.predictCropsRotation(self.df_crops_rotation,
+        df_crops_rot = sp.predictCropsRotation(df_crops_rotation,
                             ID_col_number=0, sowing_col_number=1,
                             harvest_col_number=2,
                             predict_months=self.predict_no_months,
@@ -746,7 +786,7 @@ class RadHydro:
                             early_stage_mng=self.early)
 
         # Create df for mowing meadows
-        df_meadows_rot = sp.predictCropsRotation(self.df_meadows,
+        df_meadows_rot = sp.predictCropsRotation(df_meadows,
                             ID_col_number=0, sowing_col_number=1,
                             harvest_col_number=2,
                             predict_months=self.predict_no_months,
@@ -769,15 +809,19 @@ class RadHydro:
 
         return df_crops_rotation_all
 
-    def createCropsHarvestTS(self):
+    def createCropsHarvestTS(self, df_crops_init, df_crops_rotation,
+                             df_meadows):
         """Create time series of the harvest time for the area of
-        interest"""
+        interest
+        :param df_meadows:
+        :param df_crops_rotation:
+        :param df_crops_init: """
 
         # Create tables for writing data
-        df_harvest_init = self.df_crops_init.copy(True)
+        df_harvest_init = df_crops_init.copy(True)
 
         # Create df for all crops in the crops rotation
-        df_crops_harvest = sp.predictHarvest(self.df_crops_rotation,
+        df_crops_harvest = sp.predictHarvest(df_crops_rotation,
                             ID_col_number=0, sowing_col_number=1,
                             harvest_col_number=2,
                             predict_months=self.predict_no_months,
@@ -785,7 +829,7 @@ class RadHydro:
                             early_stage_mng=self.early)
 
         # Create df for mowing meadows
-        df_meadows_harvest = sp.predictHarvest(self.df_meadows,
+        df_meadows_harvest = sp.predictHarvest(df_meadows,
                             ID_col_number=0, sowing_col_number=1,
                             harvest_col_number=2,
                             predict_months=self.predict_no_months,
@@ -808,16 +852,22 @@ class RadHydro:
 
         return df_crops_harvest
 
-    def createDryMassTS(self):
+    def createDryMassTS(self, df_crops_init, df_growth_model_params,
+                        df_crops_rotation, df_meadows):
         """Create time series table for dry weight of the crops for
-        the area of interest"""
+        the area of interest
+        
+        :param df_meadows:
+        :param df_crops_rotation:
+        :param df_growth_model_params:
+        :param df_crops_init: """
 
         # Create table for writing data
-        df_dw_init = self.df_crops_init.copy(True)
+        df_dw_init = df_crops_init.copy(True)
 
         # Create df for all crops in the crops rotation
-        df_crops_dw = sp.predictDryMass(self.df_crops_rotation,
-                                             self.df_growth_model_params,
+        df_crops_dw = sp.predictDryMass(df_crops_rotation,
+                                             df_growth_model_params,
                                              ID_col_number=0,
                                              sowing_col_number=1,
                                              harvest_col_number=2,
@@ -826,8 +876,8 @@ class RadHydro:
                                              early_stage_mng=self.early)
 
         # Create df for mowing meadows
-        df_meadows_dw = sp.predictDryMass(self.df_meadows,
-                                               self.df_growth_model_params,
+        df_meadows_dw = sp.predictDryMass(df_meadows,
+                                               df_growth_model_params,
                                                ID_col_number=0,
                                                sowing_col_number=1,
                                                harvest_col_number=2,
@@ -906,9 +956,23 @@ class RadHydro:
 
         return df_c_factor
 
-    def calculateRadioactiveContamination(self):
+    def calculateRadioactiveContamination(self, df_transf_coefs,
+                                          df_crops_rotation_all,
+                                          df_crops_harvest,
+                                          df_crops_dw_all, k_factor,
+                                          ls_factor, c_factor_tab,
+                                          r_perc):
         """Calculation of total radioactive contamination of
-        particular fields"""
+        particular fields
+
+        :param r_perc:
+        :param c_factor_tab:
+        :param ls_factor:
+        :param k_factor:
+        :param df_crops_dw_all:
+        :param df_crops_harvest:
+        :param df_crops_rotation_all:
+        :param df_transf_coefs: """
 
         # Calculation cycle of total radioactive contamination (RC) for
         # prediction time series
@@ -926,18 +990,18 @@ class RadHydro:
                 self.df_radio_contamination.iloc[:,i+6])
 
             # 2. Read column for harvest
-            harvest = np.array(self.df_crops_harvest.iloc[:,i+5])
+            harvest = np.array(df_crops_harvest.iloc[:,i+5])
             harvest = np.nan_to_num(harvest)
 
             # 3. Read dry mass of crops
-            dry_mass = np.array(self.df_crops_dw_all.iloc[:,i+5])
+            dry_mass = np.array(df_crops_dw_all.iloc[:,i+5])
             dry_mass = np.nan_to_num(dry_mass)
 
             # 4. Merge Tk to actual crops
-            crops_act = self.df_crops_rotation_all.iloc[:,i+5]
+            crops_act = df_crops_rotation_all.iloc[:,i+5]
             crops_act = pd.DataFrame({"ID_set":crops_act})
             df_transf_coefs_all = pd.merge(crops_act,
-                                           self.df_transf_coefs,
+                                           df_transf_coefs,
                                            on="ID_set", how="left")
             tr_coefs_arr = np.array(df_transf_coefs_all.iloc[:,1])
             tr_coefs_arr = np.nan_to_num(tr_coefs_arr)
@@ -961,20 +1025,20 @@ class RadHydro:
             # 8. Erosion - reducing radioactive contamination by
             # erosion
             # R factor
-            r_factor = ru.fR(self.r_factor_const, self.r_perc[current_month-1])
+            r_factor = ru.fR(self.r_factor_const, r_perc[current_month-1])
 
             # C factor
-            c_factor = pd.merge(crops_act, self.c_factor_tab, how="left",
+            c_factor = pd.merge(crops_act, c_factor_tab, how="left",
                                 on="ID_set")
 
             # Water erosion in t/ha/month
-            usle_all = r_factor * self.ls_factor.iloc[:,1]\
-                    * self.k_factor.iloc[:,1] * c_factor["C_factor"] * \
+            usle_all = r_factor * ls_factor.iloc[:,1]\
+                    * k_factor.iloc[:,1] * c_factor["C_factor"] * \
                     self.p_factor
 
             # USLE for reference level 3
-            usle_r3 = r_factor * self.ls_factor.iloc[:,
-                                 1] * self.k_factor.iloc[:,1] * 0.1
+            usle_r3 = r_factor * ls_factor.iloc[:,
+                                 1] * k_factor.iloc[:,1] * 0.1
 
             usle = np.where(ref_levels == 2, usle_r3, usle_all)
 
@@ -1005,17 +1069,17 @@ class RadHydro:
                                            self.rl_2)
             self.df_ref_levels[month_name] = new_ref_levels
 
-    def exportTablesToCsv(self):
-        """Exporting tables created by RadHydro to csv"""
-
-        # TODO: zatim se budou data ukládat do /home, následně bude export do
-        #  gdpg - všechny vrstvy do jedný databáze
-
-        self.df_radio_contamination.to_csv("kontam.csv")
-        self.df_ref_levels.to_csv("RU.csv")
-        self.df_crops_rotation_all.to_csv("OP.csv")
-        self.df_crops_harvest.to_csv("Sklizne.csv")
-        self.df_crops_dw_all.to_csv("susina.csv")
+    # def exportTablesToCsv(self):
+    #     """Exporting tables created by RadHydro to csv"""
+    # 
+    #     # TODO: zatim se budou data ukládat do /home, následně bude export do
+    #     #  gdpg - všechny vrstvy do jedný databáze
+    # 
+    #     self.df_radio_contamination.to_csv("kontam.csv")
+    #     self.df_ref_levels.to_csv("RU.csv")
+    #     df_crops_rotation_all.to_csv("OP.csv")
+    #     self.df_crops_harvest.to_csv("Sklizne.csv")
+    #     df_crops_dw_all.to_csv("susina.csv")
 
     def exportRadioCont2GeoPackage(self):
         """Export dataframe with radioactive contamination to
@@ -1136,6 +1200,11 @@ class RadHydro:
         self.fillCFactor()
         self.fillRadioTransferParams()
         self.fillSoilUnits()
+
+        # Set enabled OK dialog button
+        self.dlg.button_box.button(QDialogButtonBox.Ok).setEnabled(
+            True)
+
 
     def fillSoilUnits(self):
         """Fill soil parameters (Soil hydrological category and
@@ -1569,11 +1638,338 @@ class RadHydro:
         try:
             QDesktopServices.openUrl(QUrl(help_file))
         except IOError:
-            self.iface.messageBar().pushMessage(self.tr("Help error"),
-                    self.tr("Ooops, an error occured during help file"
-                    " opening..."), level=Qgis.Warning, duration=5)
+            self.iface.messageBar().pushMessage(self.tr("Varování"),
+                    self.tr("Jejda, nápovědu nelze otevřít..."),
+                                                level=Qgis.Warning, duration=5)
 
     def setCboxEmpty(self, comboBox):
         """Setting of empty value (text) in comboBoxes"""
 
         comboBox.setCurrentIndex(0)
+
+    def loadResults(self):
+        """Load calculated vector layer of radioactive deposition
+        time development."""
+
+        # Get path to output
+        out_lyr_path = self.dlg.out_file.filePath()
+
+        # Create instance of layer
+        vlayer = QgsVectorLayer(out_lyr_path,
+                                'Radioactive contamination', "ogr")
+
+        # Test validity of layer
+        if not vlayer.isValid():
+            self.iface.messageBar().pushMessage(self.tr("Varování"),
+                    self.tr("Jejda, vrstva nebyla načtena..."),
+                                                level=Qgis.Warning,
+                                                duration=5)
+        else:
+            # Load layer to QGIS
+            QgsProject.instance().addMapLayer(vlayer)
+            self.iface.messageBar().clearWidgets()
+
+
+    def startWorker(self):
+        """Start threads with calculation process and with progress
+        bar."""
+
+        # create a new worker instance
+        worker = Worker(lambda: self.getLyrPath(self.dlg.cbox_HPJ),
+         self.su_field,
+         lambda: self.getLyrPath(self.dlg.cbox_crop_lyr),
+         self.loadRasters,
+         self.createCropsInitDf,
+         self.readGrowthModelParams,
+         self.readTransferCoef,
+         self.earlyStage,
+         self.readCropsRotation,
+         self.readMeadowsCut,
+         self.createCropsRotationTS,
+         self.createCropsHarvestTS,
+         self.createDryMassTS,
+         self.readKFactorTable,
+         ru.fK,
+         ru.fLS,
+         self.readCFactorTable,
+         self.readRFactorPercTable,
+         self.calculateRadioactiveContamination,
+         self.exportRadioCont2GeoPackage,
+         self.ls_factor_m,
+         self.ls_factor_n)
+
+        # configure the QgsMessageBar
+        messageBar = self.iface.messageBar().createMessage(
+            self.tr("Probíhá výpočet změn radioaktivní depozice:"), )
+        progressBar = QProgressBar()
+        progressBar.setAlignment(
+            QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        progressBar.setMinimum(0)
+        progressBar.setMaximum(100)
+        cancelButton = QPushButton()
+        cancelButton.setText(self.tr('Zrušit'))
+        cancelButton.clicked.connect(worker.kill)
+        messageBar.layout().addWidget(progressBar)
+        messageBar.layout().addWidget(cancelButton)
+        self.iface.messageBar().pushWidget(messageBar, Qgis.Info)
+        self.messageBar = messageBar
+
+        # start the worker in a new thread
+        thread = QThread()
+        worker.moveToThread(thread)
+        worker.finished.connect(self.workerFinished)
+        worker.error.connect(self.workerError)
+        worker.progress.connect(progressBar.setValue)
+        worker.progress_t.connect(progressBar.setFormat)
+        thread.started.connect(worker.run)
+        thread.start()
+        self.thread = thread
+        self.worker = worker
+
+    def workerFinished(self):
+        # clean up the worker and thread
+        self.worker.deleteLater()
+        self.thread.quit()
+        self.thread.wait()
+        self.thread.deleteLater()
+
+        # The page with graph enabled
+        self.dlg.tabWidget.setTabEnabled(2, True)
+
+        # remove widget from message bar
+        self.iface.messageBar().popWidget(self.messageBar)
+        # Create finish message and load lyrs
+        self.iface.messageBar().clearWidgets()
+        widget = self.iface.messageBar().createMessage("Info", self.tr(
+            "Výpočet byl dokončen. Přejete si načíst "
+            "výslednou vrstvu časových změn radioaktivní "
+            "kontaminace území do QGIS?"))
+        button = QPushButton(widget)
+        button.setText(self.tr("Načíst výsledek"))
+        button.pressed.connect(self.loadResults)
+        widget.layout().addWidget(button)
+        self.iface.messageBar().pushWidget(widget, Qgis.Info)
+
+    def workerError(self, exception_string):
+        # TODO - překlad
+        self.iface.messageBar().pushMessage(self.tr(
+            "Něco zlého se přihodilo!\n{ex_str}").format(
+                ex_str=exception_string),
+            level=Qgis.Critical, duration=3)
+
+
+class Worker(QObject):
+    """Example worker for calculating the total area of all features
+    in a layer"""
+    # Threading was done due to:
+    # https://snorfalorpagus.net/blog/2013/12/07/multithreading-in
+    # -qgis-python-plugins/
+
+    def __init__(self,
+                 suLyrPath,
+                 su_field,
+                 getCropsPath,
+                 loadRasters,
+                 createCropsDf,
+                 readGrowthModel,
+                 readTransfCoefs,
+                 earlyStage,
+                 readCropsRot,
+                 readMeadows,
+                 createCropsRot,
+                 createCropsHarvest,
+                 createDryMass,
+                 readKFactor,
+                 calcFK,
+                 calcFLS,
+                 readCTable,
+                 readRTable,
+                 calcRadioactiveCont,
+                 exportRadCont,
+                 ls_m,
+                 ls_n):
+
+        QThread.__init__(self)
+
+        # Read variables - calculation process can be done with
+        # RadHydro.resultsCalculate method without threading
+        self.suLyrPath = suLyrPath
+        self.su_field = su_field
+        self.getCropsPath = getCropsPath
+        self.loadRasters = loadRasters
+        self.createCropsDf = createCropsDf
+        self.readGrowthModel = readGrowthModel
+        self.readTransfCoefs = readTransfCoefs
+        self.earlyStage = earlyStage
+        self.readCropsRot = readCropsRot
+        self.readMeadows = readMeadows
+        self.createCropsRot = createCropsRot
+        self.createCropsHarvest = createCropsHarvest
+        self.createDryMass = createDryMass
+        self.readKFactor = readKFactor
+        self.calcFK = calcFK
+        self.calcFLS = calcFLS
+        self.readCTable = readCTable
+        self.readRTable = readRTable
+        self.calcRadioactiveCont = calcRadioactiveCont
+        self.exportRadCont = exportRadCont
+        self.ls_factor_m = ls_m
+        self.ls_factor_n = ls_n
+
+        self.killed = False
+
+    def run(self):
+        # self.progress.emit(0)
+        try:
+            perc = 0
+            self.progress_t.emit(self.tr("{pr} %: Načítání "
+                                         "vstupní vrstvy").format(
+                pr=str(
+                perc)))
+            self.progress.emit(perc)
+            su_lyr_path = self.suLyrPath()
+
+            perc = 10
+            self.progress_t.emit(self.tr("{pr} %: Načítání vstupní "
+                                 "vrstvy").format(pr=str(perc)))
+            self.progress.emit(perc)
+            crops_path = self.getCropsPath()
+
+            perc = 15
+            self.progress_t.emit(self.tr("{pr} %: Transformace "
+                                         "rastrů").format(
+                pr=str(perc)))
+            self.progress.emit(perc)
+            depo_path, precip_path, dmt_path = self.loadRasters()
+
+            perc = 20
+            self.progress_t.emit(self.tr("{pr} %: Příprava "
+                                         "dat").format(pr=str(
+                perc)))
+            self.progress.emit(perc)
+            df_crops_init = self.createCropsDf(crops_path)
+
+            perc = 25
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Příprava "
+                                         "dat").format(pr=str(perc)))
+            df_growth_model_params = self.readGrowthModel()
+
+            perc = 30
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Příprava "
+                                         "dat").format(pr=str(perc)))
+            df_transf_coefs = self.readTransfCoefs()
+
+            perc = 35
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Výpočet časné "
+                                         "fáze").format(
+                pr=str(perc)))
+            self.earlyStage(depo_path, precip_path, crops_path, 
+                            df_crops_init)
+
+            perc = 40
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Osevní "
+                                         "postupy").format(pr=str(
+                perc)))
+            df_crops_rotation = self.readCropsRot()
+
+            perc = 45
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Osevní "
+                                         "postupy").format(pr=str(
+                perc)))
+            df_meadows = self.readMeadows()
+
+            perc = 50
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Osevní "
+                                         "postupy").format(pr=str(
+                perc)))
+            df_crops_rotation_all = self.createCropsRot(
+                df_crops_init, df_crops_rotation, df_meadows)
+
+            perc = 55
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Osevní "
+                                         "postupy").format(pr=str(
+                perc)))
+            df_crops_harvest = self.createCropsHarvest(
+                df_crops_init, df_crops_rotation, df_meadows)
+
+            perc = 60
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Osevní "
+                                         "postupy").format(pr=str(
+                perc)))
+            df_crops_dw_all = self.createDryMass(df_crops_init, 
+                                        df_growth_model_params, 
+                                        df_crops_rotation, df_meadows)
+
+            perc = 65
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+                pr=str(perc)))
+            k_factor_tab = self.readKFactor()
+
+            perc = 70
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+                pr=str(perc)))
+            k_factor = self.calcFK(su_lyr_path,
+                                        self.su_field, k_factor_tab,
+                                        crops_path)
+
+            perc = 75
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+                pr=str(perc)))
+            ls_factor = self.calcFLS(dmt_path,
+                                          crops_path,
+                                          self.ls_factor_m,
+                                          self.ls_factor_n)
+
+            perc = 80
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+                pr=str(perc)))
+            c_factor_tab = self.readCTable()
+
+            perc = 85
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+                pr=str(perc)))
+            r_perc = self.readRTable()
+
+            perc = 90
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Výpočet změn "
+                                 "kontaminace").format(pr=str(perc)))
+            self.calcRadioactiveCont(df_transf_coefs, 
+                                     df_crops_rotation_all,
+                                     df_crops_harvest,
+                                     df_crops_dw_all, k_factor, 
+                                     ls_factor, c_factor_tab, r_perc)
+
+            perc = 95
+            self.progress.emit(perc)
+            self.progress_t.emit(self.tr("{pr} %: Export "
+                                         "dat").format(pr=str(
+                perc)))
+            self.exportRadCont()
+
+        except Exception:
+            # forward the exception upstream
+            self.error.emit(traceback.format_exc())
+        self.finished.emit(100)
+
+    def kill(self):
+        self.killed = True
+
+    finished = QtCore.pyqtSignal(object)
+    error = QtCore.pyqtSignal(str)
+    progress = QtCore.pyqtSignal(int)
+    progress_t = QtCore.pyqtSignal(str)
+

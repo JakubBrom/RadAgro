@@ -40,7 +40,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Adresář pro výstupy</string>
+      <string>Výstup</string>
      </property>
     </widget>
    </item>
@@ -51,6 +51,9 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Close|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -273,8 +276,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>264</width>
+                <height>107</height>
                </rect>
               </property>
               <attribute name="label">
@@ -376,8 +379,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>500</width>
+                <height>80</height>
                </rect>
               </property>
               <attribute name="label">
@@ -459,8 +462,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>193</width>
+                <height>172</height>
                </rect>
               </property>
               <attribute name="label">
@@ -552,8 +555,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>366</width>
+                <height>240</height>
                </rect>
               </property>
               <attribute name="label">
@@ -735,8 +738,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>119</width>
+                <height>79</height>
                </rect>
               </property>
               <attribute name="label">
@@ -795,8 +798,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>397</width>
+                <height>141</height>
                </rect>
               </property>
               <attribute name="label">
@@ -938,8 +941,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>692</width>
-                <height>494</height>
+                <width>150</width>
+                <height>50</height>
                </rect>
               </property>
               <attribute name="label">
@@ -1002,8 +1005,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>710</width>
-            <height>744</height>
+            <width>132</width>
+            <height>233</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -1032,8 +1035,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>690</width>
-                  <height>579</height>
+                  <width>401</width>
+                  <height>119</height>
                  </rect>
                 </property>
                 <attribute name="label">
@@ -1782,8 +1785,8 @@ a vláhovém stavu půdy</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>382</width>
-                  <height>141</height>
+                  <width>335</width>
+                  <height>117</height>
                  </rect>
                 </property>
                 <attribute name="label">
@@ -1791,31 +1794,7 @@ a vláhovém stavu půdy</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_29">
                  <item row="0" column="0">
-                  <layout class="QGridLayout" name="gridLayout_14">
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_20">
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Transferový koeficient půda-voda (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.mm&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QDoubleSpinBox" name="doubleSpinBox">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="decimals">
-                      <number>5</number>
-                     </property>
-                     <property name="value">
-                      <double>0.000100000000000</double>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
+                  <layout class="QGridLayout" name="gridLayout_14"/>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_22">
@@ -1897,8 +1876,8 @@ a vláhovém stavu půdy</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>710</width>
-            <height>744</height>
+            <width>410</width>
+            <height>129</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_18">
