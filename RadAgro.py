@@ -1956,8 +1956,7 @@ class Worker(QObject):
             perc = 95
             self.progress.emit(perc)
             self.progress_t.emit(self.tr("{pr} %: Export "
-                                         "dat").format(pr=str(
-                perc)))
+                                         "dat").format(pr=str(perc)))
             self.exportRadCont()
 
         except Exception:
