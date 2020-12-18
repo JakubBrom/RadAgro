@@ -16,6 +16,13 @@ RadAgro is software designated for estimation of a radiation
  is a geodatabase of radiation contamination of individual fields of the
  studied area.
 
+Install
+-------
+
+Press green "Code" button and download the RadArgo in zip format. 
+Install it as a plug-in in QGIS - go to Plugins/Manage and Install 
+Plugins/Install from ZIP.
+
 Authors and collaborators
 -------------------------
 

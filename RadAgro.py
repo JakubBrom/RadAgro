@@ -99,7 +99,7 @@ class RadAgro:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&RadAgro for QGIS')
+        self.menu = self.tr(u'&RadAgro')
 
         # Check if plugin was started the first time in current QGIS session
         # Must be set in initGui() to survive plugin reloads
@@ -205,7 +205,7 @@ class RadAgro:
         icon_path = ':/plugins/RadAgro/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'RadAgro for QGIS'),
+            text=self.tr(u'RadAgro'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
@@ -268,7 +268,7 @@ class RadAgro:
         """Removes the plugin menu item and icon from QGIS GUI."""
         for action in self.actions:
             self.iface.removePluginMenu(
-                self.tr(u'&RadAgro for QGIS'),
+                self.tr(u'&RadAgro'),
                 action)
             self.iface.removeToolBarIcon(action)
 
