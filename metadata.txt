@@ -1,5 +1,5 @@
 [general]
-name=RadHydro for QGIS
+name=RadAgro for QGIS
 qgisMinimumVersion=3.0
 description=QGIS plugin for temporal analysis of radioactivity contamination changes in agricultural landscape
 version=0.1
@@ -7,25 +7,25 @@ author=Dr. Jakub Brom, University of South Bohemia in České Budějovice, Facul
 
 email=jbrom@zf.jcu.cz
 
-about=RadHydro is software designated for estimation of a radiation
+about=RadAgro is software designated for estimation of a radiation
  contamination progress in agricultural landscape. It involves the
  principal landscape elements and processes which could significantly
  influence the radiation load in landscape. Especially important is the
  field management based on crop rotation; also crop characteristics and
- soil erosion are involved. RadHydro simulates the early phase of
+ soil erosion are involved. RadAgro simulates the early phase of
  radiation event and following development of radiation contamination
  of the area of interest at monthly intervals.The output of the software
  is a geodatabase of radiation contamination of individual fields of the
  studied area.
 
- The RadHydro software development was supported by the Ministry of the
+ The RadAgro software development was supported by the Ministry of the
  Interior of the Czech Republic research project VI20172020098
  Disposal of radiation-contaminated biomass after NPP
  accident-distribution, logistic of harvesting, exploring in biogas
  technology.
 
-tracker=https://github.com/JakubBrom/RadHydro/issues
-repository=https://github.com/JakubBrom/RadHydro
+tracker=https://github.com/JakubBrom/RadAgro/issues
+repository=https://github.com/JakubBrom/RadAgro
 # End of mandatory metadata
 
 # Recommended items:

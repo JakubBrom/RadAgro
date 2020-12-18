@@ -8,7 +8,7 @@ V biomase rostlin dochází v průběhu jejich života k akumulaci
 radionuklidů. Množství kontaminantu, který je akumulován rostlinou
 závisí na mnoha faktorech, jako je druh rostliny, její fyziologická
 kondice, půdní prostředí, vodní režim apod. Pro účely programu
-RadHydro byl pro výpočet akumulace radionuklidu v biomase rostlin
+RadAgro byl pro výpočet akumulace radionuklidu v biomase rostlin
 použit jednoduchý přístup, který předpokládá homogenní akumulaci
 radionuklidu v jednotlivých druzích rostlin, bez ohledu na půdní
 prostředí a další faktory. Relativní míra akumulace radionuklidu v

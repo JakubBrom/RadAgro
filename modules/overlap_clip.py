@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: cp1250 -*-
 
-#  Project: RadHydro
+#  Project: RadAgro
 #  File: overlap_clip.py
 #
 #  Author: Dr. Jakub Brom

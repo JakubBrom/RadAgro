@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#  Project: RadHydro
+#  Project: RadAgro
 #  File: hydrIO.py
 #
 #  Author: Dr. Jakub Brom

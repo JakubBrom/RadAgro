@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-#  Project: RadHydro
+#  Project: RadAgro
 #  File: usle.py
 #
 #  Author: Dr. Jakub Brom

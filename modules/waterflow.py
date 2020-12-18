@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-#  Project: RadHydro
+#  Project: RadAgro
 #  File: waterflow.py
 #
 #  Author: Dr. Jakub Brom

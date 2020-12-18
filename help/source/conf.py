@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# RadHydro documentation build configuration file, created by
+# RadAgro documentation build configuration file, created by
 # sphinx-quickstart on Sun Feb 12 17:11:03 2012.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'RadHydro'
+project = u'RadAgro'
 copyright = u'2020, Dr. Jakub Brom, University of South Bohemia in České ' \
             u'Budějovice, Faculty of Agriculture, Czech Republic'
 
@@ -201,12 +201,12 @@ numfig_secnum_depth = 3
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 # latex_documents = [
-#   ('index', 'RadHydro.tex', u'RadHydro Documentation',
+#   ('index', 'RadAgro.tex', u'RadAgro Documentation',
 #    u'Dr. Jakub Brom, University of South Bohemia in České Budějovice,'
 #    u'\nFaculty of Agriculture, Czech Republic', 'manual'),
 # ]
 latex_documents = [
-  ('index', 'RadHydro.tex', u'RadHydro - Dokumentace',
+  ('index', 'RadAgro.tex', u'RadAgro - Dokumentace',
    u'Autoři: Jakub Brom a kol.', 'manual')
 ]
 
@@ -239,7 +239,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'TemplateClass', u'RadHydro - Dokumentace',
+    ('index', 'TemplateClass', u'RadAgro - Dokumentace',
      [u'Dr. Jakub Brom, Jihočeská univerzita v Českých Budějovicích, '
       u'Zemědělská fakulta'], 1)
 ]

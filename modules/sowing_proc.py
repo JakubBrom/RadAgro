@@ -1,4 +1,4 @@
-#  Project: RadHydro
+#  Project: RadAgro
 #  File: sowing_proc.py
 #
 #  Author: Dr. Jakub Brom

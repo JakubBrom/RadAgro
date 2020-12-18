@@ -1,7 +1,7 @@
 Poděkování
 ===============
 
-Vývoj programu RadHydro for QGIS byl podpořen z projektu Ministerstva  vnitra
+Vývoj programu RadAgro for QGIS byl podpořen z projektu Ministerstva  vnitra
 České republiky VI20172020098.
 
 

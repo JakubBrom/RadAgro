@@ -2,8 +2,8 @@ This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**RadHydro.tex
-(./RadHydro.tex
+**RadAgro.tex
+(./RadAgro.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (./sphinxmanual.cls
 Document Class: sphinxmanual 2019/12/01 v2.3.0 Document class (Sphinx manual)
@@ -617,12 +617,12 @@ Package: l3keys2e 2020-02-14 LaTeX2e option processing using LaTeX3 keys
 Package: translator 2019-05-31 v1.12a Easy translation of strings in LaTeX
 ))
 \@indexfile=\write4
-\openout4 = `RadHydro.idx'.
+\openout4 = `RadAgro.idx'.
 
 
-Writing index file RadHydro.idx
-(./RadHydro.aux)
-\openout1 = `RadHydro.aux'.
+Writing index file RadAgro.idx
+(./RadAgro.aux)
+\openout1 = `RadAgro.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
 LaTeX Font Info:    ... okay on input line 86.
@@ -720,9 +720,9 @@ LaTeX Info: Redefining \ref on input line 86.
 LaTeX Info: Redefining \pageref on input line 86.
 LaTeX Info: Redefining \nameref on input line 86.
 
-(./RadHydro.out) (./RadHydro.out)
+(./RadAgro.out) (./RadAgro.out)
 \@outlinefile=\write5
-\openout5 = `RadHydro.out'.
+\openout5 = `RadAgro.out'.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/translator/translator-basic-dictionary
@@ -760,9 +760,9 @@ LaTeX Font Info:    Font shape `T1/phv/b/it' in size <17.28> not available
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 
-] (./RadHydro.toc)
+] (./RadAgro.toc)
 \tf@toc=\write6
-\openout6 = `RadHydro.toc'.
+\openout6 = `RadAgro.toc'.
 
  [1
 
@@ -819,7 +819,7 @@ Chapter 2.
 ] [15
 
 
-] (./RadHydro.ind [16
+] (./RadAgro.ind [16
 
 
 ]
@@ -867,11 +867,11 @@ terBalance
 ])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1193.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 1193.
- (./RadHydro.aux)
+ (./RadAgro.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1193.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1193.
 
-Package rerunfilecheck Info: File `RadHydro.out' has not changed.
+Package rerunfilecheck Info: File `RadAgro.out' has not changed.
 (rerunfilecheck)             Checksum: 60FFC9B1726832C3B95D7475D83D0103;2567.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1193.
  ) 
@@ -901,7 +901,7 @@ e1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helv
 etic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on RadHydro.pdf (22 pages, 275058 bytes).
+Output written on RadAgro.pdf (22 pages, 275058 bytes).
 PDF statistics:
  391 PDF objects out of 1000 (max. 8388607)
  336 compressed objects within 4 object streams

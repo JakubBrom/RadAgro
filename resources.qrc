@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/RadHydro" >
+    <qresource prefix="/plugins/RadAgro" >
         <file>icon.png</file>
     </qresource>
 </RCC>

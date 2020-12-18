@@ -1,4 +1,4 @@
-Popis programu RadHydro
+Popis programu RadAgro
 ============================================
 
 Modul Urban Green SARCA je softwarový GIS nástroj vytvořený pro účely odhadu
