@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.overlap_clip &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="../../genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="../../search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="../../index.html"/>
+        <link rel="up" title="Kód modulu" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="../../_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Kód modulu</a> &raquo;</li>
+        
+      <li>modules.overlap_clip</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Zdrojový kód pro modules.overlap_clip</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: cp1250 -*-</span>
+
+<span class="c1">#  Project: RadAgro</span>
+<span class="c1">#  File: overlap_clip.py</span>
+<span class="c1">#</span>
+<span class="c1">#  Author: Dr. Jakub Brom</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in České</span>
+<span class="c1">#  Budějovice, Faculty of Agriculture.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#      it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#      the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#      (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#      This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#      but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#      GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#      You should have received a copy of the GNU General Public License</span>
+<span class="c1">#      along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#  Last changes: 28.11.20 23:48</span>
+<span class="c1">#</span>
+<span class="c1">#  Begin: 2020/9/21</span>
+<span class="c1">#</span>
+<span class="c1">#  Description: Module for manipulation with rasters with different EPSG and</span>
+<span class="c1">#  shape. The methods provide possibility to unify EPSGs of rasters and their</span>
+<span class="c1">#  extent and resolution. It is possible to create an overlapping area for all</span>
+<span class="c1">#  the rasters used.</span>
+
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span>
+
+
+<div class="viewcode-block" id="readGeo"><a class="viewcode-back" href="../../libs.html#modules.overlap_clip.readGeo">[dokumentace]</a><span class="k">def</span> <span class="nf">readGeo</span><span class="p">(</span><span class="n">rast</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reading geographical information from raster using GDAL.</span>
+
+<span class="sd">    :param rast: Path to raster file in GDAL accepted format.</span>
+<span class="sd">    :type rast: str</span>
+
+<span class="sd">    :returns: List of geotransformation parameters and features of an \</span>
+<span class="sd">    input raster:</span>
+<span class="sd">    \n</span>
+
+<span class="sd">        * 0: The affine transformation coefficients; tuple</span>
+<span class="sd">        * 1: Projection information of the raster (dataset); str</span>
+<span class="sd">        * 2: Pixel width (m) on X axis; float</span>
+<span class="sd">        * 3: Pixel height (m) on Y axis; float</span>
+<span class="sd">        * 4: EPSG Geodetic Parameter Set code; str</span>
+<span class="sd">        * 5: Coordinate system; str</span>
+<span class="sd">        * 6: Number of columns in the raster; int</span>
+<span class="sd">        * 7: Number of rows in the raster; int</span>
+<span class="sd">        * 8: SRS - OSR spatial reference; object</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">rast</span><span class="p">)</span>
+
+        <span class="n">gtransf</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+        <span class="n">prj</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+        <span class="n">x_size</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">y_size</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterXSize</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterYSize</span>
+
+        <span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">(</span><span class="n">wkt</span><span class="o">=</span><span class="n">prj</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">srs</span><span class="o">.</span><span class="n">IsProjected</span><span class="p">:</span>
+            <span class="n">EPSG</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s2">&quot;authority&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">geogcs</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s2">&quot;geogcs&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">loccs</span> <span class="o">=</span> <span class="n">srs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s2">&quot;local_cs&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">EPSG</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">geogcs</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">loccs</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">del</span> <span class="n">ds</span>
+
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Geographical information have not been readed.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gtransf</span><span class="p">,</span> <span class="n">prj</span><span class="p">,</span> <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">,</span> <span class="n">EPSG</span><span class="p">,</span> <span class="n">geogcs</span><span class="p">,</span> <span class="n">loccs</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> \
+           <span class="n">rows</span><span class="p">,</span> <span class="n">srs</span></div>
+
+
+<div class="viewcode-block" id="fixSRS"><a class="viewcode-back" href="../../libs.html#modules.overlap_clip.fixSRS">[dokumentace]</a><span class="k">def</span> <span class="nf">fixSRS</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">,</span> <span class="n">tmp_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checking and fixing the SRSs of input rasters. Function looks</span>
+<span class="sd">    for possible definition of SRS in group of rasters --&gt; local SRS</span>
+<span class="sd">    is possibly replaced by global SRS if it is available in the set</span>
+<span class="sd">    of rasters. The empty SRS is replaced by most frequent SRS</span>
+<span class="sd">    in the set of rasters.</span>
+
+<span class="sd">    :param rasters_in: List of input rasters paths.</span>
+<span class="sd">    :type rasters_in: list</span>
+<span class="sd">    :param tmp_out: Selection if the output layers will be created</span>
+<span class="sd">                as temporal scratch layers or the original raster</span>
+<span class="sd">                layers will be replaced by newly defined rasters.</span>
+<span class="sd">    :type tmp_out: bool</span>
+<span class="sd">    :return: List of output layers paths</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Manage output list</span>
+    <span class="n">rasters_out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">)</span>
+
+    <span class="c1"># 1. Get rasters info</span>
+    <span class="n">EPSG_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">LLC_X_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">geoGCS_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">localCS_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rasters_in</span><span class="p">:</span>
+        <span class="n">ginfo</span> <span class="o">=</span> <span class="n">readGeo</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="n">EPSG_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">geoGCS_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="n">localCS_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+        <span class="n">LLC_X_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">cols</span><span class="p">)</span>
+
+    <span class="c1"># 2. Check EPSGs</span>
+    <span class="c1"># Convert EPSG to int</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">EPSGs_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># Check differences in the EPSGs</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">EPSGs_int</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">EPSGs_int</span><span class="p">):</span>
+        <span class="c1"># Make temporary folder</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tmp_folder</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">err</span>
+
+        <span class="c1"># 3. Test of the layers with local CS - replace localCS with</span>
+        <span class="c1"># geoCS</span>
+        <span class="n">localCS_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">localCS_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span>
+                         <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">localCS_index</span><span class="p">:</span>
+            <span class="c1"># Name of local CS which can cover geo CS</span>
+            <span class="n">localCS_name</span> <span class="o">=</span> <span class="n">localCS_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Search for the projection in geoCS which</span>
+                <span class="c1"># corresponds with localCS of the tested image</span>
+                <span class="n">geoCS_notNone</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span>
+                                 <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span>
+                                 <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+                <span class="n">geo_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">geoCS_notNone</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">==</span>
+                             <span class="n">localCS_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># Fill EPSG for a layer</span>
+                <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">geo_index</span><span class="p">]</span>
+                <span class="c1"># create temporary output file</span>
+                <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                    <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                <span class="c1"># convert SRS from local to global --&gt; create</span>
+                <span class="c1"># temporary file</span>
+                <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">srcSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span>
+                    <span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span>
+                    <span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span> <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># replace path of file with local projection by the</span>
+                <span class="c1"># temporary file with correct projection</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRS for layer &quot;</span> <span class="o">+</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; has been &quot;</span>
+                                                          <span class="s2">&quot;fixed.&quot;</span><span class="p">)</span>
+                <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+                <span class="n">geoGCS_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">geoGCS_list</span><span class="p">[</span><span class="n">geo_index</span><span class="p">]</span>
+                <span class="n">localCS_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">except</span> <span class="ne">Warning</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The SRS for layer &quot;</span> <span class="o">+</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
+                              <span class="s2">&quot; has not been found. We will try to &quot;</span>
+                              <span class="s2">&quot;find out another way how to fix SRS.&quot;</span><span class="p">,</span>
+                              <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="c1"># 4. Testing layers with missing EPSG on basis of coordinates</span>
+        <span class="n">noEPSG_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span>
+                        <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="c1"># Searching the same coordinates and replacing SRS</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">noEPSG_index</span><span class="p">:</span>
+            <span class="c1"># search for the same coordinates</span>
+            <span class="n">coord</span> <span class="o">=</span> <span class="n">LLC_X_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">geoCS_notNone</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span>
+                                 <span class="n">x</span> <span class="ow">is</span>
+                                 <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+                <span class="c1"># Testing coordinates with layers with existing CS</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">geoCS_notNone</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="n">LLC_X_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">coord</span><span class="p">:</span>
+                        <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+                        <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                            <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                        <span class="c1"># convert SRS --&gt; create temporary file</span>
+                        <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                  <span class="n">srcSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                                  <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span>
+                                  <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="c1"># replace path of file with local projection</span>
+                        <span class="c1"># by the temporary file with correct projection</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRS for layer &quot;</span> <span class="o">+</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
+                              <span class="s2">&quot; has been fixed.&quot;</span><span class="p">)</span>
+                        <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+                        <span class="n">geoGCS_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">geoGCS_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+                        <span class="k">break</span>
+
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Ooops...! Something wrong &quot;</span>
+                                   <span class="s2">&quot;happened.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 5. Converting remaining files to prevailing EPSG</span>
+        <span class="n">noEPSG_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span>
+                        <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">EPSG_maxfreq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">EPSG_list</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">noEPSG_index</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Layer &quot;</span> <span class="o">+</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; has still no &quot;</span>
+                          <span class="s2">&quot;SRS. The EPSG: &quot;</span> <span class="o">+</span> <span class="n">EPSG_maxfreq</span> <span class="o">+</span> <span class="s2">&quot; will &quot;</span>
+                                                             <span class="s2">&quot;be used.&quot;</span><span class="p">,</span>
+                          <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                    <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                <span class="c1"># convert SRS --&gt; create temporary file</span>
+                <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                          <span class="n">srcSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="n">EPSG_maxfreq</span><span class="p">),</span>
+                          <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span>
+                          <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># replace path of file with local projection by the</span>
+                <span class="c1"># temporary file with correct projection</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SRS for layer &quot;</span> <span class="o">+</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; has &quot;</span>
+                                                          <span class="s2">&quot;been fixed.&quot;</span><span class="p">)</span>
+                <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+                <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">EPSG_maxfreq</span>
+
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Ooops...! Something wrong &quot;</span>
+                                   <span class="s2">&quot;happened.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tmp_out</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;All the files with incorrect SRS have been &quot;</span>
+                          <span class="s2">&quot;replaced by files with fixed SRS. Some &quot;</span>
+                          <span class="s2">&quot;errors may occur!&quot;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rasters_out</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">rasters_out</span> <span class="o">=</span> <span class="n">rasters_in</span>
+            <span class="c1"># remove temporary files</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No SRS has been changed.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rasters_out</span></div>
+
+<div class="viewcode-block" id="uniformSRS"><a class="viewcode-back" href="../../libs.html#modules.overlap_clip.uniformSRS">[dokumentace]</a><span class="k">def</span> <span class="nf">uniformSRS</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">,</span> <span class="n">epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmp_out</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The function unifies SRSs of a group of input raster layers. If</span>
+<span class="sd">    output EPSG is not defined, the most frequent EPSG is defined as</span>
+<span class="sd">    default. If SRSs are not included in the raster datasets either</span>
+<span class="sd">    set EPSG or WGS 84 (EPSG:4326; i.e. if epsg=None) is used for</span>
+<span class="sd">    transformation of SRS.</span>
+
+<span class="sd">    :param rasters_in: List of input rasters paths.</span>
+<span class="sd">    :type rasters_in: list</span>
+<span class="sd">    :param epsg: EPSG definition for output rasters. If epsg=None</span>
+<span class="sd">                the most frequent EPSG in the layers group will be set.</span>
+<span class="sd">    :type epsg: int</span>
+<span class="sd">    :param tmp_out: Selection if the output layers will be created</span>
+<span class="sd">                as temporal scratch layers or the original raster</span>
+<span class="sd">                layers will be replaced by newly defined rasters.</span>
+<span class="sd">    :type tmp_out: bool</span>
+
+<span class="sd">    :return: List of output layers paths</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: poresit vyjimky - melo by smysl, aby bylo namisto vyjimky</span>
+    <span class="c1">#  jen varovani, s tim, ze by z procedury vypadly puvodni</span>
+    <span class="c1">#  neupraveny data?</span>
+    <span class="c1"># TODO: pokud GDAL neumi pracovat s nekterymi epsg (treba</span>
+    <span class="c1">#  S-JTSK), tak by mozna bylo dobry zkusit QGIS QgsGeometryEngine</span>
+    <span class="c1">#  (https://qgis.org/api/classQgsGeometryEngine.html)</span>
+    <span class="c1"># TODO: poresit mazani dat z tmp -</span>
+
+    <span class="c1"># GDAL exceptions</span>
+    <span class="n">gdal_ver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">__version__</span>
+    <span class="n">gdal</span><span class="o">.</span><span class="n">UseExceptions</span><span class="p">()</span>
+
+    <span class="c1"># Manage output list</span>
+    <span class="n">rasters_orig</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">)</span>
+    <span class="n">rasters_out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">)</span>
+
+    <span class="c1"># 1. Get rasters info</span>
+    <span class="n">EPSG_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">geoGCS_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rasters_in</span><span class="p">:</span>
+        <span class="n">ginfo</span> <span class="o">=</span> <span class="n">readGeo</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">EPSG_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">geoGCS_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+
+    <span class="c1"># Make temporary folder</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tmp_folder</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">err</span>
+
+    <span class="c1"># 2. Check SRSs</span>
+    <span class="c1"># Convert EPSG to int</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">EPSGs_int</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># list of layers without SRS</span>
+    <span class="n">noEPSG_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span>
+                    <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="c1"># 3. Check differences in the EPSGs</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">EPSGs_int</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">EPSGs_int</span><span class="p">):</span>  <span class="c1"># --&gt; different SRS</span>
+
+        <span class="c1"># 4. testing if there are no EPSGs in the raster list</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">noEPSG_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Fix SRS</span>
+            <span class="n">rasters_in</span> <span class="o">=</span> <span class="n">fixSRS</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">,</span> <span class="n">tmp_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rasters_in</span><span class="p">:</span>
+                <span class="n">ginfo</span> <span class="o">=</span> <span class="n">readGeo</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">EPSG_list</span><span class="p">[</span><span class="n">rasters_in</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="n">geoGCS_list</span><span class="p">[</span><span class="n">rasters_in</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># 5. Testing if no projection is set up</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">noEPSG_index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The projection is not defined in any layer &quot;</span>
+                          <span class="s2">&quot;or only local projection is defined in all&quot;</span>
+                          <span class="s2">&quot;cases. The continuing process may cause &quot;</span>
+                          <span class="s2">&quot;an error in projection settings!&quot;</span><span class="p">,</span>
+                          <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="c1"># 6. Is the input EPSG set up?</span>
+    <span class="c1"># EPSG is not set</span>
+    <span class="k">if</span> <span class="n">epsg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># list of layers without SRS</span>
+        <span class="n">noEPSG_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">geoGCS_list</span><span class="p">)</span> <span class="k">if</span>
+                        <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="c1"># Empty SRS for all the rasters --&gt; WGS 84:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">noEPSG_index</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The WGS 84 projection (EPSG:4326) will be &quot;</span>
+                          <span class="s2">&quot;set for all layers.&quot;</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)):</span>
+                    <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                    <span class="c1"># convert SRS --&gt; create temporary file</span>
+                    <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                              <span class="n">srcSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:4326&quot;</span><span class="p">),</span>
+                              <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span>
+                              <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="c1"># Write new files to the output layers path list</span>
+                    <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The input SRSs of rasters are&quot;</span>
+                                   <span class="s2">&quot;probably not supported by GDAL &quot;</span>
+                                   <span class="s2">&quot;version </span><span class="si">{gdv}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gdv</span><span class="o">=</span><span class="n">gdal_ver</span><span class="p">))</span>
+
+        <span class="c1"># EPSG with the highest frequency</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">EPSG_maxfreq</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">EPSG_list</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;The projection EPSG:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">EPSG_maxfreq</span><span class="p">)</span> <span class="o">+</span>
+                          <span class="s2">&quot; will be set for all layers.&quot;</span><span class="p">,</span>
+                          <span class="n">stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                    <span class="c1"># convert SRS --&gt; create temporary file</span>
+                    <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                              <span class="n">dstSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">EPSG_maxfreq</span><span class="p">)),</span>
+                              <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span>
+                              <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="c1"># Write new files to the output layers path list</span>
+                    <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+
+                <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The input SRSs of rasters are&quot;</span>
+                                       <span class="s2">&quot;probably not supported by GDAL &quot;</span>
+                                       <span class="s2">&quot;version </span><span class="si">{gdv}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                        <span class="n">gdv</span><span class="o">=</span><span class="n">gdal_ver</span><span class="p">))</span>
+
+    <span class="c1"># EPSG is set</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># All layers have the same EPSG corresponding to input EPSG</span>
+        <span class="n">EPSG_cor</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">EPSG_list</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">epsg</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">EPSG_cor</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">):</span>
+            <span class="n">rasters_out</span> <span class="o">=</span> <span class="n">rasters_in</span>
+
+        <span class="c1"># Different or various SRS</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                        <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="n">tmp_file_name</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+                    <span class="c1"># convert SRS --&gt; create temporary file</span>
+                    <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">tmp_file_name</span><span class="p">,</span> <span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                              <span class="n">srcSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">EPSG_list</span><span class="p">[</span><span class="n">i</span><span class="p">])),</span>
+                              <span class="n">dstSRS</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;EPSG:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">epsg</span><span class="p">)),</span>
+                              <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span>
+                              <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="c1"># Write new files to the output layers path list</span>
+                    <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_file_name</span>
+
+                <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The input SRSs of rasters are&quot;</span>
+                                       <span class="s2">&quot;probably not supported by GDAL &quot;</span>
+                                       <span class="s2">&quot;version </span><span class="si">{gdv}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                        <span class="n">gdv</span><span class="o">=</span><span class="n">gdal_ver</span><span class="p">))</span>
+
+    <span class="c1"># If temporary model is not used, replace original files by</span>
+    <span class="c1"># results and remove temporary files</span>
+    <span class="k">if</span> <span class="n">tmp_out</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rasters_out</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">rasters_orig</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">rasters_out</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rasters_orig</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">rasters_out</span> <span class="o">=</span> <span class="n">rasters_orig</span>
+        <span class="c1"># remove temporary files</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rasters_out</span></div>
+
+
+<span class="c1"># noinspection PyUnboundLocalVariable</span>
+<div class="viewcode-block" id="clipOverlappingArea"><a class="viewcode-back" href="../../libs.html#modules.overlap_clip.clipOverlappingArea">[dokumentace]</a><span class="k">def</span> <span class="nf">clipOverlappingArea</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;_clipped&#39;</span><span class="p">,</span> <span class="n">epsg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tmp_out</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function for clipping rasters by their overlapping area.</span>
+
+<span class="sd">    :param rasters_in: List of input rasters paths.</span>
+<span class="sd">    :type rasters_in: list</span>
+<span class="sd">    :param output_folder: Path to output folder defined by user</span>
+<span class="sd">    :type output_folder: str</span>
+<span class="sd">    :param suffix: Suffix of the output rasters names. The name of \</span>
+<span class="sd">    new raster is constructed from original name of raster and suffix</span>
+<span class="sd">    :type suffix: str</span>
+<span class="sd">    :param epsg: EPSG definition for output rasters. If epsg=None \</span>
+<span class="sd">    the most frequent EPSG in the layers group will be set.</span>
+<span class="sd">    :type epsg: int</span>
+<span class="sd">    :param tmp_out: If True the output layers will be created as \</span>
+<span class="sd">    temporal scratch layers.</span>
+<span class="sd">    :type tmp_out: bool</span>
+
+<span class="sd">    :return: Paths of rasters clipped by overlapping area of all the \</span>
+<span class="sd">    rasters</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># 1. Unify EPSG of data</span>
+    <span class="n">rasters_unif</span> <span class="o">=</span> <span class="n">uniformSRS</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">,</span> <span class="n">epsg</span><span class="p">,</span> <span class="n">tmp_out</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Make temporary folder for outputs</span>
+    <span class="k">if</span> <span class="n">tmp_out</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tmp_folder</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">err</span>
+
+    <span class="c1"># 2. Looking for coordinates of overlapping area</span>
+    <span class="c1"># Lists of coordinates:</span>
+    <span class="n">EPSG_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ULC_X_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># upper left corner Xmin</span>
+    <span class="n">ULC_Y_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># upper left corner Ymax</span>
+    <span class="n">LRC_X_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># lower right corner Xmax</span>
+    <span class="n">LRC_Y_list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># lower right corner Ymin</span>
+    <span class="n">X_size_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">Y_size_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># extract geoinformation</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rasters_unif</span><span class="p">:</span>
+        <span class="n">ginfo</span> <span class="o">=</span> <span class="n">readGeo</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">EPSG_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+        <span class="n">ULC_X_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">LRC_X_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">cols</span><span class="p">)</span>
+        <span class="n">ULC_Y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">LRC_Y_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">ginfo</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">rows</span><span class="p">)</span>
+        <span class="n">X_size_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">Y_size_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ginfo</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="c1"># extract the coordinates and pixel size for overlapping area</span>
+    <span class="n">ULC_X_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ULC_X_list</span><span class="p">)</span>
+    <span class="n">LRC_X_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">LRC_X_list</span><span class="p">)</span>
+    <span class="n">ULC_Y_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ULC_Y_list</span><span class="p">)</span>
+    <span class="n">LRC_Y_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">LRC_Y_list</span><span class="p">)</span>
+
+    <span class="n">X_size_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">X_size_list</span><span class="p">)</span>
+    <span class="n">Y_size_ovlp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">Y_size_list</span><span class="p">)</span>
+
+    <span class="c1"># 3. Rescale all the rasters to the same spatial extent (the same</span>
+    <span class="c1"># pixel size) and clip all the layers by the overlapping area</span>
+    <span class="n">out_files_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rasters_unif</span><span class="p">)):</span>
+        <span class="c1"># Define paths of the output files</span>
+        <span class="k">if</span> <span class="n">tmp_out</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">rast_in_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">rasters_in</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">rast_name</span> <span class="o">=</span> <span class="n">rast_in_name</span> <span class="o">+</span> <span class="n">suffix</span> <span class="o">+</span> <span class="s2">&quot;.tif&quot;</span>
+            <span class="n">out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">rast_name</span><span class="p">)</span>
+            <span class="n">out_files_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tmp_file</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span>
+                <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tif&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">tmp_folder</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">out_file</span> <span class="o">=</span> <span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">out_files_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+
+        <span class="c1"># Clip files and change resolution</span>
+        <span class="n">gdal</span><span class="o">.</span><span class="n">Warp</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">rasters_unif</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                  <span class="n">outputBounds</span><span class="o">=</span><span class="p">(</span><span class="n">ULC_X_ovlp</span><span class="p">,</span> <span class="n">LRC_Y_ovlp</span><span class="p">,</span> <span class="n">LRC_X_ovlp</span><span class="p">,</span>
+                        <span class="n">ULC_Y_ovlp</span><span class="p">),</span> <span class="n">xRes</span><span class="o">=</span><span class="n">X_size_ovlp</span><span class="p">,</span>
+                        <span class="n">yRes</span><span class="o">=</span><span class="n">Y_size_ovlp</span><span class="p">,</span> <span class="n">warpOptions</span><span class="o">=</span><span class="p">[</span>
+                        <span class="s2">&quot;NUM_THREADS=ALL_CPUS&quot;</span><span class="p">],</span> <span class="n">multithread</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># TODO: je potreba otestovat, jestli nějakej raster není mimo</span>
+    <span class="c1">#  rozsah ostatnich rastru</span>
+    <span class="c1"># TODO: poresit nedokonale prekryvy, tzn, ze je prekryvna plocha</span>
+    <span class="c1">#  napr. prazdna nebo tak podobne</span>
+    <span class="c1"># TODO: zkontrolovat, jestli jsou souradnice stejne pro vsechny</span>
+    <span class="c1">#  vrstvy. Pokud ano, tak uz dal neprovadet vypocet --&gt;</span>
+    <span class="c1">#  out_files_list = rasters_in</span>
+    <span class="c1"># TODO: pridat vyjimky</span>
+
+    <span class="k">return</span> <span class="n">out_files_list</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dokumentace programu RadAgro &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="#"/>
+        <link rel="next" title="Instalace" href="users_man.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Dokumentace programu RadAgro</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dokumentace-programu-radagro">
+<h1>Dokumentace programu RadAgro<a class="headerlink" href="#dokumentace-programu-radagro" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<div class="section" id="uvod">
+<h2>Úvod<a class="headerlink" href="#uvod" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>RadAgro je program určený pro odhad vývoje radiační kontaminace
+zemědělských plodin a zemědělské krajiny. RadAgro do vývoje radiační
+kontaminace zahrnuje hlavní složky a procesy, které v krajině
+probíhají a významně mohou ovlivnit vývoj radiační zátěže krajiny.
+Jedná se především o management zemědělských ploch daný osevním
+postupem, vlastnosti plodin a půdní erozi. Model do odhadu vývoje
+zahrnuje časnou fázi radiační události a managementová opatření ve
+formě odstranění kontaminované biomasy z postižených ploch a dále
+odhaduje vývoj ve střednědobém a dlouhodobém časovém měřítku. Vlastní
+model pracuje s měsíčním časovým krokem. Výstupem je geodatabáze
+obsahující informace o vývoji radioaktivní kontaminace jednotlivých
+ploch v zájmovém území pro zvolené časové období.</p>
+<p>Vlastní dokumentace je rozdělena na uživatelskou dokumentaci, popis
+funkcionality programu, technickou dokumentaci a dokumentaci pro
+programátory.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt>Autoři:</dt>
+<dd><div class="first last line-block">
+<div class="line"><br /></div>
+<div class="line">doc. Ing. Jakub Brom, Ph.D.</div>
+<div class="line">Ing. Kateřina Křováková</div>
+<div class="line">Ing. Václav Nedbal, Ph.D.</div>
+<div class="line">Ing. Jan Procházka, Ph.D.</div>
+</div>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>© 2020, Jihočeská univerzita v Českých Budějovicích, Zemědělská fakulta</p>
+<a class="reference internal image-reference" href="_images/ZF_JU_RGB_Positive.png"><img alt="_images/ZF_JU_RGB_Positive.png" src="_images/ZF_JU_RGB_Positive.png" style="width: 8cm;" /></a>
+</div>
+<div class="section" id="uzivatelska-dokumentace">
+<h2>Uživatelská dokumentace<a class="headerlink" href="#uzivatelska-dokumentace" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#spusteni-aplikace">Spuštění aplikace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani">Uživatelské rozhraní</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#vstupy">Vstupy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#radioaktivni-depozice-a-sledovane-obdobi">Radioaktivní depozice a sledované období</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#uhrn-srazek-v-prubehu-radioaktivni-depozice">Úhrn srážek v průběhu radioaktivní depozice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#plodiny">Plodiny</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#osevni-postup">Osevní postup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#pudni-vlastnosti">Půdní vlastnosti</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#klima">Klima</a></li>
+<li class="toctree-l3"><a class="reference internal" href="users_man.html#digitalni-model-terenu">Digitální model terénu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#rustovy-model">Růstový model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#hydrologicky-model">Hydrologický model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#radioaktivita-a-radiotransfer">Radioaktivita a radiotransfer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#vystup">Výstup</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vysledky-vypoctu">Výsledky výpočtu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#vektorova-vrstva">Vektorová vrstva</a></li>
+<li class="toctree-l2"><a class="reference internal" href="users_man.html#graficke-znazorneni-vysledku">Grafické znázornění výsledků</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="technicka-dokumentace-programu">
+<h2>Technická dokumentace programu<a class="headerlink" href="#technicka-dokumentace-programu" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Struktura programu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="description.html#casna-faze">Časná fáze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#strednedoba-a-dlouhodoba-faze">Střednědobá a dlouhodobá fáze</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#rustova-analyza">Růstová analýza</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="description.html#susina-nadzemni-biomasy">Sušina nadzemní biomasy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#pokryvnost-listovi">Pokryvnost listoví</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#kontaminace-zelene-a-pudy-intercepcni-faktor">Kontaminace zeleně a půdy, intercepční faktor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#hydrologie">Hydrologie</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="description.html#vypocet-akumulace-odtoku-z-uzemi">Výpočet akumulace odtoku z území</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#vypocet-hydrologicke-bilance-v-uzemi">Výpočet hydrologické bilance v území</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="description.html#separace-odtoku">Separace odtoku</a></li>
+<li class="toctree-l3"><a class="reference internal" href="description.html#evapotranspirace">Evapotranspirace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="description.html#korekce-odtoku">Korekce odtoku</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#erozni-model">Erozní model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="description.html#faktor-r">Faktor R</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#faktor-k">Faktor K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#faktor-l-a-s">Faktor L a S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#faktor-c">Faktor C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="description.html#faktor-p">Faktor P</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="programmers-documentation">
+<h2>Programmers documentation<a class="headerlink" href="#programmers-documentation" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">Program structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="libs.html#folders">Folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="libs.html#files">Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="licence">
+<h2>Licence<a class="headerlink" href="#licence" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licenční ujednání</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="podekovani">
+<h2>Poděkování<a class="headerlink" href="#podekovani" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="prehled-literatury">
+<h2>Přehled literatury<a class="headerlink" href="#prehled-literatury" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="literature.html">Přehled literatury</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="users_man.html" class="btn btn-neutral float-right" title="Instalace" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

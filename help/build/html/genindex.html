@@ -1,0 +1,622 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Rejstřík &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="#"/>
+        <link rel="search" title="Vyhledávání" href="search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Rejstřík</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+
+<h1 id="index">Rejstřík</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.activity_decay.ActivityDecay">ActivityDecay (třída v modules.activity_decay)</a>
+</li>
+      <li><a href="libs.html#modules.activity_decay.ActivityDecay.activityDecay">activityDecay() (metoda modules.activity_decay.ActivityDecay)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.add_action">add_action() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.airTemperToGrid">airTemperToGrid() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+      <li><a href="libs.html#modules.hydrIO.arrayToRast">arrayToRast() (v modulu modules.hydrIO)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.activity_decay.ActivityDecay.calcLambdaConstant">calcLambdaConstant() (metoda modules.activity_decay.ActivityDecay)</a>
+</li>
+      <li><a href="libs.html#modules.sowing_proc.SowingProcTimeSeries.calcSowingProc">calcSowingProc() (metoda modules.sowing_proc.SowingProcTimeSeries)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.calculateGowthCurveCoefs">calculateGowthCurveCoefs() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.calculateGrowthCoefs">calculateGrowthCoefs() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.calculateRadioactiveContamination">calculateRadioactiveContamination() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.overlap_clip.clipOverlappingArea">clipOverlappingArea() (v modulu modules.overlap_clip)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.constants">constants() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.contBiomass">contBiomass() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.contMass">contMass() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.contSoil">contSoil() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.createCropsHarvestTS">createCropsHarvestTS() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.createCropsInitDf">createCropsInitDf() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.createCropsRotationTS">createCropsRotationTS() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.createDryMassTS">createDryMassTS() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.cropTableAddRow">cropTableAddRow() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.mdaylight.MonthlyDaylight.dayLength">dayLength() (metoda modules.mdaylight.MonthlyDaylight)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.dryMass">dryMass() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.earlyStage">earlyStage() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.evapoActual">evapoActual() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.evapoPot">evapoPot() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.exportRadioCont2GeoPackage">exportRadioCont2GeoPackage() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.fillCFactor">fillCFactor() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.fillCN">fillCN() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.fillGrowthModelTable">fillGrowthModelTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.fillParams">fillParams() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.fillRadioTransferParams">fillRadioTransferParams() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.fillSoilUnits">fillSoilUnits() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.overlap_clip.fixSRS">fixSRS() (v modulu modules.overlap_clip)</a>
+</li>
+      <li><a href="libs.html#modules.usle.RadUSLE.fK">fK() (statická metoda modules.usle.RadUSLE)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.flowAccProb">flowAccProb() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.flowProbab">flowProbab() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+      <li><a href="libs.html#modules.usle.RadUSLE.fLS">fLS() (metoda modules.usle.RadUSLE)</a>
+</li>
+      <li><a href="libs.html#modules.usle.RadUSLE.fR">fR() (statická metoda modules.usle.RadUSLE)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.getLyrPath">getLyrPath() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.initGui">initGui() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.interceptFactor">interceptFactor() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.interceptWater">interceptWater() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.hydrIO.joinLyrWithDataFrame">joinLyrWithDataFrame() (v modulu modules.hydrIO)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.Worker.kill">kill() (metoda RadAgro.Worker)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.leafAreaIndex">leafAreaIndex() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.loadRasters">loadRasters() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.loadResults">loadResults() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.meadowTableAddRow">meadowTableAddRow() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#module-modules.activity_decay">modules.activity_decay (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.hydrIO">modules.hydrIO (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.mdaylight">modules.mdaylight (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.overlap_clip">modules.overlap_clip (modul)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#module-modules.SARCA_lib">modules.SARCA_lib (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.sowing_proc">modules.sowing_proc (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.usle">modules.usle (modul)</a>
+</li>
+      <li><a href="libs.html#module-modules.waterflow">modules.waterflow (modul)</a>
+</li>
+      <li><a href="libs.html#modules.mdaylight.MonthlyDaylight">MonthlyDaylight (třída v modules.mdaylight)</a>
+</li>
+      <li><a href="libs.html#modules.mdaylight.MonthlyDaylight.monthlyDaylights">monthlyDaylights() (metoda modules.mdaylight.MonthlyDaylight)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.plot">plot() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.pluginHelp">pluginHelp() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.sowing_proc.SowingProcTimeSeries.predictCropsRotation">predictCropsRotation() (metoda modules.sowing_proc.SowingProcTimeSeries)</a>
+</li>
+      <li><a href="libs.html#modules.sowing_proc.SowingProcTimeSeries.predictDryMass">predictDryMass() (metoda modules.sowing_proc.SowingProcTimeSeries)</a>
+</li>
+      <li><a href="libs.html#modules.sowing_proc.SowingProcTimeSeries.predictHarvest">predictHarvest() (metoda modules.sowing_proc.SowingProcTimeSeries)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#module-RadAgro">RadAgro (modul)</a>
+
+      <ul>
+        <li><a href="libs.html#RadAgro.RadAgro">(třída v RadAgro)</a>
+</li>
+      </ul></li>
+      <li><a href="libs.html#modules.usle.RadUSLE">RadUSLE (třída v modules.usle)</a>
+</li>
+      <li><a href="libs.html#modules.hydrIO.rasterToArray">rasterToArray() (v modulu modules.hydrIO)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readCFactorTable">readCFactorTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readConstants">readConstants() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readCropsRotation">readCropsRotation() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.hydrIO.readGeo">readGeo() (v modulu modules.hydrIO)</a>
+
+      <ul>
+        <li><a href="libs.html#modules.overlap_clip.readGeo">(v modulu modules.overlap_clip)</a>
+</li>
+      </ul></li>
+      <li><a href="libs.html#RadAgro.RadAgro.readGrowthModelParams">readGrowthModelParams() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readIDField">readIDField() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.readKFactorTable">readKFactorTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.hydrIO.readLatLong">readLatLong() (v modulu modules.hydrIO)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readMeadowsCut">readMeadowsCut() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readRFactorPercTable">readRFactorPercTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.readTransferCoef">readTransferCoef() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.referLevel">referLevel() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.reset">reset() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.resultsCalculate">resultsCalculate() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.resultsRun">resultsRun() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.run">run() (metoda RadAgro.RadAgro)</a>
+
+      <ul>
+        <li><a href="libs.html#RadAgro.Worker.run">(metoda RadAgro.Worker)</a>
+</li>
+      </ul></li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.runoffSeparCN">runoffSeparCN() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib">SARCALib (třída v modules.SARCA_lib)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.setCboxEmpty">setCboxEmpty() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.setClimateTable">setClimateTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.setKeyField">setKeyField() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.setOrigCropsToTable">setOrigCropsToTable() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.showInfo">showInfo() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.usle.RadUSLE.slope">slope() (statická metoda modules.usle.RadUSLE)</a>
+</li>
+      <li><a href="libs.html#modules.sowing_proc.SowingProcTimeSeries">SowingProcTimeSeries (třída v modules.sowing_proc)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.startWorker">startWorker() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.tableRemoveRow">tableRemoveRow() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.timeScale">timeScale() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.SARCA_lib.SARCALib.timeSeriesConst">timeSeriesConst() (metoda modules.SARCA_lib.SARCALib)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.tr">tr() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.overlap_clip.uniformSRS">uniformSRS() (v modulu modules.overlap_clip)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.RadAgro.unload">unload() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#modules.waterflow.WaterBalance">WaterBalance (třída v modules.waterflow)</a>
+</li>
+      <li><a href="libs.html#modules.waterflow.WaterBalance.waterFlows">waterFlows() (metoda modules.waterflow.WaterBalance)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="libs.html#RadAgro.Worker">Worker (třída v RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.workerError">workerError() (metoda RadAgro.RadAgro)</a>
+</li>
+      <li><a href="libs.html#RadAgro.RadAgro.workerFinished">workerFinished() (metoda RadAgro.RadAgro)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

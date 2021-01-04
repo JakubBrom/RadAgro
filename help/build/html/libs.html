@@ -1,0 +1,2161 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program structure &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="index.html"/>
+        <link rel="next" title="Licenční ujednání" href="license.html"/>
+        <link rel="prev" title="Struktura programu" href="description.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Program structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#folders">Folders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#files">Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Program structure</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/libs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p>RadAgro software was created as a QGIS Python plug-in. The reason for
+this approach was the possibility to use a QGIS tools and simplicity
+of installation for users. In this context usage QGIS as a platform
+for RadAgro can increase the power of the software.</p>
+<p>The SW RadAgro itself is a tool for prediction of a temporal
+development of radioactive contamination of the area of interest.</p>
+<p>RadAgro calculates a temporal changes of radioactivity on basis of
+crops rotation (e.i. sowing procedure, agronomy), soil erosion and
+radioactivity decay. The radioactivity contamination development
+in particular fields and patches is predicted in early phase (approx.
+48 hours or days) after radiation accident including possible effect
+of countermeasures (removing plants/crops above-ground biomass) and
+as well as in long term period. The step of the prediction is one month.</p>
+<div class="section" id="program-structure">
+<h1>Program structure<a class="headerlink" href="#program-structure" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>The RadAgro software has the following structure:</p>
+<div class="highlight-html notranslate"><div class="highlight"><pre><span></span>.
+ ├── help
+ │   ├── build
+ │   ├── source
+ │   ├── make.bat
+ │   └── Makefile
+ ├── i18n
+ │   └── RadAgro_en.ts
+ ├── modules
+ │   ├── activity_decay.py
+ │   ├── hydrIO.py
+ │   ├── __init__.py
+ │   ├── mdaylight.py
+ │   ├── overlap_clip.py
+ │   ├── SARCA_lib.py
+ │   ├── sowing_proc.py
+ │   ├── usle.py
+ │   ├── waterflow.py
+ │   └── zonal_stats.py
+ ├── params
+ │   ├── crops_params_cs.csv
+ │   ├── crops_params_en.csv
+ │   ├── IMPORTANT-READ.txt
+ │   └── Soil_hydr_cat.csv
+ ├── __init__.py
+ ├── icon.png
+ ├── LICENSE
+ ├── metadata.txt
+ ├── pylintrc
+ ├── RadAgro_dialog_base.ui
+ ├── RadAgro_dialog.py
+ ├── RadAgro.py
+ ├── README.md
+ ├── resources.py
+ └── resources.qrc
+</pre></div>
+</div>
+<p>The functional overview and structure is described in technical
+documentation of RadAgro. The main modules of the RadAgro are
+described and documented here.</p>
+<div class="section" id="folders">
+<h2>Folders<a class="headerlink" href="#folders" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<ul class="simple">
+<li>help: contains Sphinx source data and exported html documentation</li>
+<li>i18n: contains data for translation</li>
+<li>modules: contains python modules described below</li>
+<li>params: contains LUTs with parameters for crops growth
+model, hydrological model, erosion model and radiotransfer.</li>
+</ul>
+</div>
+<div class="section" id="files">
+<h2>Files<a class="headerlink" href="#files" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>The files included in the RadAgro folder are described below:</p>
+<ul class="simple">
+<li>icon.png: Icon</li>
+<li>LICENSE: Text of GNU-GPL v.3 license</li>
+<li>metadata.txt: Metadata of RadAgro which are needed for extension
+reading by QGIS. The file contains information about RadAgro.</li>
+<li>pylintrc: Configuration file</li>
+<li>RadAgro.py: The main python module providing UI communication and
+calculation</li>
+<li>RadAgro_dialog.py: Contains an information about reading UI from
+QT source</li>
+<li>RadAgro_dialog_base.ui: Source file of user interface. Qt5 is used.</li>
+<li>README.md: GitHub readme file</li>
+<li>resources.py: Module for icon configuration</li>
+<li>resources.qrc: Metadata for icon configuration</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-radagro">
+<h1>Module RadAgro<a class="headerlink" href="#module-radagro" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module RadAgro is main module of the SW, containing all methods used
+for connection and usage of user interface by users and furthermore
+methods providing calculation of the radioactive contamination
+temporal changes of the area of interest. The methods for
+communication with user are also included in the module.</p>
+<span class="target" id="module-RadAgro"></span><dl class="class">
+<dt id="RadAgro.RadAgro">
+<em class="property">class </em><code class="descclassname">RadAgro.</code><code class="descname">RadAgro</code><span class="sig-paren">(</span><em>iface</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>QGIS Plugin Implementation.</p>
+<dl class="method">
+<dt id="RadAgro.RadAgro.add_action">
+<code class="descname">add_action</code><span class="sig-paren">(</span><em>icon_path</em>, <em>text</em>, <em>callback</em>, <em>enabled_flag=True</em>, <em>add_to_menu=True</em>, <em>add_to_toolbar=True</em>, <em>status_tip=None</em>, <em>whats_this=None</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.add_action"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.add_action" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Add a toolbar icon to the toolbar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>icon_path</strong> (<em>str</em>) – Path to the icon for this action. Can be a resource
+path (e.g. ‚:/plugins/foo/bar.png‘) or a normal file system path.</li>
+<li><strong>text</strong> (<em>str</em>) – Text that should be shown in menu items for this action.</li>
+<li><strong>callback</strong> (<em>function</em>) – Function to be called when the action is triggered.</li>
+<li><strong>enabled_flag</strong> (<em>bool</em>) – A flag indicating if the action should be enabled
+by default. Defaults to True.</li>
+<li><strong>add_to_menu</strong> (<em>bool</em>) – Flag indicating whether the action should also
+be added to the menu. Defaults to True.</li>
+<li><strong>add_to_toolbar</strong> (<em>bool</em>) – Flag indicating whether the action should also
+be added to the toolbar. Defaults to True.</li>
+<li><strong>status_tip</strong> (<em>str</em>) – Optional text to show in a popup when mouse pointer
+hovers over the action.</li>
+<li><strong>parent</strong> (<em>QWidget</em>) – Parent widget for the new action. Defaults None.</li>
+<li><strong>whats_this</strong> – Optional text to show in the status bar when the
+mouse pointer hovers over the action.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">The action that was created. Note that the action is also
+added to self.actions list.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">QAction</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.calculateGowthCurveCoefs">
+<code class="descname">calculateGowthCurveCoefs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.calculateGowthCurveCoefs"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.calculateGowthCurveCoefs" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculate default coefficients (slope and intercept of
+growth curves for the particular crops and add them to the
+tw_growth_params table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.calculateRadioactiveContamination">
+<code class="descname">calculateRadioactiveContamination</code><span class="sig-paren">(</span><em>df_transf_coefs</em>, <em>df_crops_rotation_all</em>, <em>df_crops_harvest</em>, <em>df_crops_dw_all</em>, <em>k_factor</em>, <em>ls_factor</em>, <em>c_factor_tab</em>, <em>r_perc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.calculateRadioactiveContamination"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.calculateRadioactiveContamination" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of total radioactive contamination of
+particular fields</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>df_transf_coefs</strong> – Dataframe with transfer coefficient
+extracted from UI</li>
+<li><strong>df_crops_rotation_all</strong> – Dataframe with crops rotation
+time series</li>
+<li><strong>df_crops_harvest</strong> – Dataframe with harvests time series</li>
+<li><strong>df_crops_dw_all</strong> – Dataframe with dry weight of biomass
+time series</li>
+<li><strong>k_factor</strong> – Dataframe with K factor of USLE values</li>
+<li><strong>ls_factor</strong> – Dataframe with LS factor of USLE values</li>
+<li><strong>c_factor_tab</strong> – Dataframe with C factor of USLE values</li>
+<li><strong>r_perc</strong> – Percentage of R factor during the year</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.constants">
+<code class="descname">constants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.constants"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.constants" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Some constants used in the program</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.createCropsHarvestTS">
+<code class="descname">createCropsHarvestTS</code><span class="sig-paren">(</span><em>df_crops_init</em>, <em>df_crops_rotation</em>, <em>df_meadows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.createCropsHarvestTS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.createCropsHarvestTS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create time series of the harvest time for the area of
+interest
+:param df_meadows: Dataframe with meadows mowing time series
+:param df_crops_rotation: Dataframe with crops rotation time
+series
+:param df_crops_init: Initial crops rotation dataframe</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.createCropsInitDf">
+<code class="descname">createCropsInitDf</code><span class="sig-paren">(</span><em>crops_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.createCropsInitDf"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.createCropsInitDf" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read indices of crops corresponding to original crops from
+tw_crops_orig table and write them to the initial vector
+layer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>crops_path</strong> – path to crops vector layer</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">initial dataframe for crops and following
+calculation results</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.createCropsRotationTS">
+<code class="descname">createCropsRotationTS</code><span class="sig-paren">(</span><em>df_crops_init</em>, <em>df_crops_rotation</em>, <em>df_meadows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.createCropsRotationTS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.createCropsRotationTS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create time series for crops and meadows rotation for the
+area of interest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>df_crops_init</strong> – Initial dataframe for crops</li>
+<li><strong>df_crops_rotation</strong> – Dataframe with crops rotation</li>
+<li><strong>df_meadows</strong> – Dataframe with rotation of meadows mowing</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.createDryMassTS">
+<code class="descname">createDryMassTS</code><span class="sig-paren">(</span><em>df_crops_init</em>, <em>df_growth_model_params</em>, <em>df_crops_rotation</em>, <em>df_meadows</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.createDryMassTS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.createDryMassTS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create time series table for dry weight of the crops for
+the area of interest</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>df_meadows</strong> – Dataframe with meadows mowing time series</li>
+<li><strong>df_crops_rotation</strong> – Dataframe with crops rotation time
+series</li>
+<li><strong>df_growth_model_params</strong> – Dataframe with parameters of
+growth model</li>
+<li><strong>df_crops_init</strong> – Initial crops rotation time series
+dataframe.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.cropTableAddRow">
+<code class="descname">cropTableAddRow</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.cropTableAddRow"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.cropTableAddRow" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Add row with crops and terms of sowing and harvest to
+sowing procedure table for the area of interest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>table</strong> – Table of crops rotation with sowing and harvest
+terms (QTableWidget).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.earlyStage">
+<code class="descname">earlyStage</code><span class="sig-paren">(</span><em>depo_path</em>, <em>precip_path</em>, <em>crops_path</em>, <em>df_crops_init</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.earlyStage"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.earlyStage" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of radioactive contamination in early stage of
+radioactive accident.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>depo_path</strong> – Path to raster with deposition
+<img class="math" src="_images/math/d24e8b251df8c1eb63a8d6fbf3f0d44d879de259.svg" alt="(Bq.m^{-1})"/></li>
+<li><strong>precip_path</strong> – Path to raster with precipitation (mm)</li>
+<li><strong>crops_path</strong> – Path to crops vector layer</li>
+<li><strong>df_crops_init</strong> – Initial crops dataframe</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.exportRadioCont2GeoPackage">
+<code class="descname">exportRadioCont2GeoPackage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.exportRadioCont2GeoPackage"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.exportRadioCont2GeoPackage" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Export dataframe with radioactive contamination to
+Geo Package (gpkg).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillCFactor">
+<code class="descname">fillCFactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillCFactor"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillCFactor" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill C factor values to tw_C_factor table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillCN">
+<code class="descname">fillCN</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillCN"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillCN" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill CN curve numbers to tw_CN table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillGrowthModelTable">
+<code class="descname">fillGrowthModelTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillGrowthModelTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillGrowthModelTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill parameters of particular crops to the
+tw_growth_params table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillParams">
+<code class="descname">fillParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillParams"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillParams" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill parameters of the model to tables</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillRadioTransferParams">
+<code class="descname">fillRadioTransferParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillRadioTransferParams"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillRadioTransferParams" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill Radiotransfer parameters for particular crops to
+tw_radio_coefs table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.fillSoilUnits">
+<code class="descname">fillSoilUnits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.fillSoilUnits"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.fillSoilUnits" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Fill soil parameters (Soil hydrological category and
+K-factor to table tw_HPJ_params</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.getLyrPath">
+<code class="descname">getLyrPath</code><span class="sig-paren">(</span><em>comboBox</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.getLyrPath"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.getLyrPath" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Get path to input file from combobox</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>comboBox</strong> – combo box in UI.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retrun:</th><td class="field-body">path to input file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.initGui">
+<code class="descname">initGui</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.initGui"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.initGui" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create the menu entries and toolbar icons inside the QGIS GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.loadRasters">
+<code class="descname">loadRasters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.loadRasters"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.loadRasters" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Reading rasters of radioactivity deposition, precipitation
+and DMT.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.loadResults">
+<code class="descname">loadResults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.loadResults"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.loadResults" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Load calculated vector layer of radioactive deposition
+time development.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.meadowTableAddRow">
+<code class="descname">meadowTableAddRow</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.meadowTableAddRow"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.meadowTableAddRow" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Add rows with meadows mowing and month of harvest to the
+table for the area of
+interest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>table</strong> – Table of meadows mowing from UI (QTableWidget).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.plot"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.plot" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create plot in the UI</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.pluginHelp">
+<code class="descname">pluginHelp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.pluginHelp"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.pluginHelp" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Open the help file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readCFactorTable">
+<code class="descname">readCFactorTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readCFactorTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readCFactorTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read C factors values of USLE equation corresponding to
+particular crops according to Janeček et al. 2007. The first
+column of output is crop ID, the second is C factor of USLE
+equation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readConstants">
+<code class="descname">readConstants</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readConstants"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readConstants" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read all constants from UI</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readCropsRotation">
+<code class="descname">readCropsRotation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readCropsRotation"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readCropsRotation" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Get data from UI for crops rotation and their preparation
+for next calculation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readGrowthModelParams">
+<code class="descname">readGrowthModelParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readGrowthModelParams"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readGrowthModelParams" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read data from growth model table and add it to df</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readIDField">
+<code class="descname">readIDField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readIDField"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readIDField" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read  IDs for particular fileds in the area of interest
+and set the data to select_ID combobox for generating plots
+with reults</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readKFactorTable">
+<code class="descname">readKFactorTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readKFactorTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readKFactorTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read R factors values of USLE equation corresponding to Main
+Soil Units (MSU) according to Janeček et al. 2007. The first
+column of output is MSU, the second is K factor of USLE
+equation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readMeadowsCut">
+<code class="descname">readMeadowsCut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readMeadowsCut"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readMeadowsCut" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Get data from UI for meadows mowing and their preparation
+for next calculation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readRFactorPercTable">
+<code class="descname">readRFactorPercTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readRFactorPercTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readRFactorPercTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Read table with percentage of R factor throughout the
+year.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.readTransferCoef">
+<code class="descname">readTransferCoef</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.readTransferCoef"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.readTransferCoef" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Reading transfer coefficient table fro UI</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.reset"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.reset" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Reset all settings in the UI</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.resultsCalculate">
+<code class="descname">resultsCalculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.resultsCalculate"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.resultsCalculate" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Running the calculation without threading and progress bar
+showing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.resultsRun">
+<code class="descname">resultsRun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.resultsRun"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.resultsRun" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Run the process of calculation in threads</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.run"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.run" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Run method that performs all the real work</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.setCboxEmpty">
+<code class="descname">setCboxEmpty</code><span class="sig-paren">(</span><em>comboBox</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.setCboxEmpty"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.setCboxEmpty" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Setting of empty value (text) in comboBoxes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.setClimateTable">
+<code class="descname">setClimateTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.setClimateTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.setClimateTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Set soil saturation state in form of cboxes to table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.setKeyField">
+<code class="descname">setKeyField</code><span class="sig-paren">(</span><em>comboBox_in</em>, <em>comboBox_out</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.setKeyField"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.setKeyField" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Set variables from the map_lyr.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comboBox_in</strong> – Combo box (QgsMapLayerComboBox) with vector
+layer.</li>
+<li><strong>comboBox_out</strong> – Fields of vector layer.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.setOrigCropsToTable">
+<code class="descname">setOrigCropsToTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.setOrigCropsToTable"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.setOrigCropsToTable" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Set crops from crop field defined by user to table
+and select corresponding crops from list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.showInfo">
+<code class="descname">showInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.showInfo"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.showInfo" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create infobox with acknowledgement. The infobox is shown
+during the start of the plugin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.startWorker">
+<code class="descname">startWorker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.startWorker"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.startWorker" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Start threads with calculation process and with progress
+bar.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.tableRemoveRow">
+<code class="descname">tableRemoveRow</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.tableRemoveRow"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.tableRemoveRow" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Remove row from table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.tr">
+<code class="descname">tr</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.tr"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.tr" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Get the translation for a string using Qt translation API.</p>
+<p>We implement this ourselves since we do not inherit QObject.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>message</strong> (<em>str</em><em>, </em><em>QString</em>) – String for translation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">Translated version of message.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">QString</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.unload">
+<code class="descname">unload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.unload"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.unload" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Removes the plugin menu item and icon from QGIS GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.workerError">
+<code class="descname">workerError</code><span class="sig-paren">(</span><em>exception_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.workerError"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.workerError" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Exceptins of worker thread running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.RadAgro.workerFinished">
+<code class="descname">workerFinished</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#RadAgro.workerFinished"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.RadAgro.workerFinished" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Activity after worker thread finishing.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="RadAgro.Worker">
+<em class="property">class </em><code class="descclassname">RadAgro.</code><code class="descname">Worker</code><span class="sig-paren">(</span><em>suLyrPath</em>, <em>su_field</em>, <em>getCropsPath</em>, <em>loadRasters</em>, <em>createCropsDf</em>, <em>readGrowthModel</em>, <em>readTransfCoefs</em>, <em>earlyStage</em>, <em>readCropsRot</em>, <em>readMeadows</em>, <em>createCropsRot</em>, <em>createCropsHarvest</em>, <em>createDryMass</em>, <em>readKFactor</em>, <em>calcFK</em>, <em>calcFLS</em>, <em>readCTable</em>, <em>readRTable</em>, <em>calcRadioactiveCont</em>, <em>exportRadCont</em>, <em>ls_m</em>, <em>ls_n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#Worker"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.Worker" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Example worker for calculating the total area of all features
+in a layer</p>
+<dl class="method">
+<dt id="RadAgro.Worker.kill">
+<code class="descname">kill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#Worker.kill"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.Worker.kill" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Kill the working thread.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RadAgro.Worker.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RadAgro.html#Worker.run"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#RadAgro.Worker.run" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Running of worker thread - all calculations of the
+radioactivity contamination changes time series</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-activity-decay">
+<h1>Module activity_decay<a class="headerlink" href="#module-activity-decay" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module activity_decay contains a methods for calculation of
+radioactivity decay of a radionuclide. The activity decay is
+calculated in monthly step for particular radionuclide on basis of its
+lambda parameters (or half life of decay).</p>
+<span class="target" id="module-modules.activity_decay"></span><dl class="class">
+<dt id="modules.activity_decay.ActivityDecay">
+<em class="property">class </em><code class="descclassname">modules.activity_decay.</code><code class="descname">ActivityDecay</code><a class="reference internal" href="_modules/modules/activity_decay.html#ActivityDecay"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.activity_decay.ActivityDecay" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Class of methods dedicated for a calculation of radioactivity
+decay of radionuclides</p>
+<dl class="method">
+<dt id="modules.activity_decay.ActivityDecay.activityDecay">
+<code class="descname">activityDecay</code><span class="sig-paren">(</span><em>A_0</em>, <em>month=1</em>, <em>radionuclide=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/activity_decay.html#ActivityDecay.activityDecay"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.activity_decay.ActivityDecay.activityDecay" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Activity decay (Bq/m2) on basis of relationship:</p>
+<blockquote>
+<div><img class="math" src="_images/math/df1608ae325ad8b76b827d8be9de4e048996adcb.svg" alt="A = A_0 \mathrm{e}^{-\lambda t}"/></div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>A_0</strong> (<em>Numpy array</em><em> (</em><em>float</em><em>)</em>) – Activity on the start of the time period <img class="math" src="_images/math/58c202959492d536a908287eb67e66a324677c54.svg" alt="(
+Bq \cdot m^{-2})"/></li>
+<li><strong>month</strong> (<em>int</em>) – Month for which the calculation is done</li>
+<li><strong>radionuclide</strong> (<em>int</em>) – Particular radionuclide. Default value
+is 0 for 137Cs. 1 is 90Sr.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return A:</th><td class="field-body"><p class="first">Activity on the end of the time period <img class="math" src="_images/math/58c202959492d536a908287eb67e66a324677c54.svg" alt="(
+Bq \cdot m^{-2})"/></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rtype A:</th><td class="field-body"><p class="first last">Numpy array (float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.activity_decay.ActivityDecay.calcLambdaConstant">
+<code class="descname">calcLambdaConstant</code><span class="sig-paren">(</span><em>half_life</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/activity_decay.html#ActivityDecay.calcLambdaConstant"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.activity_decay.ActivityDecay.calcLambdaConstant" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of lambda constant for a radionuclide on basis
+of its half life of decay.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>half_life</strong> – Half life for particular radionuclide (years)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">Lambda constant for a radionuclide <img class="math" src="_images/math/64d8761a9bd477bc487fc95ea94dcc23c6fe6f42.svg" alt="(s^{-1})"/></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-hydrio">
+<h1>Module hydrIO<a class="headerlink" href="#module-hydrio" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module hydrIO contains methods for importing and exporting spatial
+geo-data. Some methods are created just for RadAgro SW.</p>
+<span class="target" id="module-modules.hydrIO"></span><dl class="function">
+<dt id="modules.hydrIO.arrayToRast">
+<code class="descclassname">modules.hydrIO.</code><code class="descname">arrayToRast</code><span class="sig-paren">(</span><em>arrays</em>, <em>names</em>, <em>prj</em>, <em>gtransf</em>, <em>EPSG</em>, <em>out_folder</em>, <em>out_file_name=None</em>, <em>driver_name='GTiff'</em>, <em>multiband=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/hydrIO.html#arrayToRast"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.hydrIO.arrayToRast" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Export numpy 2D arrays to multiband or singleband raster
+files. Following common raster formats are accepted for export:</p>
+<ul class="simple">
+<li>ENVI .hdr labeled raster format</li>
+<li>Erdas Imagine (.img) raster format</li>
+<li>Idrisi raster format (.rst)</li>
+<li>TIFF / BigTIFF / GeoTIFF (.tif) raster format</li>
+<li>PCI Geomatics Database File (.pix) raster format</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>arrays</strong> (<em>numpy.ndarray</em><em> or </em><em>list of numpy.ndarray</em>) – Numpy array or list of arrays for export to raster.</li>
+<li><strong>names</strong> (<em>str</em><em> or </em><em>list of str</em>) – Name or list of names of the exported bands (in case
+of multiband raster) or particular rasters (in case of singleband
+rasters).</li>
+<li><strong>prj</strong> (<em>str</em>) – Projection information of the exported raster (dataset).</li>
+<li><strong>gtransf</strong> (<em>tuple</em>) – The affine transformation coefficients.</li>
+<li><strong>EPSG</strong> (<em>int</em>) – EPSG Geodetic Parameter Set code.</li>
+<li><strong>out_folder</strong> (<em>str</em>) – Path to folder where the raster(s) will be created.</li>
+<li><strong>driver_name</strong> (<em>str</em>) – GDAL driver. ‚GTiff‘ is default.</li>
+<li><strong>out_file_name</strong> (<em>str</em>) – Name of exported multiband raster. Default is None.</li>
+<li><strong>multiband</strong> (<em>bool</em>) – Option of multiband raster creation. Default is False.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Raster singleband or multiband file(s)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">raster</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.hydrIO.joinLyrWithDataFrame">
+<code class="descclassname">modules.hydrIO.</code><code class="descname">joinLyrWithDataFrame</code><span class="sig-paren">(</span><em>in_layer_path</em>, <em>df_data</em>, <em>out_layer_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/hydrIO.html#joinLyrWithDataFrame"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.hydrIO.joinLyrWithDataFrame" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Create GeoPackage layer from input vector data for crops and data
+of radioactive contamination stored in pandas dataframe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first last simple">
+<li><strong>in_layer_path</strong> (<em>str</em>) – Path to original input vector layer which is      used as a template for a new layer.</li>
+<li><strong>df_data</strong> (<em>Pandas DataFrame</em>) – Joining Pandas dataframe corresponding with     vector_layer. FID values must be equal.</li>
+<li><strong>out_layer_path</strong> (<em>str</em>) – Path to output vector file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.hydrIO.rasterToArray">
+<code class="descclassname">modules.hydrIO.</code><code class="descname">rasterToArray</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/hydrIO.html#rasterToArray"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.hydrIO.rasterToArray" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Conversion of raster layer to numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>layer</strong> (<em>str</em>) – Path to raster layer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">raster file converted to numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.hydrIO.readGeo">
+<code class="descclassname">modules.hydrIO.</code><code class="descname">readGeo</code><span class="sig-paren">(</span><em>rast</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/hydrIO.html#readGeo"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.hydrIO.readGeo" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Reading important geographical information from raster using GDAL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>rast</strong> – Path to raster file in GDAL accepted format.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">The tuple of important geographic information about a         raster. The tuple contains:<ul class="simple">
+<li>The affine transformation coefficients (tuple)</li>
+<li>Projection information of the raster or dataset (str)</li>
+<li>Size of pixel at X scale (float)</li>
+<li>Size of pixel at Y scale (float)</li>
+<li>EPSG Geodetic Parameter Set code (int)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.hydrIO.readLatLong">
+<code class="descclassname">modules.hydrIO.</code><code class="descname">readLatLong</code><span class="sig-paren">(</span><em>rast_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/hydrIO.html#readLatLong"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.hydrIO.readLatLong" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Automatic setting of the lyrs coordinates according to the
+projection of NIR band in to the form.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>rast_path</strong> – Raster path.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">Longitude and latitude in decimal scale</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-sarca-lib">
+<h1>Module SARCA_lib<a class="headerlink" href="#module-sarca-lib" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module SARCA_lib is a module of RadAgro following from previous
+software solution SARCA (Spatial Assessment of Radioactive Contamination
+of Agricultural Crops) used for calculation of radionuclides
+distribution within soil and agricultural crops during early stage
+after radiation accident. Module SARCA_lib contains methods
+for calculation of crop growth analysis and for calculation of
+radioactive distribution in the crops.</p>
+<span class="target" id="module-modules.SARCA_lib"></span><dl class="class">
+<dt id="modules.SARCA_lib.SARCALib">
+<em class="property">class </em><code class="descclassname">modules.SARCA_lib.</code><code class="descname">SARCALib</code><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Library for calculation of crops growth parameters and
+radioactivity contamination of crops</p>
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.calculateGrowthCoefs">
+<code class="descname">calculateGrowthCoefs</code><span class="sig-paren">(</span><em>dw_max</em>, <em>dw_min=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.calculateGrowthCoefs"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.calculateGrowthCoefs" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculate default values of growth curve parameters - slope         (m) and intercept (n).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dw_max</strong> – Maximal dry mass of particular crop         <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li><strong>dw_min</strong> – Minimal dry mass of particular crop         <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/>. Default value is 0.1         <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Slope of growth curve</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Intercept of growth curve</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.contBiomass">
+<code class="descname">contBiomass</code><span class="sig-paren">(</span><em>depo</em>, <em>IF</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.contBiomass"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.contBiomass" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Radiaoctive contamination of biomass <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></li>
+<li><strong>IF</strong> – Interception Factor (rel.)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Radioactive contamination of biomass <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.contMass">
+<code class="descname">contMass</code><span class="sig-paren">(</span><em>cont_biomass</em>, <em>fresh_biomass</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.contMass"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.contMass" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation radioactive contamination of fresh vegetation mass         <img class="math" src="_images/math/9cf742f34c03cb38a035c0002601b7a2d5277c51.svg" alt="(Bq.kg^{-1})"/></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>cont_biomass</strong> – Radioactive deposition on biomass         <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></li>
+<li><strong>fresh_biomass</strong> – Amount of fresh biomass of vegetation         <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Fresh vegetation mass radioactive contamination         <img class="math" src="_images/math/9cf742f34c03cb38a035c0002601b7a2d5277c51.svg" alt="(Bq.kg^{-1})"/></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.contSoil">
+<code class="descname">contSoil</code><span class="sig-paren">(</span><em>depo</em>, <em>IF</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.contSoil"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.contSoil" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Radiaoctive contamination of soil <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></li>
+<li><strong>IF</strong> – Interception Factor (rel.)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Radioactive contamination of soil <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.dryMass">
+<code class="descname">dryMass</code><span class="sig-paren">(</span><em>DW_max</em>, <em>t_accident</em>, <em>t0</em>, <em>t1</em>, <em>coef_m</em>, <em>coef_n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.dryMass"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.dryMass" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of actual biomass of the particular crop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>DW_max</strong> – Maximal dry mass of the crops above ground         biomass in the growing season <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li><strong>t_accident</strong> – Date of radioactive accident as number of         day in year</li>
+<li><strong>t0</strong> – Date of sowing crop as number of day in year</li>
+<li><strong>t1</strong> – Date of harvesting crop as number of day in year</li>
+<li><strong>coef_m</strong> – Scaling parameter</li>
+<li><strong>coef_n</strong> – Scaling parameter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Dry mass of above ground biomass <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.interceptFactor">
+<code class="descname">interceptFactor</code><span class="sig-paren">(</span><em>LAI</em>, <em>precip</em>, <em>DW</em>, <em>k=1.0</em>, <em>S=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.interceptFactor"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.interceptFactor" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Interception factor for both dry and wet deposition of
+radionuclides.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>LAI</strong> – Leaf Area Index (unitless)</li>
+<li><strong>k</strong> – Constant of radionuclide: I = 0.5, Sr and Ba = 2.0,         Cs and another radionuclides = 1.0</li>
+<li><strong>precip</strong> – Precipitation amount (mm) for period of         deposition (ca 24 hours after radiation accident).</li>
+<li><strong>DW</strong> – Amount of fresh biomass <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li><strong>S</strong> – Mean thickness of water film at plant leaves (mm).         Default S =        0.2 mm</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Interception Factor (rel.)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.leafAreaIndex">
+<code class="descname">leafAreaIndex</code><span class="sig-paren">(</span><em>dw_act</em>, <em>DW_max</em>, <em>LAI_max</em>, <em>R_min</em>, <em>t_accident</em>, <em>t0</em>, <em>t1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.leafAreaIndex"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.leafAreaIndex" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of actual LAI of the particular crop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dw_act</strong> – actual dry mass of the crops above ground         biomass <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li><strong>DW_max</strong> – Maximal dry mass of the crops above ground         biomass in the growing season <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li><strong>LAI_max</strong> – Maximal LAI of the crops in the growing season</li>
+<li><strong>R_min</strong> – Minimal relative wight moisture of the biomass (%)</li>
+<li><strong>t_accident</strong> – Date of radioactive accident as number of         day in year</li>
+<li><strong>t0</strong> – Date of sowing crop as number of day in year</li>
+<li><strong>t1</strong> – Date of harvesting crop as number of day in year</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Actual LAI of the crop.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.referLevel">
+<code class="descname">referLevel</code><span class="sig-paren">(</span><em>depo</em>, <em>ref_level1=5000</em>, <em>ref_level2=3000000</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.referLevel"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.referLevel" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Mask of radioactive deposition for three reference levels (categories):</p>
+<p><em>0: Low</em></p>
+<p><em>1: Middle</em></p>
+<p><em>2: High</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>depo</strong> – Total radioactive deposition <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/></li>
+<li><strong>ref_level1</strong> – Lower reference level treshold         <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/>. Default value = 5000 <img class="math" src="_images/math/c7eebed3c8b3f7a7d7db99db3461fc4efb9d61bc.svg" alt="Bq.m^{-2}"/></li>
+<li><strong>ref_level2</strong> – Upper reference level treshold         <img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/>. Default value = 3000000 <img class="math" src="_images/math/c7eebed3c8b3f7a7d7db99db3461fc4efb9d61bc.svg" alt="Bq.m^{-2}"/></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Mask of radioactive deposition for three reference levels</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.timeScale">
+<code class="descname">timeScale</code><span class="sig-paren">(</span><em>ts</em>, <em>coef_m</em>, <em>coef_n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.timeScale"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.timeScale" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculates scaling value t_scale of crop growth time series.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>ts</strong> – Relative position of the radioactive accident in         the crop growth time series</li>
+<li><strong>coef_m</strong> – Scaling parameter</li>
+<li><strong>coef_n</strong> – Scaling parameter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Scaling value of growing time series</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.SARCA_lib.SARCALib.timeSeriesConst">
+<code class="descname">timeSeriesConst</code><span class="sig-paren">(</span><em>t_accident</em>, <em>t0</em>, <em>t1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/SARCA_lib.html#SARCALib.timeSeriesConst"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.SARCA_lib.SARCALib.timeSeriesConst" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of relative position of the radioactive accident
+in the crop growth time series [0, 1].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>t_accident</strong> – Date of radioactive accident as number of         day in year</li>
+<li><strong>t0</strong> – Date of sowing crop as number of day in year</li>
+<li><strong>t1</strong> – Date of harvesting crop as number of day in year</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Relative position of the radioactive accident in the         crop growth time series</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-usle">
+<h1>Module usle<a class="headerlink" href="#module-usle" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module usle contains methods used for calculation of Universal Soil
+Loss Equation for particular fields and patches in the area of
+interest. For more details see chapters in this docs.</p>
+<span class="target" id="module-modules.usle"></span><dl class="class">
+<dt id="modules.usle.RadUSLE">
+<em class="property">class </em><code class="descclassname">modules.usle.</code><code class="descname">RadUSLE</code><a class="reference internal" href="_modules/modules/usle.html#RadUSLE"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.usle.RadUSLE" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of USLE</p>
+<dl class="staticmethod">
+<dt id="modules.usle.RadUSLE.fK">
+<em class="property">static </em><code class="descname">fK</code><span class="sig-paren">(</span><em>soil_units_lyr_path</em>, <em>soil_units_field_name</em>, <em>k_data</em>, <em>crops_lyr_path</em>, <em>x_size=30</em>, <em>y_size=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/usle.html#RadUSLE.fK"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.usle.RadUSLE.fK" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>K erosivity factor of USLE.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>soil_units_lyr_path</strong> (<em>str</em>) – Path to vector layer with Main
+soil units codes (HPJ - hlavní půdní jednotky, after Janeček
+et al. 2007).</li>
+<li><strong>soil_units_field_name</strong> (<em>str</em>) – Name of vector attribute field
+with Main soil units.</li>
+<li><strong>k_data</strong> (<em>Pandas DataFrame</em>) – Numpy dataframe containing K values with
+corresponding Main soil units which are used as IDs.</li>
+<li><strong>crops_lyr_path</strong> (<em>str</em>) – Path to vector layer which is used
+for calculation of zonal statistics. FID values are used in
+output.</li>
+<li><strong>x_size</strong> (<em>float</em>) – Size of newly created raster resolution</li>
+<li><strong>y_size</strong> (<em>float</em>) – Size of newly created raster resolution</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Pandas dataframe containing FIDs corresponding to
+vector layer used for zonal statistics calculation and K
+factor values for each field/polygon</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.usle.RadUSLE.fLS">
+<code class="descname">fLS</code><span class="sig-paren">(</span><em>dmt_path</em>, <em>crops_lyr_path=None</em>, <em>m=0.4</em>, <em>n=1.4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/usle.html#RadUSLE.fLS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.usle.RadUSLE.fLS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Combined factor of slope length and slope steepness factor
+of USLE.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dmt_path</strong> (<em>str</em>) – Path to DMT raster.</li>
+<li><strong>crops_lyr_path</strong> (<em>str</em>) – Path to vector for calculation of zonal
+statistics.</li>
+<li><strong>m</strong> (<em>float</em>) – Exponent representing the Rill-to-Interrill Ratio.
+Default m = 0.4</li>
+<li><strong>n</strong> (<em>float</em>) – Constant. Default n = 1.4</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Combined factor of slope length and slope steepness
+factor of USLE. If the vector_path is none the method returns
+Numpy array matrix of LS factor corresponding to input DMT
+raster layer. If a vector layer is used the zonal statistic
+is calculated for each polygon of the vector layer. Output is
+pandas dataframe containing FIDs of original vector and LS
+medians.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array or Pandas DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="modules.usle.RadUSLE.fR">
+<em class="property">static </em><code class="descname">fR</code><span class="sig-paren">(</span><em>r_const=40</em>, <em>month_perc=32.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/usle.html#RadUSLE.fR"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.usle.RadUSLE.fR" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>R factor of USLE for monthly data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>r_const</strong> (<em>float</em>) – Constant year value of R factor for
+particular area (MJ/ha)</li>
+<li><strong>month_perc</strong> (<em>float</em>) – Percentage of R for particular months.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">R value for particular month.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="modules.usle.RadUSLE.slope">
+<em class="property">static </em><code class="descname">slope</code><span class="sig-paren">(</span><em>dmt</em>, <em>x_size=1</em>, <em>y_size=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/usle.html#RadUSLE.slope"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.usle.RadUSLE.slope" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Slope of terrain calculation (degrees)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dmt</strong> (<em>Numpy array</em>) – Digital elevation model.</li>
+<li><strong>x_size</strong> (<em>float</em>) – Size of pixel in x axis (m)</li>
+<li><strong>y_size</strong> (<em>float</em>) – Size of pixel in y axis (m)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Slope of terrain (DMT) in degrees</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-waterflow">
+<h1>Module waterflow<a class="headerlink" href="#module-waterflow" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Methods included in module waterflow are dedicated for analysis of
+hydrological features of the area of interest. The methods are used for
+calculation of all the water flows in the landscape, i.e.
+evapotranspiration (both potential and actual) and surface and
+subsurface runoff. The hydrological model is based on CN method.
+Calculation step is one month. Furthermore, the methods for
+calculation of flow accumulation and flow accumulation probability
+are included. For more details see chapters in this docs.</p>
+<span class="target" id="module-modules.waterflow"></span><dl class="class">
+<dt id="modules.waterflow.WaterBalance">
+<em class="property">class </em><code class="descclassname">modules.waterflow.</code><code class="descname">WaterBalance</code><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Module for calculation of the hydrological features of the area of
+interest.</p>
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.airTemperToGrid">
+<code class="descname">airTemperToGrid</code><span class="sig-paren">(</span><em>tm_list</em>, <em>dmt</em>, <em>altitude</em>, <em>adiab=0.65</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.airTemperToGrid"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.airTemperToGrid" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of spatial temperature distribution on the altitude (
+DEM). The function provides list (Numpy array) of air
+temperature arrays corresponding to list of measured temperature
+data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>tm_list</strong> (<em>list</em>) – List of air temperatures measured on a
+meteostation.</li>
+<li><strong>dmt</strong> (<em>Numpy array</em>) – Digital elevation model.</li>
+<li><strong>altitude</strong> (<em>float</em>) – Altitude of temperature measurement.</li>
+<li><strong>adiab</strong> (<em>float</em>) – Adiabatic change of temeperature with altitude
+per 100 m. Default value is 0.65 °C/100 m.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List of air temperature grids.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.evapoActual">
+<code class="descname">evapoActual</code><span class="sig-paren">(</span><em>ETp</em>, <em>precip</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.evapoActual"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.evapoActual" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Actual evapotranspiration calculated according to Ol’dekop
+(1911), cited after Brutsaert (1992) and Xiong and Guo
+(1999; doi.org/10.1016/S0022-1694(98)00297-2)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>ETp</strong> (<em>list</em>) – Potential monthly evapotranspiration according
+to Thornthwaite (1984), mm. List of monthly values for the
+year.</li>
+<li><strong>precip</strong> (<em>list</em>) – Mean monthly precipitation throughout the year
+(mm).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Actual monthly evapotranspiration throughout
+the year (mm)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.evapoPot">
+<code class="descname">evapoPot</code><span class="sig-paren">(</span><em>tm_grids</em>, <em>lat=49.1797903</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.evapoPot"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.evapoPot" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Potential monthly ET According to Thornthwaite 1948. Script
+calculates ETpot for the whole year - for each month.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>tm_grids</strong> (<em>list</em>) – List of monthly mean air temperatures during
+the year (degree of Celsius) - temperature normals</li>
+<li><strong>lat</strong> (<em>float</em>) – Earth latitude (UTM) in decimal degrees</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Potential monthly evapotranspiration according to
+Thornthwaite (1984), mm. List of monthly values for the
+year.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.flowAccProb">
+<code class="descname">flowAccProb</code><span class="sig-paren">(</span><em>dmt</em>, <em>xsize=1.0</em>, <em>ysize=1.0</em>, <em>rs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.flowAccProb"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.flowAccProb" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of flow accumulation probability layer according
+to digital elevation model. Probability of flow direction within
+DEM is calculated on basis of shape of the surface (outflow
+changes linearly with changing angle between neighbour pixels) 
+and surface resistance for surface runoff (rel.).
+The method calculation procedure was inspired by
+Multipath-Flow-Accumulation developed by Alex Stum:
+<a class="reference external" href="https://github.com/StumWhere/Multipath-Flow-Accumulation.git">https://github.com/StumWhere/Multipath-Flow-Accumulation.git</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dmt</strong> (<em>numpy.ndarray</em>) – Digital elevation model of the surface (m).</li>
+<li><strong>xsize</strong> (<em>float</em>) – Size of pixel in x axis (m)</li>
+<li><strong>ysize</strong> (<em>float</em>) – Size of pixel in y axis (m)</li>
+<li><strong>rs</strong> (<em>numpy.ndarray</em>) – Surface resistance for surface runoff of water
+scaled to interval &lt;0; 1&gt;, where 0 is no resistance and 1 is
+100% resistance (no flow). Scaled Mannings n should be used.
+Default is None (zero resistance is used).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Flow accumulation grid.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.flowProbab">
+<code class="descname">flowProbab</code><span class="sig-paren">(</span><em>win_dmt</em>, <em>xsize=1.0</em>, <em>ysize=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.flowProbab"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.flowProbab" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of probability of water flow direction in 3x3 matrix
+on basis of elevation data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>win_dmt</strong> (<em>numpy array</em>) – 3x3 matrix of elevation model.</li>
+<li><strong>xsize</strong> (<em>float</em>) – Size of pixel in x axis (m)</li>
+<li><strong>ysize</strong> (<em>float</em>) – Size of pixel in y axis (m)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">3 x 3 matrix of probability of water runoff</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.interceptWater">
+<code class="descname">interceptWater</code><span class="sig-paren">(</span><em>precip</em>, <em>LAI</em>, <em>a=0.1</em>, <em>b=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.interceptWater"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.interceptWater" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Interception of precipitation on the biomass and soil surface 
+for monthly precipitation data (mm)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>precip</strong> (<em>Numpy array</em>) – Grid of monthly mean precipitation amount (mm)</li>
+<li><strong>LAI</strong> (<em>Numpy array</em>) – Grid of monthly mean leaf area index (unitless)</li>
+<li><strong>a</strong> (<em>float</em>) – Constant</li>
+<li><strong>b</strong> (<em>float</em>) – Constant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Grid of amount of intercepted water during month (mm)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.runoffSeparCN">
+<code class="descname">runoffSeparCN</code><span class="sig-paren">(</span><em>acc_precip</em>, <em>ET</em>, <em>ETp</em>, <em>I</em>, <em>CN=65</em>, <em>a=0.005</em>, <em>b=0.005</em>, <em>c=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.runoffSeparCN"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.runoffSeparCN" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>The script separates precipitation amount (accumulated) into
+surface runoff, water retention and evapotranspiration for
+monthly precipitation data. The method is based on the modified
+CN curve method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>acc_precip</strong> (<em>float</em>) – Monthly mean of acc_precipitation (mm)</li>
+<li><strong>ET</strong> (<em>float</em>) – Monthly mean evapotranspiration (mm)</li>
+<li><strong>ETp</strong> (<em>float</em>) – Monthly mean potential evapotranspiration (mm)</li>
+<li><strong>I</strong> (<em>float</em>) – Amount of intercepted water during month (mm)</li>
+<li><strong>CN</strong> (<em>int</em>) – Curve number</li>
+<li><strong>a</strong> (<em>float</em>) – Constant</li>
+<li><strong>b</strong> (<em>float</em>) – Constant</li>
+<li><strong>c</strong> (<em>float</em>) – Constant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Amount of monthly surface runoff (mm) corrected on ET</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">float</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Amount of retention of water in the soil or
+subsurface runoff (mm) corrected on ET</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">float</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Monthly amount of actual evapotranspiration from the
+surface (mm)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.waterflow.WaterBalance.waterFlows">
+<code class="descname">waterFlows</code><span class="sig-paren">(</span><em>dmt</em>, <em>precip</em>, <em>CN</em>, <em>LAI</em>, <em>ETp</em>, <em>xsize=1.0</em>, <em>ysize=1.0</em>, <em>a=0.005</em>, <em>b=0.005</em>, <em>c=0.5</em>, <em>d=0.1</em>, <em>e=0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/waterflow.html#WaterBalance.waterFlows"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.waterflow.WaterBalance.waterFlows" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of water flows (surface, subsurface and
+evapotranspiration) in the area of interest. Calculation is
+designed for monthly data. The area for calculation is
+defined by raster of digital elevation model. Calculation of
+water flows are based on CN curves approach and actual
+evapotranspiration is calculated on basis of Thornthwaith
+and Ol’decop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>dmt</strong> (<em>Numpy array</em>) – Digital elevation model of the surface (m).</li>
+<li><strong>precip</strong> (<em>Numpy array</em>) – Grid (Numpy array) of precipitation amount
+for particular month (mm) corresponding to dmt</li>
+<li><strong>CN</strong> (<em>Numpy array</em>) – Grid (Numpy array) of CN curves</li>
+<li><strong>LAI</strong> (<em>Numpy array</em>) – Leaf area index</li>
+<li><strong>ETp</strong> (<em>Numpy array</em>) – Potential evapotranspiration (mm/month)</li>
+<li><strong>xsize</strong> (<em>float</em>) – Size of pixel in x axis (m)</li>
+<li><strong>ysize</strong> (<em>float</em>) – Size of pixel in y axis (m)</li>
+<li><strong>a</strong> (<em>float</em>) – Constant</li>
+<li><strong>b</strong> (<em>float</em>) – Constant</li>
+<li><strong>c</strong> (<em>float</em>) – Constant</li>
+<li><strong>d</strong> (<em>float</em>) – Constant</li>
+<li><strong>e</strong> (<em>float</em>) – Constant</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Surface outflow of water (mm/month)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">Numpy array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Subsurface outflow of water (mm/month)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first">Numpy array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Actual evapotranspiration (mm/month)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">Numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mdaylight">
+<h1>Module mdaylight<a class="headerlink" href="#module-mdaylight" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module mdaylight provides methods for calculation of day length and
+monthly means of day length on basis of latitude and day/month number.</p>
+<span class="target" id="module-modules.mdaylight"></span><dl class="class">
+<dt id="modules.mdaylight.MonthlyDaylight">
+<em class="property">class </em><code class="descclassname">modules.mdaylight.</code><code class="descname">MonthlyDaylight</code><a class="reference internal" href="_modules/modules/mdaylight.html#MonthlyDaylight"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.mdaylight.MonthlyDaylight" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculates list of monthly mean daylight, timezone and length of
+dailight for particular day according to geographical position.</p>
+<dl class="method">
+<dt id="modules.mdaylight.MonthlyDaylight.dayLength">
+<code class="descname">dayLength</code><span class="sig-paren">(</span><em>nday=1</em>, <em>lat=49.1797903</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/mdaylight.html#MonthlyDaylight.dayLength"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.mdaylight.MonthlyDaylight.dayLength" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of dalight according to geographic position and day
+number (1-365).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>nday</strong> (<em>int</em>) – Number of day throughout the year (0-365)</li>
+<li><strong>lat</strong> (<em>float</em>) – Earth latitude (UTM) in decimal degrees</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List of mean monthly daylight (hours, decimal)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.mdaylight.MonthlyDaylight.monthlyDaylights">
+<code class="descname">monthlyDaylights</code><span class="sig-paren">(</span><em>lat=49.1797903</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/mdaylight.html#MonthlyDaylight.monthlyDaylights"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.mdaylight.MonthlyDaylight.monthlyDaylights" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of monthly mean daylight - potential duration of
+solar radiation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>lat</strong> (<em>float</em>) – Earth latitude (UTM) in decimal degrees</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">List of mean monthly daylight (hours, decimal)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sowing-proc">
+<h1>Module sowing_proc<a class="headerlink" href="#module-sowing-proc" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module sowing_proc provides methods for crops rotation time series
+creation for particular crops planted in the area of interest.</p>
+<span class="target" id="module-modules.sowing_proc"></span><dl class="class">
+<dt id="modules.sowing_proc.SowingProcTimeSeries">
+<em class="property">class </em><code class="descclassname">modules.sowing_proc.</code><code class="descname">SowingProcTimeSeries</code><a class="reference internal" href="_modules/modules/sowing_proc.html#SowingProcTimeSeries"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.sowing_proc.SowingProcTimeSeries" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Class SowingProsTimeSeries is a module for calculation of
+sowing procedure (crop rotation) time series in monthly step.
+Calculation is based on order of crops in the sowing procedure
+and their agronomy terms (sowing and harvest)</p>
+<dl class="method">
+<dt id="modules.sowing_proc.SowingProcTimeSeries.calcSowingProc">
+<code class="descname">calcSowingProc</code><span class="sig-paren">(</span><em>crops_table</em>, <em>ID_col_number=0</em>, <em>sowing_col_number=1</em>, <em>harvest_col_number=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/sowing_proc.html#SowingProcTimeSeries.calcSowingProc"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.sowing_proc.SowingProcTimeSeries.calcSowingProc" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Calculation of sowing procedure time series for crops or for
+mowed meadows. Calculates are tables for crops identifiers,
+and table with difference of days between sowing and harvest.
+The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure. The gaps between crops are highlighted as bare
+soil with ID = 999.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>crops_table</strong> – Pandas dataframe containing information
+about crops - ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and
+harvest are numbered according to months: 1 - January,
+2 - February etc.</li>
+<li><strong>ID_col_number</strong> – crops_table column with IDs index</li>
+<li><strong>sowing_col_number</strong> – crops_table column with sowing date
+index</li>
+<li><strong>harvest_col_number</strong> – crops_table column with harvest date
+index</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List containing IDs of crops in sowing procedure.
+The time series starts in January of the first year and
+ending in the December of the last year of the sowing
+procedure.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List containing sowing days of crops (approximate
+values taken from number of months).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">List containing harvesting days of crops (approximate
+values taken from number of months).</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.sowing_proc.SowingProcTimeSeries.predictCropsRotation">
+<code class="descname">predictCropsRotation</code><span class="sig-paren">(</span><em>crops_table</em>, <em>ID_col_number=0</em>, <em>sowing_col_number=1</em>, <em>harvest_col_number=2</em>, <em>predict_months=12</em>, <em>start_month=1</em>, <em>early_stage_mng=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/sowing_proc.html#SowingProcTimeSeries.predictCropsRotation"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.sowing_proc.SowingProcTimeSeries.predictCropsRotation" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Prediction of sowing procedure including agricultural crops or
+mowed meadows. List of crops signatures in TS. -999 is bare
+soil.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>crops_table</strong> – Pandas dataframe containing information
+about crops - ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and
+harvest are numbered according to months: 1 - January,
+2 - February etc.</li>
+<li><strong>ID_col_number</strong> – crops_table column with IDs index</li>
+<li><strong>sowing_col_number</strong> – crops_table column with sowing date
+index</li>
+<li><strong>harvest_col_number</strong> – crops_table column with harvest date
+index</li>
+<li><strong>predict_months</strong> – Number of months for prediction</li>
+<li><strong>start_month</strong> – Month of prediction start - month of
+radiation accident. [1-12]</li>
+<li><strong>early_stage_mng</strong> – The removing of biomass in early
+stage of radioactive contamination has been done or not. I
+the first case, the first year of the prediction is taken as
+bare soil.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Basic dataframe (Pandas) for all crops and meadows for
+the whole TS of the prediction. Data are ordered
+according to sowing procedure following the particular
+crops in the crops rotation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.sowing_proc.SowingProcTimeSeries.predictDryMass">
+<code class="descname">predictDryMass</code><span class="sig-paren">(</span><em>crops_table</em>, <em>params_table</em>, <em>ID_col_number=0</em>, <em>sowing_col_number=1</em>, <em>harvest_col_number=2</em>, <em>predict_months=12</em>, <em>start_month=1</em>, <em>early_stage_mng=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/sowing_proc.html#SowingProcTimeSeries.predictDryMass"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.sowing_proc.SowingProcTimeSeries.predictDryMass" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Prediction of dry mass of agricultural crops or
+mowed meadows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>crops_table</strong> – Pandas dataframe containing information
+about crops - ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and
+harvest are numbered according to months: 1 - January,
+2 - February etc.</li>
+<li><strong>params_table</strong> – Pandas dataframe with parameters for
+calculation of dry mass of crops and meadows.</li>
+<li><strong>ID_col_number</strong> – crops_table column with IDs index</li>
+<li><strong>sowing_col_number</strong> – crops_table column with sowing date
+index</li>
+<li><strong>harvest_col_number</strong> – crops_table column with harvest date
+index</li>
+<li><strong>predict_months</strong> – Number of months for prediction</li>
+<li><strong>start_month</strong> – Month of prediction start = month of
+radiation accident. [1-12]</li>
+<li><strong>early_stage_mng</strong> – The removing of biomass in early
+stage of radioactive contamination has been done or not. I
+the first case, the first year of the prediction is taken as
+bare soil.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Dataframe of all crops and meadows dry mass for
+the whole TS of the prediction. Data are ordered
+according to sowing procedure following the particular
+crops in the crops rotation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="modules.sowing_proc.SowingProcTimeSeries.predictHarvest">
+<code class="descname">predictHarvest</code><span class="sig-paren">(</span><em>crops_table</em>, <em>ID_col_number=0</em>, <em>sowing_col_number=1</em>, <em>harvest_col_number=2</em>, <em>predict_months=12</em>, <em>start_month=1</em>, <em>early_stage_mng=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/sowing_proc.html#SowingProcTimeSeries.predictHarvest"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.sowing_proc.SowingProcTimeSeries.predictHarvest" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Prediction of harvest time for agricultural crops or
+mowed meadows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>crops_table</strong> – Pandas dataframe containing information
+about crops - ID of crop, term of sowing and term of harvest
+in order of the sowing procedure. Terms of sowing and
+harvest are numbered according to months: 1 - January,
+2 - February etc.</li>
+<li><strong>ID_col_number</strong> – crops_table column with IDs index</li>
+<li><strong>sowing_col_number</strong> – crops_table column with sowing date
+index</li>
+<li><strong>harvest_col_number</strong> – crops_table column with harvest date
+index</li>
+<li><strong>predict_months</strong> – Number of months for prediction</li>
+<li><strong>start_month</strong> – Month of prediction start - month of
+radiation accident. [1-12]</li>
+<li><strong>early_stage_mng</strong> – The removing of biomass in early
+stage of radioactive contamination has been done or not. I
+the first case, the first year of the prediction is taken as
+bare soil.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first last">Basic dataframe (Pandas) for all crops and meadows for
+the whole TS of the prediction. Data are ordered
+according to sowing procedure following the particular
+crops in the crops rotation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-overlap-clip">
+<h1>Module overlap_clip<a class="headerlink" href="#module-overlap-clip" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Module overlay_clip provides methods for unifying and reprojecting
+different coordinate systems of rasters and furthermore method for
+clipping of overlapping area of the rasters including their
+resampling.</p>
+<span class="target" id="module-modules.overlap_clip"></span><dl class="function">
+<dt id="modules.overlap_clip.clipOverlappingArea">
+<code class="descclassname">modules.overlap_clip.</code><code class="descname">clipOverlappingArea</code><span class="sig-paren">(</span><em>rasters_in</em>, <em>output_folder=None</em>, <em>suffix='_clipped'</em>, <em>epsg=None</em>, <em>tmp_out=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/overlap_clip.html#clipOverlappingArea"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.overlap_clip.clipOverlappingArea" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Function for clipping rasters by their overlapping area.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>rasters_in</strong> (<em>list</em>) – List of input rasters paths.</li>
+<li><strong>output_folder</strong> (<em>str</em>) – Path to output folder defined by user</li>
+<li><strong>suffix</strong> (<em>str</em>) – Suffix of the output rasters names. The name of     new raster is constructed from original name of raster and suffix</li>
+<li><strong>epsg</strong> (<em>int</em>) – EPSG definition for output rasters. If epsg=None     the most frequent EPSG in the layers group will be set.</li>
+<li><strong>tmp_out</strong> (<em>bool</em>) – If True the output layers will be created as     temporal scratch layers.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">Paths of rasters clipped by overlapping area of all the     rasters</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.overlap_clip.fixSRS">
+<code class="descclassname">modules.overlap_clip.</code><code class="descname">fixSRS</code><span class="sig-paren">(</span><em>rasters_in</em>, <em>tmp_out=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/overlap_clip.html#fixSRS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.overlap_clip.fixSRS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Checking and fixing the SRSs of input rasters. Function looks
+for possible definition of SRS in group of rasters –&gt; local SRS
+is possibly replaced by global SRS if it is available in the set
+of rasters. The empty SRS is replaced by most frequent SRS
+in the set of rasters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>rasters_in</strong> (<em>list</em>) – List of input rasters paths.</li>
+<li><strong>tmp_out</strong> (<em>bool</em>) – Selection if the output layers will be created
+as temporal scratch layers or the original raster
+layers will be replaced by newly defined rasters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List of output layers paths</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.overlap_clip.readGeo">
+<code class="descclassname">modules.overlap_clip.</code><code class="descname">readGeo</code><span class="sig-paren">(</span><em>rast</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/overlap_clip.html#readGeo"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.overlap_clip.readGeo" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>Reading geographical information from raster using GDAL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><strong>rast</strong> (<em>str</em>) – Path to raster file in GDAL accepted format.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body">List of geotransformation parameters and features of an     input raster:<ul class="simple">
+<li>0: The affine transformation coefficients; tuple</li>
+<li>1: Projection information of the raster (dataset); str</li>
+<li>2: Pixel width (m) on X axis; float</li>
+<li>3: Pixel height (m) on Y axis; float</li>
+<li>4: EPSG Geodetic Parameter Set code; str</li>
+<li>5: Coordinate system; str</li>
+<li>6: Number of columns in the raster; int</li>
+<li>7: Number of rows in the raster; int</li>
+<li>8: SRS - OSR spatial reference; object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="modules.overlap_clip.uniformSRS">
+<code class="descclassname">modules.overlap_clip.</code><code class="descname">uniformSRS</code><span class="sig-paren">(</span><em>rasters_in</em>, <em>epsg=None</em>, <em>tmp_out=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/modules/overlap_clip.html#uniformSRS"><span class="viewcode-link">[zdroj]</span></a><a class="headerlink" href="#modules.overlap_clip.uniformSRS" title="Trvalý odkaz na tuto definici">¶</a></dt>
+<dd><p>The function unifies SRSs of a group of input raster layers. If
+output EPSG is not defined, the most frequent EPSG is defined as
+default. If SRSs are not included in the raster datasets either
+set EPSG or WGS 84 (EPSG:4326; i.e. if epsg=None) is used for
+transformation of SRS.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parametry:</th><td class="field-body"><ul class="first simple">
+<li><strong>rasters_in</strong> (<em>list</em>) – List of input rasters paths.</li>
+<li><strong>epsg</strong> (<em>int</em>) – EPSG definition for output rasters. If epsg=None
+the most frequent EPSG in the layers group will be set.</li>
+<li><strong>tmp_out</strong> (<em>bool</em>) – Selection if the output layers will be created
+as temporal scratch layers or the original raster
+layers will be replaced by newly defined rasters.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Vrací:</th><td class="field-body"><p class="first">List of output layers paths</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Typ návratové hodnoty:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="parameter-of-crops-and-soil-settings">
+<h1>Parameter of crops and soil settings<a class="headerlink" href="#parameter-of-crops-and-soil-settings" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Parameters of crop growth model, soil features and radiation transfer
+constants are stored in the param folder. The content of the files in
+the directory can be changed in the following way:</p>
+<p><strong>crops_params_cs.csv or crops_params_en.csv</strong> - the data in the rows
+and columns can be changed. The columns and their names can’t be
+changed. The rows and their order can’t be changed. New rows can be
+added. The files contains following fields/columns:</p>
+<blockquote>
+<div><ul class="simple">
+<li>crop: Crop name</li>
+<li>sowing: Date of sowing of the crop</li>
+<li>harvest: Date of harvesting the crop</li>
+<li>dw_max: Maximal dry mass of the aboveground biomass <img class="math" src="_images/math/62e67f8dcec184eefc400a3444df047a53b6a7d2.svg" alt="(t.ha^{-1})"/></li>
+<li>LAI_max: Maximal Leaf Area Index of the crop</li>
+<li>r_max: Maximal content of water in biomass (% of mass)</li>
+<li>r_min: Minimal content of water in biomass (% of mass)</li>
+<li>C_factor: Crop factor of USLE constants for particular crops</li>
+<li>CN_x_x: CN numbers for a particular crops and hydrological main soil groups (A - D) and for actual hydrological state of the soils (ISP: G - good, B - bad)</li>
+<li>R_transf_Cs: Constants of radioactive transfer from soil to crops for Caesium</li>
+<li>R_transf_Sr: Constants of radioactive transfer from soil to crops for Stroncium</li>
+</ul>
+</div></blockquote>
+<p><strong>Soil_hydr_cat.csv</strong> - the csv file contains information about
+various soils:</p>
+<blockquote>
+<div><ul class="simple">
+<li>HPJ: Main Soil Unit (from 1 to 78)</li>
+<li>HPS: Main hydrological group of soil</li>
+<li>K_factor: K factor constants of USLE for particular soils</li>
+</ul>
+</div></blockquote>
+<p>All the data described above can be changed in RadAgro UI before the
+calculation.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="Licenční ujednání" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="description.html" class="btn btn-neutral" title="Struktura programu" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

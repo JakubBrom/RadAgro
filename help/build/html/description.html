@@ -1,0 +1,1309 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Struktura programu &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="index.html"/>
+        <link rel="next" title="Program structure" href="libs.html"/>
+        <link rel="prev" title="Instalace" href="users_man.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Struktura programu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#casna-faze">Časná fáze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#strednedoba-a-dlouhodoba-faze">Střednědobá a dlouhodobá fáze</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#rustova-analyza">Růstová analýza</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#susina-nadzemni-biomasy">Sušina nadzemní biomasy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pokryvnost-listovi">Pokryvnost listoví</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kontaminace-zelene-a-pudy-intercepcni-faktor">Kontaminace zeleně a půdy, intercepční faktor</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#hydrologie">Hydrologie</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vypocet-akumulace-odtoku-z-uzemi">Výpočet akumulace odtoku z území</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vypocet-hydrologicke-bilance-v-uzemi">Výpočet hydrologické bilance v území</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#separace-odtoku">Separace odtoku</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evapotranspirace">Evapotranspirace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#korekce-odtoku">Korekce odtoku</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#erozni-model">Erozní model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#faktor-r">Faktor R</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faktor-k">Faktor K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faktor-l-a-s">Faktor L a S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faktor-c">Faktor C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faktor-p">Faktor P</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Struktura programu</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/description.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="struktura-programu">
+<h1>Struktura programu<a class="headerlink" href="#struktura-programu" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Struktura programu RadAgro byla definována na základě předpokladu
+ztráty, respektive změny aktivity v prostředí, která je daná na jedné
+straně odnosem radionuklidu z prostředí, na druhé straně vlastním
+radioaktivním rozpadem radionuklidu. Hlavními faktory, které mohou
+ovlivnit přítomnost radionuklidu v prostředí jsou:</p>
+<ul class="simple">
+<li>odnos ve vodním prostředí (odtok)</li>
+<li>odnos na částicích půdy vlivem eroze půdy</li>
+<li>odnos v biomase vlivem jejího odstranění (sklizeň)</li>
+<li>radioaktivní přeměna</li>
+</ul>
+<p>Přehled základní struktury modelu ukazuje obrázek.</p>
+<img alt="_images/zakl_schema.png" class="align-center" src="_images/zakl_schema.png" />
+<p>Je potřeba poznamenat, že uvedené faktory jsou provázané a působí
+synergicky. Vazby mezi jednotlivými vstupy a procesy ukazuje
+následující schéma:</p>
+<a class="reference internal image-reference" href="_images/schema_vazby.png"><img alt="_images/schema_vazby.png" class="align-center" src="_images/schema_vazby.png" style="width: 721.6999999999999px; height: 455.7px;" /></a>
+<p>Vlastní výpočet časových změn radioaktivní kontaminace území je
+rozdělen do dvou částí, na výpočet situace v časné fázi radiační
+události a na výpočet změn kontaminace v následujícím období v
+měsíčním kroku.</p>
+<p>V časné fázi radiační události je pozornost zaměřena na otázku
+rozdělení radioaktivní depozice mezi porost a půdu a případnou
+možnost omezení kontaminace půdy odstraněním kontaminované nadzemní
+biomasy. Časná fáze představuje časové období v trvání několika dnů
+až týdnů.</p>
+<p>Následující střednědobá až dlouhodobá fáze navazuje na časnou fázi
+radiační události. V programu RadAgro je tato fáze pojata jako
+sekvence střídajících se období, která zahrnuje vliv střídání plodin
+na pozemcích, jejich management, erozi a současně i radioaktivní
+přeměnu kontaminujícího radionuklidu.</p>
+<p>V následujícím textu jsou popsány jednotlivé složky výpočtu
+radioaktivní kontaminace v časné a následné (střednědobé a dlouhodobé)
+fázi radiační události.</p>
+<div class="section" id="casna-faze">
+<h2>Časná fáze<a class="headerlink" href="#casna-faze" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>V časné fázi radiační události, tj. od začátku úniku radionuklidu do
+prostředí po dobu několika hodin až dnů, případně až týdnů je zásadní
+získání  informací o depozici radionuklidu na porostech plodin a na
+povrchu půdy a o vlastnostech plodin. Tyto informace jsou zásadní pro
+provedení opatření pro ochranu půdy a tedy i životního prostředí
+(vody, organismů atd.). Jestliže známe množství kontaminované
+biomasy, úroveň její kontaminace a prostorovou distribuci, můžeme
+efektivně plánovat a provádět odstranění biomasy plodin z pozemků.</p>
+<p>Program RadAgro umožňuje odhadnout velikost efektu odstranění biomasy
+v časné fázi na snížení radioaktivní kontaminace prostředí (půdy).
+Odhad je založen na růstové analýze plodin a výpočtu
+intercepčního faktoru pro daný radionuklid. Zároveň je celé území
+rozděleno do tří skupin podle referenčních úrovní kontaminace, v
+závislosti na možnostech dalšího managementu území (viz dále).</p>
+</div>
+<div class="section" id="strednedoba-a-dlouhodoba-faze">
+<h2>Střednědobá a dlouhodobá fáze<a class="headerlink" href="#strednedoba-a-dlouhodoba-faze" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Střednědobá a dlouhodobá fáze radiační události představuje období v
+délce trvání měsíců až let. Program RadAgro umožňuje odhad vývoje v
+měsíčním kroku na období až 166 let. Limitace je zde dána omezením
+výstupního formátu vektorové vrstvy vývoje radioaktivní kontaminace
+území.</p>
+<p>Rozdíl oproti časné fázi spočívá ve změně sledování jednotlivých
+faktorů změny radioaktivní kontaminace území. Zatímco v časné fázi je
+předpokladem, že biomasa plodin je překážkou pro radionuklid na které
+se část kontaminace zachytí, v dlouhodobé fázi rozhoduje více faktorů.</p>
+<p>Prvním z faktorů je management. Program RadAgro v zásade řeší jako
+hlavní managementové opatření střídání plodin v osevním postupu.
+Jednotlivé plodiny mají zásadní význam pro snižování radioaktivní
+kontaminace půdy vlivem absorpce kontaminantu, která je dána
+transferovým koeficientem. Snížení kontaminace plochy je pak dáno
+odstraněním nadzemní biomasy plodin při sklizni.
+Plodiny a jejich střídání v osevním postupu mají významný vliv na
+erozi půdy, která je dalším zásadním faktorem při snižování
+kontaminace půdy/plochy a na odtokové vlastnosti povrchu, tedy na
+hydrologii území.</p>
+<p>Vedle managementu, eroze a hydrologie má na snižování
+radioaktivní kontaminace samozřejmě významný vliv též radioaktivní
+přeměna radionuklidu.</p>
+<p>V následujícím textu jsou popsány jednotlivé sledované parametry a
+způsob jejich výpočtu.</p>
+</div>
+</div>
+<div class="section" id="rustova-analyza">
+<h1>Růstová analýza<a class="headerlink" href="#rustova-analyza" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Růstová analýza je v programu RadAgro využita pro odhad parametrů
+plodin, které jsou zásadní pro následný odhad radioaktivní
+kontaminace nadzemní biomasy plodin a půdy. Jedná se o odhad množství
+sušiny nadzemní biomasy plodin a o odhad pokryvnosti listoví, které
+jsou využity v časné fázi radiační události, odhad množství sušiny je
+pak využit též v dlouhodobém pohledu.</p>
+<div class="section" id="susina-nadzemni-biomasy">
+<h2>Sušina nadzemní biomasy<a class="headerlink" href="#susina-nadzemni-biomasy" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Model výpočtu šušiny nadzemní biomasy je založen na předpokladu,
+že přírůst sušiny plodin odpovídá sigmoidní (logistické) křivce v
+závislosti na čase. Množství sušiny nadzemní biomasy <img class="math" src="_images/math/342c27695410c8c6cbb41f6b565dc41630581064.svg" alt="W \ (t
+.ha^{-1})"/> lze vypočítat následovně:</p>
+<div class="math" id="equation-dry-w">
+<p><span class="eqno">(1)<a class="headerlink" href="#equation-dry-w" title="Permalink to this equation">¶</a></span><img src="_images/math/f6034d6f3644991b67a9e386bb095a3b977144f9.svg" alt="W=\frac{W_{max}}{1+\mathrm{e}^{-t}}"/></p>
+</div><p>kde <img class="math" src="_images/math/615ae08e5f1ca44e4ae348b37128cdbc48f5d0c8.svg" alt="W_max"/> je maximální množství sušiny v produkci plodiny
+<img class="math" src="_images/math/5424e51b569dc8fc5fdfba214144ad61c21bf3d7.svg" alt="(t.ha-1)"/> a <img class="math" src="_images/math/10c3108f0aa4d05c090813ebcbd6e8528d2f9484.svg" alt="t"/> je škálovanou funkcí času, za
+předpokladu, že se křivka při zvolené hodnotě asymptoticky blíží
+limitním hodnotám. Hodnotu <img class="math" src="_images/math/10c3108f0aa4d05c090813ebcbd6e8528d2f9484.svg" alt="t"/> vypočteme podle vzorce:</p>
+<div class="math" id="equation-t-value">
+<p><span class="eqno">(2)<a class="headerlink" href="#equation-t-value" title="Permalink to this equation">¶</a></span><img src="_images/math/69470c12347e93e6dcf68a68c380fedc82486e4a.svg" alt="t=m\cdot t_{s}-n"/></p>
+</div><p>kde <img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> a <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/> jsou parametry specifické pro jednotlivé
+plodiny a <img class="math" src="_images/math/ba787487cbc97f0e77a638a67007a7c754e63be6.svg" alt="t_{s}"/> je škálovaná hodnota času vypočtená podle
+vzorce:</p>
+<div class="math" id="equation-ts">
+<p><span class="eqno">(3)<a class="headerlink" href="#equation-ts" title="Permalink to this equation">¶</a></span><img src="_images/math/0a4c9fb2e72de7a39f71ba99fd436022cd384c20.svg" alt="t_{s}=\frac{t_{akt}-t_{0}}{t_{max}-t_{0}}"/></p>
+</div><p>kde <img class="math" src="_images/math/be12b601eab4b38940eac1987cea2647cf200fdf.svg" alt="t_{akt}"/> je hodnota pro daný den v rámci uvažovaného období,
+<img class="math" src="_images/math/c9863d647853f850b71edaa37a255333b6104d7d.svg" alt="t_{0}"/> je minimální uvažovaná hodnota (např. den výsevu) a
+<img class="math" src="_images/math/ed9591ac5f162226f810447fd4f5b88a68653ab7.svg" alt="t_{max}"/> je maximální hodnota (např. den sklizně), kdy
+množství sušiny dosahuje maxima.</p>
+<p>Vlastní parametry plodin <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/> a <img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> lze zjistit na základě
+kalibrace růstového modelu skutečným průběhem růstu dané plodiny
+během vegetačního období pomocí úpravy rovnice <a class="reference internal" href="#equation-dry-w">(1)</a> a s využitím
+lineární regrese následujícím způsobem:</p>
+<div class="math" id="equation-w-ratio">
+<p><span class="eqno">(4)<a class="headerlink" href="#equation-w-ratio" title="Permalink to this equation">¶</a></span><img src="_images/math/45990b09be763f938c949015ea7958ca61c55dac.svg" alt="\mathrm{e}^{-t}=\frac{W_{max}}{W}-1"/></p>
+</div><p>Logaritmováním rovnice získáme výraz:</p>
+<div class="math" id="equation-minus-t">
+<p><span class="eqno">(5)<a class="headerlink" href="#equation-minus-t" title="Permalink to this equation">¶</a></span><img src="_images/math/571ca91bf980982c19806b1587fa9f9f0bd966a6.svg" alt="-t=\ln\left(\frac{W_{max}}{W}-1\right)"/></p>
+</div><p>a kombinací rovnic <a class="reference internal" href="#equation-w-ratio">(4)</a> a <a class="reference internal" href="#equation-minus-t">(5)</a> získáváme výledný tvar
+rovnice:</p>
+<div class="math" id="equation-minus-ln">
+<p><span class="eqno">(6)<a class="headerlink" href="#equation-minus-ln" title="Permalink to this equation">¶</a></span><img src="_images/math/8a6dcf737e6b1db661763e399002503aaf50cc44.svg" alt="-\ln\left(\frac{W_{max}}{W}-1\right)=m\cdot t_{s}-n"/></p>
+</div><p>kdy na základě známých hodnot <img class="math" src="_images/math/186b035dafb5939c704649d4b6d456d29194fe8b.svg" alt="W_{max}"/> a <img class="math" src="_images/math/323dca7457018b914be254049520487ff626dcdf.svg" alt="W"/> lze s
+využitím lineární regrese vypočítat hodnoty <img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> a <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/>.
+Pro účely programu RadAgro jsou pro jednotlié plodiny parametry
+<img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> a <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/> stanoveny na základě změny sklonu regresní
+křivky mezi předpokládanou minimální a maximální hodnotou množství
+sušiny a hodnot <img class="math" src="_images/math/ba787487cbc97f0e77a638a67007a7c754e63be6.svg" alt="t_{s}"/> pro počáteční a konečný termín
+sledovaného období. Hodnoty parametrů <img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> a <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/> jsou
+v rámci zadání hodnot do uživatelského rozhraní programu načteny do
+tabulky v záložce Parametry, list Rstový model, kde je možné je ručně
+změnit. S ohledem na matematické vyjádření rovnice <a class="reference internal" href="#equation-minus-ln">(6)</a>, kdy
+nelze vypočítat přirozený logaritmus nulové a záporné hodnoty, byla
+tato rovnice upravena následovně:</p>
+<div class="math" id="equation-minus-t-corr">
+<p><span class="eqno">(7)<a class="headerlink" href="#equation-minus-t-corr" title="Permalink to this equation">¶</a></span><img src="_images/math/566f92cafe0579a8f4c7bb73d78bb2ae64d79468.svg" alt="-t=\ln\left(\left|\frac{W_{max}}{W-0.001}-1\right|\right)"/></p>
+</div><p>kde <img class="math" src="_images/math/323dca7457018b914be254049520487ff626dcdf.svg" alt="W"/> je minimální hodnota množství sušiny v případě počátečního
+termínu a maximální hodnota v případě konečného uvažovaného termínu
+<img class="math" src="_images/math/e97c6f031296dba4f8fcff8263c6c84852092873.svg" alt="(W=W_{max})"/>.</p>
+<p>Výpočet množství sušiny plodin předpokládá jednoletost plodin a
+období jejich vegetace od doby setí do doby sklizně v případě
+jařin a nebo od jarních měsíců, kdy jsou tradičně vysévány jařiny do
+sklizně v případě ozimů. Podzimní období u ozimů není bráno v potaz s
+ohledem na malé množství biomasy.</p>
+</div>
+<div class="section" id="pokryvnost-listovi">
+<h2>Pokryvnost listoví<a class="headerlink" href="#pokryvnost-listovi" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Dalším významným produkčním ukazatelem porostu je pokryvnost
+listoví nebo též index listové plochy (<img class="math" src="_images/math/ece8dd7f1c6ca3312126d4a6f1bc5029c8c235a2.svg" alt="LAI"/>,
+<img class="math" src="_images/math/e6d60470b6335e2821b2a9dadbb3bd4fdcdd26bf.svg" alt="m^{2}\cdot m^{-2}"/>), který je využit
+pro odhad radiační kontaminace biomasy a povrchu půdy. Vlastní
+průběh vypočtené křivky <img class="math" src="_images/math/ece8dd7f1c6ca3312126d4a6f1bc5029c8c235a2.svg" alt="LAI"/> je odvozen z průběhu růstu
+biomasy a značně generalizován. Časová změna <img class="math" src="_images/math/ece8dd7f1c6ca3312126d4a6f1bc5029c8c235a2.svg" alt="LAI"/> pro
+určitou plodinu je vypočtena v krocích následovně:</p>
+<div class="math" id="equation-lai">
+<p><span class="eqno">(8)<a class="headerlink" href="#equation-lai" title="Permalink to this equation">¶</a></span><img src="_images/math/b9a2721afc49cf3c5a68b8af4f154f58ba75b4d1.svg" alt="LAI=\begin{cases}
+    LAI_{max}^{2}\cdot\frac{W}{W_{max}}; &amp; \quad pro\quad t_{s}&lt;0.7\\
+    X; &amp; \quad pro\quad t_{s}\geq0.7\\
+    LAI_{max}; &amp; \quad pro\quad LAI\geq LAI_{max}
+\end{cases}"/></p>
+</div><p>kde <img class="math" src="_images/math/33359249424f8826373b771f11fc29f725f3d30e.svg" alt="LAI_{max}"/> je maximální pokryvnost listové plochy pro danou
+plodinu. <img class="math" src="_images/math/372c4580aa58215ac175de95b0a37eb8635cd03b.svg" alt="X"/> je empirická funkce:</p>
+<div class="math" id="equation-x-eq">
+<p><span class="eqno">(9)<a class="headerlink" href="#equation-x-eq" title="Permalink to this equation">¶</a></span><img src="_images/math/58afc68ee8a67650da6cd42e9711655f204ac5c5.svg" alt="X=\left(3.6511\cdot LAI+0.19993\cdot RWC_{min}-6.66309\right)\cdot t_{s}^{2}+\left(3.9841\cdot LAI_{max}-0.14\cdot RWC_{min}+4.6668\right)\cdot t_{s}"/></p>
+</div><p>Obdobně, jako v případě výpočtu množství sušiny plodin předpokládá
+výpočet <img class="math" src="_images/math/ece8dd7f1c6ca3312126d4a6f1bc5029c8c235a2.svg" alt="LAI"/> jednoletost plodin a období jejich vegetace od
+doby setí do doby sklizně v případě jařin a nebo od jarních měsíců,
+kdy jsou tradičně vysévány jařiny do sklizně v případě ozimů.
+Podzimní období u ozimů není bráno v potaz s ohledem na malé množství
+biomasy.</p>
+</div>
+<div class="section" id="kontaminace-zelene-a-pudy-intercepcni-faktor">
+<h2>Kontaminace zeleně a půdy, intercepční faktor<a class="headerlink" href="#kontaminace-zelene-a-pudy-intercepcni-faktor" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Pro rozhodování o množství depozice radioaktivního materiálu na povrchu
+porostu a povrchu půdy je vypočten intercepční faktor (rel.), který je
+ukazatelem, jak velká frakce depozice zůstává na povrchu porostu. Hodnota
+závisí na indexu listové plochy porostu a úhrnu srážek v průběhu depozice.
+Podle Müllera a Pröhla (1993) lze intercepční frakci (faktor) depozice
+radioizotopu fw v časné fázi radiační havárie vypočítat podle vzorce:</p>
+<div class="math" id="equation-int-f">
+<p><span class="eqno">(10)<a class="headerlink" href="#equation-int-f" title="Permalink to this equation">¶</a></span><img src="_images/math/d321fd28a7710aa6f90a8bb853167a8a68e583b0.svg" alt="f_{w}=\min\left[0.8;\frac{LAI\cdot k\cdot S\left(1-\mathrm{e^{-\frac{\ln2}{3S}R}}\right)}{R}\right]"/></p>
+</div><p>kde k je specifický faktor pro daný kontaminant (I: k = 0.5; Sr, Ba:
+k = 2; Cs a ostatní radionuklidy: k = 1), S je tloušťka vodního filmu
+na rostlinách (mm) a R je úhrn srážek (mm). Hodnota S je zpravidla 0,
+15 – 0,3 mm se střední hodnotou 0,2 mm (Pröhl, 2003). Výpočet
+depozice na povrchu rostlin vychází z předpokladu, že depozice na
+povrchu rostlin je poměrnou částí celkové depozice danou intercepčním
+faktorem:</p>
+<div class="math" id="equation-depo-plants">
+<p><span class="eqno">(11)<a class="headerlink" href="#equation-depo-plants" title="Permalink to this equation">¶</a></span><img src="_images/math/cb19d1b93c4b8ad5b7dd134d85733c962e56172f.svg" alt="D_{biomasa}=D_{celk}\cdot f_{w}"/></p>
+</div><p>kde <img class="math" src="_images/math/30e7167632c9711dacf28e8fa0a264cec9da493b.svg" alt="D_{biomasa}"/> je měrná depozice radioizotopu na povrchu rostlin
+<img class="math" src="_images/math/f480e2b33d5811e34d8e94848eaca4fc30e509a4.svg" alt="(Bq.m^{-2})"/> a Dcelk je celková měrná radioaktivní depozice <img class="math" src="_images/math/66c25d64c712b318d37a26f2febec280c68ffe57.svg" alt="(Bq
+.m^{-2})"/> zadávaná jako vstup do modelu. Měrná depozice radioizotopu na
+povrchu půdy (Dpuda ; <img class="math" src="_images/math/c7eebed3c8b3f7a7d7db99db3461fc4efb9d61bc.svg" alt="Bq.m^{-2}"/>) je pak rozdílem mezi celkovou měrnou
+depozicí a měrnou depozicí na povrchu porostu:</p>
+<div class="math" id="equation-depo-soil">
+<p><span class="eqno">(12)<a class="headerlink" href="#equation-depo-soil" title="Permalink to this equation">¶</a></span><img src="_images/math/1d687c1097c40200838b8a1a0927cbf7528320f9.svg" alt="D_{puda}=D_{celk}-D_{biomasa}"/></p>
+</div><p>Pokud jsou hodnoty vypočteného množství biomasy menší než 0,5 <img class="math" src="_images/math/fd6c65d0187f7f59bcf8ee6c30bb28914e047ea0.svg" alt="t
+.ha^{-1}"/>, je vypočtena pouze měrná depozice radioaktivního materiálu na
+povrchu půdy. Důvodem je minimální předpoklad možnosti odstranění biomasy.</p>
+</div>
+</div>
+<div class="section" id="hydrologie">
+<h1>Hydrologie<a class="headerlink" href="#hydrologie" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Hydrologický model nebyl do vlastního výpočtu změn radioaktivní
+kontaminace implementován ze dvou důvodů. Prvním důvodem je
+předopkládaný minimální efekt změny radioaktivní kontaminace vlivem
+odnosu radionuklidu v odtékající vodě povrchovým nebo podpovrchovým
+odtokem. Efektivitu odhadujeme na úrovni jednotek promile z celkové
+změny měrné aktivity na sledovaných plochách. Druhým důvodem je
+výpočetní náročnost a čas potřebný na výpočet. Náročnost výpočtu
+vychází z potřeby cyklických změn formátu dat mezi rastrem a vektorem
+a z potřeby komplikovaných maticových výpočtů srážkoodtokového modelu.
+Všechny potřebné metody hydrologického modelu jsou obsaženy v modulu
+waterflow a jsou dále popasány v následujícím textu.</p>
+<p>Schéma výpočtu hydrologických charakteristik ukazuje schéma:</p>
+<a class="reference internal image-reference" href="_images/schema_hydro.png"><img alt="_images/schema_hydro.png" class="align-center" src="_images/schema_hydro.png" style="width: 575.4px; height: 442.4px;" /></a>
+<div class="section" id="vypocet-akumulace-odtoku-z-uzemi">
+<h2>Výpočet akumulace odtoku z území<a class="headerlink" href="#vypocet-akumulace-odtoku-z-uzemi" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Výpočet je založen na metodě výpočtu akumulace odtoku z území. Metoda
+je založena na výpočtu pravděpodobnosti odtoku vody ze zdrojového
+pixelu digitálního modelu území do akumulačního pixelu v závislosti na:</p>
+<ul class="simple">
+<li>sklonitosti</li>
+<li>délce dráhy odtoku mezi pixely</li>
+<li>odporu povrchu pro odtok vody z daného pixelu.</li>
+</ul>
+<p>Výpočet probíhá iterativně, kdy bere v potaz výpočet
+předchozí, čímž dochází k sumaci odtoku.</p>
+<p>Výpočet se provádí od pixelu s nejvyšší nadmořskou výškou směrem
+dolů, vždy pro matici 3x3. Výpočetní matici označíme podle světových
+stran:</p>
+<a class="reference internal image-reference" href="_images/flacc_orient.png"><img alt="_images/flacc_orient.png" class="align-center" src="_images/flacc_orient.png" style="width: 170.4px; height: 170.1px;" /></a>
+<p><em>Označení buněk rastru podle prostorové orientace. Označení odpovídá
+světovým stranám: N – sever, NE – severovýchod, E – východ atd.</em></p>
+<p>Jestliže uvažujeme, že funkcí pravděpodobnosti odtoku vody z
+centrálního pixelu do ostatních pixelů je výškový rozdíl mezi pixely
+(viz např. Stum 2017) a vzdálenost jednotlivých pixelů, potom  můžeme
+definovat geometrii odtoku vody podle schématu:</p>
+<a class="reference internal image-reference" href="_images/flacc_geom.png"><img alt="_images/flacc_geom.png" class="align-center" src="_images/flacc_geom.png" style="width: 220.0px; height: 95.2px;" /></a>
+<p><em>Schématické vyjádření geometrie mezi dvěma pixely DMT s odlišnou
+nadmořskou výškou. :math:`h` je rozdíl výšek, :math:`d` je vzdálenost
+mezi středy dvou pixelů</em></p>
+<p>kde <img class="math" src="_images/math/b84de19b74c55f12438c63a3cee04220840d47f9.svg" alt="h"/> je rozdíl nadmořské výšky mezi jednotlivými pixely a
+<img class="math" src="_images/math/0f4b18f36bd20152043370ce0173fe80faf318ae.svg" alt="d"/> je vzdálenost mezi středy centrálního pixelu a jednotlivých
+ostatních pixelů. Vertikální a horizontální vzdálenosti mezi
+středy pixelů jsou shodné s velikostí pixelů ve vertikálním a
+horizontálním směru. Označíme-li horizontální velikost pixelu symbolem
+<img class="math" src="_images/math/e5f41eea60b786bf04e066f5a0e5dbe79acde5cd.svg" alt="x"/> a vertikální symbolem <img class="math" src="_images/math/58c93e1ac6184465702d674fe52d21e4e6cfe953.svg" alt="y"/>, potom</p>
+<div class="math" id="equation-d-value">
+<p><span class="eqno">(13)<a class="headerlink" href="#equation-d-value" title="Permalink to this equation">¶</a></span><img src="_images/math/adf43f85da30d197fd6a5b8ff7c2bd18f2e0a394.svg" alt="d = x
+d = y"/></p>
+</div><p>pro diagonální směr je vzdálenost středů pixelů</p>
+<div class="math" id="equation-d-diag">
+<p><span class="eqno">(14)<a class="headerlink" href="#equation-d-diag" title="Permalink to this equation">¶</a></span><img src="_images/math/e1b3e4d627f245349b915bcb8b5b0732d70550f1.svg" alt="d = \sqrt{x^2+y^2}"/></p>
+</div><p>Známe-li rozdíly nadmořské výšky, velikost jednotlivých pixelů a
+vzdálenost mezi jejich středy, potom pravděpodobnost odtoku vody
+škálovanou v intervalu <img class="math" src="_images/math/cd6dd7510978de46b269d0f18a9d8af2c4ab156b.svg" alt="\langle 0, 1 \rangle"/> vypočteme podle
+vztahu:</p>
+<div class="math" id="equation-p-i-value">
+<p><span class="eqno">(15)<a class="headerlink" href="#equation-p-i-value" title="Permalink to this equation">¶</a></span><img src="_images/math/985dde3577f9afdad0dc7bcc79d32c71a79bd499.svg" alt="p_i=\frac{2\cdot \arctan \frac{h}{d}}{\pi}"/></p>
+</div><p>Uvedený vztah platí pouze pro kladné hodnoty rozdílu nadmořské výšky
+mezi centrálním a okrajovými pixely (voda teče s kopce). V opačném
+případě platí, že</p>
+<div class="math" id="equation-p-i-zero">
+<p><span class="eqno">(16)<a class="headerlink" href="#equation-p-i-zero" title="Permalink to this equation">¶</a></span><img src="_images/math/70cb8e83d4e93e67bfb90ce3230ac3e2405bec00.svg" alt="p_i=0"/></p>
+</div><p>Model akumulace pravděpodobnosti odtoku předpokládá hladký povrch pro
+odtok, kdy je odtok dán pouze geometrií povrchu. Při povrchovém
+odtoku vody z území lze nicméně předpokládat vliv vlastního povrchu
+na odtok. Zde můžeme uvažovat o odporu povrchu pro odtok vlivem jeho
+drsnosti, který můžeme vyjádřit např. jako Manningův koeficient
+drsnosti nebo jako Darcyho-Weinsbachův koeficient drsnosti v
+intervalu <img class="math" src="_images/math/cd6dd7510978de46b269d0f18a9d8af2c4ab156b.svg" alt="\langle 0, 1 \rangle"/> (označ. <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/>).
+Výsledný vzorec pro pravděpodobnost odtoku bude mít tvar:</p>
+<div class="math" id="equation-p-i-manning">
+<p><span class="eqno">(17)<a class="headerlink" href="#equation-p-i-manning" title="Permalink to this equation">¶</a></span><img src="_images/math/5f025224a8463773492317cff3a8caa5d8c94390.svg" alt="p_i=p_i(1-n)"/></p>
+</div><p>Protože pracujeme s maticí hodnot, je výsledná pravděpodobnost odtoku
+vody z centrálního pixelu pro jednotlivé pixely rovna:</p>
+<div class="math" id="equation-p-j-matrix">
+<p><span class="eqno">(18)<a class="headerlink" href="#equation-p-j-matrix" title="Permalink to this equation">¶</a></span><img src="_images/math/8e62b19f81462861406156bcdf339c7323e6da23.svg" alt="p_j=\frac{p_i}{\displaystyle\sum_{0}^{i=8} p_i}"/></p>
+</div><p>přičemž</p>
+<div class="math" id="equation-p-j-sum">
+<p><span class="eqno">(19)<a class="headerlink" href="#equation-p-j-sum" title="Permalink to this equation">¶</a></span><img src="_images/math/1e81933adbcb765eeec7eab039ae8099e5138cb9.svg" alt="\displaystyle\sum_{0}^{j=8} p_j = 1"/></p>
+</div><p>tzn., že výsledný součet všech pravděpodobností odtoku vody z
+centrálního pixelu v matici se rovná 1. V případě, že je v matici ve
+všech případech nulový sklon, tedy jedná se o rovinu, je
+pravděpodobnost odtoku do jednotlivých pixelů vypočtena jako 1/8
+celkové pravděpodobnosti odtoku vody z centrálního pixelu.
+Vlastním výsledkem výpočtu je matice pravděpodobnosti odtoku
+<img class="math" src="_images/math/025119a4cd9ce78e127d87f1708365781731f104.svg" alt="fl_{prob}"/>.
+Předpokládáme-li, že veškerá srážková voda odtéká povrchovým odtokem,
+je akumulace odtoku <img class="math" src="_images/math/1dfd88a76d2b1aaf3b97a27e2240bf85ee94601c.svg" alt="(flowacc)"/> rovna součinu množství srážek
+<img class="math" src="_images/math/2d2445cd588af1bb3fe4568422ddb02f68301c57.svg" alt="(P)"/> a pravděpodobnosti akumulace odtoku:</p>
+<div class="math" id="equation-flowacc">
+<p><span class="eqno">(20)<a class="headerlink" href="#equation-flowacc" title="Permalink to this equation">¶</a></span><img src="_images/math/08de8693f6114673f15f039a9d0fa0b5646795a8.svg" alt="flowacc=P\cdot fl_{prob}"/></p>
+</div></div>
+<div class="section" id="vypocet-hydrologicke-bilance-v-uzemi">
+<h2>Výpočet hydrologické bilance v území<a class="headerlink" href="#vypocet-hydrologicke-bilance-v-uzemi" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Výpočet hydrologické bilance je do značné míry problematický a
+zahrnuje celou řadu faktorů. Aby bylo možné predikovat srážkoodtokové
+parametry území ve střednědobém a dlouhodobém časovém měřítku, byl
+upraven epizodní hydrologický model CN křivek pro měsíční krok výpočtu.
+Pro výpočet hydrologické bilance je potřeba určit následující ukazatele:</p>
+<ul class="simple">
+<li>průměrné měsíční úhrny srážky, případně měsíční úhrny srážek</li>
+<li>hlavní půdní jednotka (HPJ)</li>
+<li>plodinu a osevní postup</li>
+<li>hydrologický stav plochy</li>
+<li>index listové plochy</li>
+</ul>
+<p>Pomocí uvedených ukazatelů vypočteme ukazatele potřebné pro výpočet složek hydrologické bilance:</p>
+<ul class="simple">
+<li>intercepci vody na povrchu</li>
+<li>CN křivku plochy (pixelu)</li>
+<li>maximální potenciální retenční schopnost půdy</li>
+</ul>
+<p>A ve výsledku vypočteme složky hydrologické bilance:</p>
+<ul class="simple">
+<li>povrchový odtok</li>
+<li>retence vody v půdě</li>
+<li>výpar vody</li>
+</ul>
+<p>Použitý přístup pracuje na úrovni jednotlivých pixelů, kdy je
+předpokládána akumulace odtoku v rámci jednotlivých pixelů.</p>
+<p>Faktory potřebné pro výpočet:</p>
+<p><strong>Úhrn srážek</strong></p>
+<p>Úhrny srážek jsou uvažovány jako měsíční úhrny, pro účely použití
+modelu pro predikce je uvažováno, že jsou použity měsíční normály. V
+případě, že je použito větší množství meteorologických stanic v
+území, je úhrn srážek interpolován buď pomocí Thiessenových polygonů
+nebo jiným způsobem. Úhrny srážek jsou uváděny v mm.</p>
+<p><strong>Hlavní půdní jednotky</strong></p>
+<p>Hlavní půdní jednotky (HPJ) jsou definovány vyhláškou 227/2018 Sb. Pro
+účely programu RadAgro jsou použity kódy 1-78, které lze získat z map
+BPEJ poskytovaných Výzkumným ústavem meliorací a ochrany půd.
+HPJ slouží k rozdělení půd podle hydrologické charakteristiky do
+hydrologických půdních skupin A, B, C a D, na základě kterých je
+následně odhadnuto číslo CN křivek. Prů účely erozního modelu je HPJ
+využita pro stanovení K faktoru rovnice USLE.</p>
+<p><strong>Plodina</strong></p>
+<p>Plodiny jsou prostorově definovány na základě terénního průzkumu
+nebo pomocí DPZ a dále je definována časová řada obsahující
+jednotlivé plodiny v osevním postupu. Vstupní vrstva (vektorová)
+obsahuje prostorovou distribuci plodin a jednotlivých ostatních
+ploch s vegetačním krytem (lesy, ostatní plochy).</p>
+<p><strong>Hydrologický stav ploch</strong></p>
+<p>Jedná se o tabelární hodnoty určující chování modelu. Hodnoty jsou v
+programu určeny na základě hydrologického stavu půd (dobrý a špatný).</p>
+<p><strong>Index listové plochy</strong></p>
+<p>Index listové plochy je počítám na základě růstové analýzy (viz výše).</p>
+<p><strong>CN křivky</strong></p>
+<p>Hodnoty CN křivek určují schopnost retence půdy na dané ploše. Jejich
+odvození vychází z vlastností půd, jejich hydrologického stavu,
+vegetačního pokryvu a managementu. Hodnoty CN křivek jsou udávány
+jako tabelární hodnoty.</p>
+<div class="section" id="separace-odtoku">
+<h3>Separace odtoku<a class="headerlink" href="#separace-odtoku" title="Trvalý odkaz na tento nadpis">¶</a></h3>
+<p>Hydrologický model je založen na separaci odtoku založené na metodě
+CN křivek (podrobnosti viz např. Janeček a kol. 2012).</p>
+<p>Výpočet povrchového odtoku <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> je založen na vztahu:</p>
+<div class="math" id="equation-runoff">
+<p><span class="eqno">(21)<a class="headerlink" href="#equation-runoff" title="Permalink to this equation">¶</a></span><img src="_images/math/78a04df5656fbba6a6118745d545fb20edfc8755.svg" alt="R=\frac{(P-I)^2}{P-I+S_{max}}"/></p>
+</div><p>kde <img class="math" src="_images/math/6d2814806bfb6321b7c73856f7975a6006998126.svg" alt="P"/> je celkový úhrn srážek za dané období <img class="math" src="_images/math/a8db959c729d7ddfbd8ba9bd8e2c38d80c46e2c2.svg" alt="(mm)"/>,
+<img class="math" src="_images/math/1d9f3e19fcaef9747154876dd1845597b081a7c8.svg" alt="I"/> jeintercepce <img class="math" src="_images/math/a8db959c729d7ddfbd8ba9bd8e2c38d80c46e2c2.svg" alt="(mm)"/> a <img class="math" src="_images/math/3692a3e249ff5d10dd6cf29f9c5efdedab3d735c.svg" alt="S_{max}"/> je maximální
+potenciální ztráta na povodí (maximální retence; <img class="math" src="_images/math/b2b443a9e2940d5dd74dea1108fff86c07df7ada.svg" alt="mm"/>).</p>
+<p>Model vychází z předpokladu, že velikost intercepce bude úměrná
+listové ploše a velikosti úhrnu srážek. Intercepce v měsíčním kroku
+se vypočte podle vztahu:</p>
+<div class="math" id="equation-intercept">
+<p><span class="eqno">(22)<a class="headerlink" href="#equation-intercept" title="Permalink to this equation">¶</a></span><img src="_images/math/c48f434ea9f5c7e9d2a2359826a7a6d2fbb11e2c.svg" alt="I=a\cdot P \mathrm{e}^{b\cdot LAI}"/></p>
+</div><p>kde <img class="math" src="_images/math/1d9f3e19fcaef9747154876dd1845597b081a7c8.svg" alt="I"/> je intercepce <img class="math" src="_images/math/a8db959c729d7ddfbd8ba9bd8e2c38d80c46e2c2.svg" alt="(mm)"/>, <img class="math" src="_images/math/6d2814806bfb6321b7c73856f7975a6006998126.svg" alt="P"/> je úhrn srážek
+<img class="math" src="_images/math/a8db959c729d7ddfbd8ba9bd8e2c38d80c46e2c2.svg" alt="(mm)"/>, <img class="math" src="_images/math/ece8dd7f1c6ca3312126d4a6f1bc5029c8c235a2.svg" alt="LAI"/> je index listové plochy
+<img class="math" src="_images/math/9ad11d5ab7022d12ba4412d61afacaa7b41e25eb.svg" alt="(m^2.m^{-2})"/>, <img class="math" src="_images/math/9cd879a1e10a8acae5e90ae9b0ed7ce8f2e1bf65.svg" alt="a"/> a <img class="math" src="_images/math/196180ae1ecbd4d6c04589a7e23741a22c424dc5.svg" alt="b"/> jsou empiricky
+odvozené konstanty <img class="math" src="_images/math/3aed31c6b0ca8f725d56d252bb27bcad0c393123.svg" alt="(a = 0.1; \ b = 0.2)"/>, které lze změnit v
+uživatelském rozhraní programu.</p>
+<p>Hodnota maximální retence <img class="math" src="_images/math/3692a3e249ff5d10dd6cf29f9c5efdedab3d735c.svg" alt="S_{max}"/> byla vypočtena podle vztahu:</p>
+<div class="math" id="equation-max-ret">
+<p><span class="eqno">(23)<a class="headerlink" href="#equation-max-ret" title="Permalink to this equation">¶</a></span><img src="_images/math/5cae2ed51523405b24625ed0544b62a7bfae3364.svg" alt="S_{max}=25.4\frac{1000}{CN-10}"/></p>
+</div><p>Jestliže je celkový úhrn srážek menší než <img class="math" src="_images/math/1ad1b1c1a91f4de0242da24538da6aabad99203d.svg" alt="0.2S_{max}"/>, je
+výsledná hodnota <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> rovna nulovému odtoku.
+Vlastní aktuální retence vody <img class="math" src="_images/math/f949696ec00763a2d54fa344c7005c993b5f5549.svg" alt="S"/> je vypočtena podle vztahu:</p>
+<div class="math" id="equation-retence">
+<p><span class="eqno">(24)<a class="headerlink" href="#equation-retence" title="Permalink to this equation">¶</a></span><img src="_images/math/ab92df6d02552a9d8a9c6f6e6f336fd715451c6f.svg" alt="S=P-I-R"/></p>
+</div><p>Srážko-odtokový model je založen na akumulaci odtoku (viz kapitola
+Výpočet akumulace odtoku z území), z tohoto důvodu
+je v rámci výpočtu akumulace odtoku uvažováno množství vody
+vstupující do výpočtu, které je tvořeno součtem množství srážek
+(<img class="math" src="_images/math/e5f45aa1773f2a7680ebe89903f475b7a3b4d2c1.svg" alt="P_i"/>) a množství povrchového odtoku z předchozího kroku
+výpočtu (<img class="math" src="_images/math/48b6108401c8cebc37728d8bd3d174a92b906dca.svg" alt="P_{i-1}"/>), tedy:</p>
+<div class="math" id="equation-p-celk">
+<p><span class="eqno">(25)<a class="headerlink" href="#equation-p-celk" title="Permalink to this equation">¶</a></span><img src="_images/math/2a60677bcfb84dfbfe453b904a782ff37a7547b1.svg" alt="P_{tot} = P_i - P_{i-1}"/></p>
+</div></div>
+<div class="section" id="evapotranspirace">
+<h3>Evapotranspirace<a class="headerlink" href="#evapotranspirace" title="Trvalý odkaz na tento nadpis">¶</a></h3>
+<p>Vzhledem k tomu, že je výpočet založen na časovém kroku jednoho
+měsíce, je do výpočtu zahrnuta problematika evapotranspirace a
+hodnoty <img class="math" src="_images/math/f949696ec00763a2d54fa344c7005c993b5f5549.svg" alt="S"/> a <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> jsou korigovány. Jako vstupní parametr
+je využit výpočet potenciální evapotranspirace (ETp) podle
+Thornthwaita (1948):</p>
+<div class="math" id="equation-etp-thorn">
+<p><span class="eqno">(26)<a class="headerlink" href="#equation-etp-thorn" title="Permalink to this equation">¶</a></span><img src="_images/math/2802ab75aaf34b17d3a9fb5512ac17b58b99ea1a.svg" alt="ET_p=16\frac{N}{30}\frac{s_0}{12}\left(\frac{10T_m}{I_c}\right)^a"/></p>
+</div><p>kde <img class="math" src="_images/math/fe8ac5ad3b97f69a94c9e6a0c493f9e40a9e10c5.svg" alt="N"/> je počet dnů v měsíci, <img class="math" src="_images/math/335d194c3b5d9c0bb6748a5a75dc4d8b54ec4deb.svg" alt="s_0"/> průměrná délka trvání
+slunečního
+svitu (<img class="math" src="_images/math/b84de19b74c55f12438c63a3cee04220840d47f9.svg" alt="h"/>), <img class="math" src="_images/math/deb598dbfcc550b245eab15d231e3b6c48303780.svg" alt="T_m"/> je průměrná měsíční teplota vzduchu
+(°C), <img class="math" src="_images/math/d148e273e9d63f9e1816ba94690d110ff1e80a7c.svg" alt="I_c"/> je
+teplotní index a <img class="math" src="_images/math/9cd879a1e10a8acae5e90ae9b0ed7ce8f2e1bf65.svg" alt="a"/> je konstanta. Průměrná délka trvání
+slunečního svitu pro daný měsíc <img class="math" src="_images/math/335d194c3b5d9c0bb6748a5a75dc4d8b54ec4deb.svg" alt="s_0"/> byla vypočtena na základě
+zeměpisné šířky.</p>
+<p>Teplotní index <img class="math" src="_images/math/d148e273e9d63f9e1816ba94690d110ff1e80a7c.svg" alt="I_c"/> byl vypočten jako součet dílčích měsíčních
+teplotních indexů <img class="math" src="_images/math/100d2dc6b0c373e2a55c1b460baa5a919ac21e20.svg" alt="i_j"/>:</p>
+<div class="math" id="equation-temp-ind">
+<p><span class="eqno">(27)<a class="headerlink" href="#equation-temp-ind" title="Permalink to this equation">¶</a></span><img src="_images/math/f2407b3266f00e6b54d51561825e6a8e04272129.svg" alt="I_c=\displaystyle\sum_{j=1}^{12} i_j"/></p>
+</div><p>kde</p>
+<div class="math" id="equation-index-i">
+<p><span class="eqno">(28)<a class="headerlink" href="#equation-index-i" title="Permalink to this equation">¶</a></span><img src="_images/math/817ef6b0c3122be0011222999b5ce2266be6449f.svg" alt="i_j=\left(\frac{T_j}{5} \right)^{1.514}"/></p>
+</div><p>kde <img class="math" src="_images/math/513f012683359be9abbf91d391e7baa747cdec22.svg" alt="T_j"/> je průměrná měsíční teplota pro danou lokalitu pro
+jednotlivé měsíce (°C). Exponent <img class="math" src="_images/math/9cd879a1e10a8acae5e90ae9b0ed7ce8f2e1bf65.svg" alt="a"/> byl vypočten podle vztahu:</p>
+<div class="math" id="equation-expon-a">
+<p><span class="eqno">(29)<a class="headerlink" href="#equation-expon-a" title="Permalink to this equation">¶</a></span><img src="_images/math/3d44a3da327b7bbe805395f6107c8a4544beeaea.svg" alt="a=({0.0675 I_c^{3}} - {7.71 I_c^{2}}+{1792 I_c}+7239)\cdot 10^{−5}"/></p>
+</div><p>Aktuální evapotranspirace byla vypočtena na základě potenciální
+evapotranspirace a úhrnu srážek (Ol’dekop (1911), citováno v
+Brutsaert (1992) a Xiong &amp; Guo (1999)) podle vztahu:</p>
+<div class="math" id="equation-act-et">
+<p><span class="eqno">(30)<a class="headerlink" href="#equation-act-et" title="Permalink to this equation">¶</a></span><img src="_images/math/f8f44396963a01d4f84885735b17e30c8abf60c0.svg" alt="ET_a=ET_p\tanh \left(\frac{P}{ET_p} \right)"/></p>
+</div></div>
+<div class="section" id="korekce-odtoku">
+<h3>Korekce odtoku<a class="headerlink" href="#korekce-odtoku" title="Trvalý odkaz na tento nadpis">¶</a></h3>
+<p>Vlastní korekce povrchového odtoku (<img class="math" src="_images/math/562410891ef94f56d61a88efaf5ae03a3bf49c7e.svg" alt="R_{cor}"/>) a retence
+(<img class="math" src="_images/math/761c370a91e34c0205cceb32ae40fd5b44e928ce.svg" alt="S_{cor}"/>) je založena na rozdělení úhrnu evapotranspirace na
+výpar z půdy a výpar z povrchového odtoku:</p>
+<div class="math" id="equation-r-cor">
+<p><span class="eqno">(31)<a class="headerlink" href="#equation-r-cor" title="Permalink to this equation">¶</a></span><img src="_images/math/7065083a4117d810e79aef6c60746f547c1da9c8.svg" alt="R_{cor} = R - c_R(ET_a-I)"/></p>
+</div><p>a</p>
+<div class="math" id="equation-s-cor">
+<p><span class="eqno">(32)<a class="headerlink" href="#equation-s-cor" title="Permalink to this equation">¶</a></span><img src="_images/math/f615da06c4595bedc1de14e785173cc2d90321f9.svg" alt="S_{cor} = S - c_S(ET_a-I)"/></p>
+</div><p>kde <img class="math" src="_images/math/d667a6d49c0dda3419040448e57463c91f3e58b6.svg" alt="c_R"/> a <img class="math" src="_images/math/1267fbe663b859578ab7f26795fbb543e54c803c.svg" alt="c_S"/> jsou koeficienty odvozené jako poměr
+výparu z retence vody (z půdy) a z přímého odtoku:</p>
+<div class="math" id="equation-cr-const">
+<p><span class="eqno">(33)<a class="headerlink" href="#equation-cr-const" title="Permalink to this equation">¶</a></span><img src="_images/math/2703c6531a9c2b5b0d558abf42438cc43ced6490.svg" alt="c_R=\frac{c_aR}{c_aR+c_bS}"/></p>
+</div><p>a</p>
+<div class="math" id="equation-cs-const">
+<p><span class="eqno">(34)<a class="headerlink" href="#equation-cs-const" title="Permalink to this equation">¶</a></span><img src="_images/math/62cfebd47343b9935a4fe76e8e57412add68d2cd.svg" alt="c_S=1-c_R"/></p>
+</div><p>Konstanty <img class="math" src="_images/math/53ad0ef36893096afa462d89f34a48cd794473c8.svg" alt="c_a"/> a <img class="math" src="_images/math/2deb314771e97057ab236426e164c3959ad326d0.svg" alt="c_b"/> byly stanoveny následovně:</p>
+<div class="math" id="equation-ca-const">
+<p><span class="eqno">(35)<a class="headerlink" href="#equation-ca-const" title="Permalink to this equation">¶</a></span><img src="_images/math/2ce752a44073854cc2a0082bcb41618fe1258d60.svg" alt="c_a=a\cdot \mathrm{e}^{aP_{tot}}"/></p>
+</div><p>a</p>
+<div class="math" id="equation-cb-const">
+<p><span class="eqno">(36)<a class="headerlink" href="#equation-cb-const" title="Permalink to this equation">¶</a></span><img src="_images/math/0e686f6279badeffd1f8636388375b7d6d2c2ef5.svg" alt="c_b=bCN + c"/></p>
+</div><p>kde <img class="math" src="_images/math/9cd879a1e10a8acae5e90ae9b0ed7ce8f2e1bf65.svg" alt="a"/>, <img class="math" src="_images/math/196180ae1ecbd4d6c04589a7e23741a22c424dc5.svg" alt="b"/> a <img class="math" src="_images/math/1d5282c9e07e5b6974321fc6725cad6dc9acf8d9.svg" alt="c"/> jsou konstanty, které lze upravit
+v uživatelském rozhraní programu.</p>
+</div>
+</div>
+</div>
+<div class="section" id="erozni-model">
+<h1>Erozní model<a class="headerlink" href="#erozni-model" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Odnos půdy z pozemků je důležitým faktorem, který ovlivňuje změnu
+zátěže půdy radioaktivní kontaminací. Odnos půdy byl definován na
+základě univerzální rovnice ztráty půdy (USLE), vyjádřené rovnicí:</p>
+<div class="math" id="equation-usle">
+<p><span class="eqno">(37)<a class="headerlink" href="#equation-usle" title="Permalink to this equation">¶</a></span><img src="_images/math/22e35347cc31f9cb9786dae2b9259a781e00f9af.svg" alt="G=R \cdot K \cdot L \cdot S \cdot C \cdot P"/></p>
+</div><p>kde</p>
+<ul class="simple">
+<li><img class="math" src="_images/math/6641f0f586b3b9c5532e789973deebdc5bff9376.svg" alt="G"/> je průměrná dlouhodobá ztráta půdy
+(<img class="math" src="_images/math/bbaea9b0fc5ebdfe0949e032b82e208dcbc5041b.svg" alt="t.ha^{-1}.rok^{-1}"/>). Pro vlastní výpočet je hodnota
+uvažována pro měsíční chod)</li>
+<li><img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> je faktor erozní účinnosti dešťů, vyjádřený v závislosti na
+kinetické energii, úhrnu a intenzitě erozně nebezpečných dešťů</li>
+<li><img class="math" src="_images/math/a68256b2fd8bc0826382fcc4828561dd8d157bf2.svg" alt="K"/> je faktor erodovatelnosti půdy, vyjádřený v závislosti na
+textuře a struktuře ornice, obsahu organické hmoty v ornici a
+propustnosti půdního profilu</li>
+<li><img class="math" src="_images/math/ee3531d0ad227d273ac2c70cc7789b0b3b97e364.svg" alt="L"/> je faktor délky svahu, vyjadřující vliv nepřerušené délky
+svahu na velkost ztráty půdy erozí</li>
+<li><img class="math" src="_images/math/f949696ec00763a2d54fa344c7005c993b5f5549.svg" alt="S"/> je faktor sklonu svahu</li>
+<li><img class="math" src="_images/math/b5deff61b0febf0621655c7248caaac88bdadb59.svg" alt="C"/> je faktor ochranného vlivu vegetačního pokryvu, vyjádřený
+v závislosti na vývoji vegetace a použité agrotechnice</li>
+<li><img class="math" src="_images/math/6d2814806bfb6321b7c73856f7975a6006998126.svg" alt="P"/> je faktor účinnosti protierozních opatření</li>
+</ul>
+<p>Jak je patrné z rovnice <a class="reference internal" href="#equation-usle">(37)</a>, je problém eroze půdy komplexním
+jevem, zahrnující hydrologické charakteristiky, půdní vlastnosti,
+topografii, vliv vegetace a agrotechnických a dalších
+protierozních opatření. Model použitý v programu RadAgro je do jisté
+míry zjednodušený, s ohledem na výpočetní možnosti a uživatelskou
+náročnost při přípravě a zadávání dat do programu. Výpočet
+jednotlivých faktorů rovnice USLE je uveden v dalším textu.
+Podrobnosti k erozní ohroženosti půd a způsobu hodnocení pomocí
+rovnice USLE vádí Janeček akol. (2012).</p>
+<div class="section" id="faktor-r">
+<h2>Faktor R<a class="headerlink" href="#faktor-r" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Faktor <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> představuje míru erozní účinnosti dešťů. Hodnota je
+vyjádřena v závislosti na kinetické energii, úhrnu a intenzitě erozně
+nebezpečných dešťů. Pro území České republiky se jako průměrná
+doporučuje hodnota <img class="math" src="_images/math/d7f54a2c88f2d4a46c1c0399b63acb53a1f1c016.svg" alt="R=40"/>. Protože v průběhu roku dochází ke
+změnám erozního ohrožení půd vlivem deště, je pravděpodobnost úrovně
+faktoru <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> rozdělena po jednotlivých měsících. Průměrnou
+hodnotu <img class="math" src="_images/math/28c5edc0fbd2c72951153699c389b70126edfe1a.svg" alt="R"/> i její procentické rozdělení v průběhu roku lze
+nastavit v uživatelském rozhraní programu RadAgro.</p>
+</div>
+<div class="section" id="faktor-k">
+<h2>Faktor K<a class="headerlink" href="#faktor-k" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Faktor <img class="math" src="_images/math/a68256b2fd8bc0826382fcc4828561dd8d157bf2.svg" alt="K"/> je mírou erodovatelnosti půdy. Hodnota faktoru je
+vyjádřena v závislosti na textuře a struktuře ornice, obsahu
+organické hmoty v ornici a propustnosti půdního profilu. Program
+RadAgro definuje hodnoty faktoru K v závislosti na hlavní půdní
+jednotce. Hodnoty faktoru K pro HPJ uvádí následující tabulka.</p>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-number">Tabulka 1 </span><span class="caption-text">Přehled hodnot faktoru <img class="math" src="_images/math/a68256b2fd8bc0826382fcc4828561dd8d157bf2.svg" alt="K"/> pro kategorie HPJ.</span><a class="headerlink" href="#id1" title="Permalink k této tabulce">¶</a></caption>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">HPJ</th>
+<th class="head">K faktor</th>
+<th class="head">HPJ</th>
+<th class="head">K faktor</th>
+<th class="head">HPJ</th>
+<th class="head">K faktor</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>0.41</td>
+<td>27</td>
+<td>0.34</td>
+<td>53</td>
+<td>0.38</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>0.46</td>
+<td>28</td>
+<td>0.29</td>
+<td>54</td>
+<td>0.4</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>0.35</td>
+<td>29</td>
+<td>0.32</td>
+<td>55</td>
+<td>0.25</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>0.16</td>
+<td>30</td>
+<td>0.23</td>
+<td>56</td>
+<td>0.4</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>0.28</td>
+<td>31</td>
+<td>0.16</td>
+<td>57</td>
+<td>0.45</td>
+</tr>
+<tr class="row-odd"><td>6</td>
+<td>0.32</td>
+<td>32</td>
+<td>0.19</td>
+<td>58</td>
+<td>0.42</td>
+</tr>
+<tr class="row-even"><td>7</td>
+<td>0.26</td>
+<td>33</td>
+<td>0.31</td>
+<td>59</td>
+<td>0.35</td>
+</tr>
+<tr class="row-odd"><td>8</td>
+<td>0.49</td>
+<td>34</td>
+<td>0.26</td>
+<td>60</td>
+<td>0.31</td>
+</tr>
+<tr class="row-even"><td>9</td>
+<td>0.6</td>
+<td>35</td>
+<td>0.36</td>
+<td>61</td>
+<td>0.32</td>
+</tr>
+<tr class="row-odd"><td>10</td>
+<td>0.53</td>
+<td>36</td>
+<td>0.26</td>
+<td>62</td>
+<td>0.35</td>
+</tr>
+<tr class="row-even"><td>11</td>
+<td>0.52</td>
+<td>37</td>
+<td>0.16</td>
+<td>63</td>
+<td>0.31</td>
+</tr>
+<tr class="row-odd"><td>12</td>
+<td>0.5</td>
+<td>38</td>
+<td>0.31</td>
+<td>64</td>
+<td>0.4</td>
+</tr>
+<tr class="row-even"><td>13</td>
+<td>0.54</td>
+<td>39</td>
+<td>NA</td>
+<td>65</td>
+<td>NA</td>
+</tr>
+<tr class="row-odd"><td>14</td>
+<td>0.59</td>
+<td>40</td>
+<td>0.24</td>
+<td>66</td>
+<td>NA</td>
+</tr>
+<tr class="row-even"><td>15</td>
+<td>0.51</td>
+<td>41</td>
+<td>0.33</td>
+<td>67</td>
+<td>0.44</td>
+</tr>
+<tr class="row-odd"><td>16</td>
+<td>0.51</td>
+<td>42</td>
+<td>0.56</td>
+<td>68</td>
+<td>0.49</td>
+</tr>
+<tr class="row-even"><td>17</td>
+<td>0.4</td>
+<td>43</td>
+<td>0.58</td>
+<td>69</td>
+<td>NA</td>
+</tr>
+<tr class="row-odd"><td>18</td>
+<td>0.24</td>
+<td>44</td>
+<td>0.56</td>
+<td>70</td>
+<td>0.41</td>
+</tr>
+<tr class="row-even"><td>19</td>
+<td>0.33</td>
+<td>45</td>
+<td>0.54</td>
+<td>71</td>
+<td>0.47</td>
+</tr>
+<tr class="row-odd"><td>20</td>
+<td>0.28</td>
+<td>46</td>
+<td>0.47</td>
+<td>72</td>
+<td>0.48</td>
+</tr>
+<tr class="row-even"><td>21</td>
+<td>0.15</td>
+<td>47</td>
+<td>0.43</td>
+<td>73</td>
+<td>0.48</td>
+</tr>
+<tr class="row-odd"><td>22</td>
+<td>0.24</td>
+<td>48</td>
+<td>0.41</td>
+<td>74</td>
+<td>NA</td>
+</tr>
+<tr class="row-even"><td>23</td>
+<td>0.25</td>
+<td>49</td>
+<td>0.35</td>
+<td>75</td>
+<td>NA</td>
+</tr>
+<tr class="row-odd"><td>24</td>
+<td>0.38</td>
+<td>50</td>
+<td>0.33</td>
+<td>76</td>
+<td>NA</td>
+</tr>
+<tr class="row-even"><td>25</td>
+<td>0.45</td>
+<td>51</td>
+<td>0.26</td>
+<td>77</td>
+<td>NA</td>
+</tr>
+<tr class="row-odd"><td>26</td>
+<td>0.41</td>
+<td>52</td>
+<td>0.37</td>
+<td>78</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+<p>V uživatelském rozhraní programu RadAgro jsou zobrazeny kategorie HPJ
+přítomné v zájmovém území a odpovídající hodnoty <img class="math" src="_images/math/a68256b2fd8bc0826382fcc4828561dd8d157bf2.svg" alt="K"/> faktoru.
+Hodnoty lze upravovat podle potřeby.</p>
+</div>
+<div class="section" id="faktor-l-a-s">
+<h2>Faktor L a S<a class="headerlink" href="#faktor-l-a-s" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Faktory <img class="math" src="_images/math/ee3531d0ad227d273ac2c70cc7789b0b3b97e364.svg" alt="L"/> a <img class="math" src="_images/math/f949696ec00763a2d54fa344c7005c993b5f5549.svg" alt="S"/> jsou faktory délky a sklonu svahu. V
+obou případech je výpočet proveden na základě digitálního modelu
+terénu (DMT). Pro účely programu RadAgro byl použit model výpočtu pro
+erozní model RUSLE (Revisited Universal Soil Loss Equation), který
+vychází z velikosti pixelu použité rastrové vrstvy a z
+pravděpodobnostního modelu akumulace odtoku, viz rovnice <a class="reference internal" href="#equation-flowacc">(20)</a>
+. Použit byl přístup výpočtu podle Mitášové et al. (1996) v
+následných modifikacích, viz např. Neteler a Mitášová (2008).</p>
+<p>Faktory <img class="math" src="_images/math/ee3531d0ad227d273ac2c70cc7789b0b3b97e364.svg" alt="L"/> a <img class="math" src="_images/math/f949696ec00763a2d54fa344c7005c993b5f5549.svg" alt="S"/> byly vypočteny následujícím způsobem:</p>
+<div class="math" id="equation-l-factor">
+<p><span class="eqno">(38)<a class="headerlink" href="#equation-l-factor" title="Permalink to this equation">¶</a></span><img src="_images/math/099cf360d6d75ee140d9ade6ad493724c6d489f5.svg" alt="L = n \cdot \left(\frac{flowacc \cdot X}{22.1}\right)^m"/></p>
+</div><p>a</p>
+<div class="math" id="equation-s-factor">
+<p><span class="eqno">(39)<a class="headerlink" href="#equation-s-factor" title="Permalink to this equation">¶</a></span><img src="_images/math/6285f9c201d3a42047cc956cee4464cd3d6bfdfb.svg" alt="S = \sin \left(\frac{slope}{0.09}\right)^n"/></p>
+</div><p>kde <img class="math" src="_images/math/4507d26f8ed48d723367431d43424812a9d5cfe1.svg" alt="n"/> a <img class="math" src="_images/math/bf7e8090da8ec8dedb16f72cc0267832e6ad0422.svg" alt="m"/> jsou konstanty, <img class="math" src="_images/math/705104fcdc3942e178aae31d9955fe33fd251104.svg" alt="flowacc"/> je
+matice pavděpodobnosti odtoku vody vypočtená podle rovnice
+<a class="reference internal" href="#equation-flowacc">(20)</a>, X je velikost pixelu v metrech a <img class="math" src="_images/math/5a57cb7d381585369dba436d25b3827881cca09c.svg" alt="slope"/> je
+sklonitost terénu (°). Hodnoty konstant lze upravit v uživatelském
+rozhraní programu RadAgro.</p>
+</div>
+<div class="section" id="faktor-c">
+<h2>Faktor C<a class="headerlink" href="#faktor-c" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Faktor ochranného vlivu vegetačního pokryvu <img class="math" src="_images/math/b5deff61b0febf0621655c7248caaac88bdadb59.svg" alt="C"/> zahrnuje
+problematiku vývoje vegetačního krytu a použité agrotechniky. Z
+důvodu značné komplikovanosti stanovení faktoru C v rámci erozního
+modelu byly použity konstantní hodnoty pro jednotlivé plodiny a
+další kategorie krajinného pokryvu uváděné Janečkem a kol (2012). Pro
+jednotlivé plodiny jsou hodnoty uvedeny v následující tabulce.</p>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-number">Tabulka 2 </span><span class="caption-text">Přehled hodnot faktoru <img class="math" src="_images/math/b5deff61b0febf0621655c7248caaac88bdadb59.svg" alt="C"/> pro jednotlivé plodiny a další kategorie krajinného pokryvu.</span><a class="headerlink" href="#id2" title="Permalink k této tabulce">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Plodina</th>
+<th class="head">C faktor</th>
+<th class="head">Plodina</th>
+<th class="head">C faktor</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Pšenice ozimá</td>
+<td>0.12</td>
+<td>Ostatní pícniny víceleté</td>
+<td>0.01</td>
+</tr>
+<tr class="row-odd"><td>Pšenice jarní</td>
+<td>0.15</td>
+<td>Řepka ozimá</td>
+<td>0.22</td>
+</tr>
+<tr class="row-even"><td>Žito ozimé</td>
+<td>0.17</td>
+<td>Slunečnice</td>
+<td>0.6</td>
+</tr>
+<tr class="row-odd"><td>Tritikale</td>
+<td>0.17</td>
+<td>Mák</td>
+<td>0.5</td>
+</tr>
+<tr class="row-even"><td>Ječmen jarní</td>
+<td>0.15</td>
+<td>Ostatní olejniny</td>
+<td>0.22</td>
+</tr>
+<tr class="row-odd"><td>Ječmen ozimý</td>
+<td>0.17</td>
+<td>Trvalé travní porosty</td>
+<td>0.005</td>
+</tr>
+<tr class="row-even"><td>Oves</td>
+<td>0.1</td>
+<td>Pastviny</td>
+<td>0.005</td>
+</tr>
+<tr class="row-odd"><td>Kukuřice na zrno</td>
+<td>0.61</td>
+<td>Chmel</td>
+<td>0.8</td>
+</tr>
+<tr class="row-even"><td>Kukuřice na siláž</td>
+<td>0.72</td>
+<td>Zelenina</td>
+<td>0.45</td>
+</tr>
+<tr class="row-odd"><td>Čirok</td>
+<td>0.72</td>
+<td>Sady</td>
+<td>0.45</td>
+</tr>
+<tr class="row-even"><td>Brambory rané</td>
+<td>0.6</td>
+<td>Lesy</td>
+<td>0.001</td>
+</tr>
+<tr class="row-odd"><td>Brambory pozdní</td>
+<td>0.44</td>
+<td>Zástavba</td>
+<td>0.8</td>
+</tr>
+<tr class="row-even"><td>Luštěniny</td>
+<td>0.05</td>
+<td>Ostatní kultury</td>
+<td>0.9</td>
+</tr>
+<tr class="row-odd"><td>Jeteloviny</td>
+<td>0.01</td>
+<td>Ostatní plochy</td>
+<td>0.9</td>
+</tr>
+<tr class="row-even"><td>Ostatní pícniny jednoleté</td>
+<td>0.02</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p>Hodnoty faktoru <img class="math" src="_images/math/b5deff61b0febf0621655c7248caaac88bdadb59.svg" alt="C"/> lze upravovat v uživatelském prostředí
+programu RadAgro.</p>
+</div>
+<div class="section" id="faktor-p">
+<h2>Faktor P<a class="headerlink" href="#faktor-p" title="Trvalý odkaz na tento nadpis">¶</a></h2>
+<p>Faktor <img class="math" src="_images/math/6d2814806bfb6321b7c73856f7975a6006998126.svg" alt="P"/> představuje míru účinnosti protierozních opatření.
+Pro účely programu RadAgro byla zvolena konstantní hodnota pro celé
+zájmové území, kterou lze upravit přímo v uživatelském rozhraní
+programu.</p>
+</div>
+</div>
+<div class="section" id="prenos-radioaktivni-kontaminace-v-biomase">
+<h1>Přenos radioaktivní kontaminace v biomase<a class="headerlink" href="#prenos-radioaktivni-kontaminace-v-biomase" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>V biomase rostlin dochází v průběhu jejich života k akumulaci
+radionuklidů. Množství kontaminantu, který je akumulován rostlinou
+závisí na mnoha faktorech, jako je druh rostliny, její fyziologická
+kondice, půdní prostředí, vodní režim apod. Pro účely programu
+RadAgro byl pro výpočet akumulace radionuklidu v biomase rostlin
+použit jednoduchý přístup, který předpokládá homogenní akumulaci
+radionuklidu v jednotlivých druzích rostlin, bez ohledu na půdní
+prostředí a další faktory. Relativní míra akumulace radionuklidu v
+rostlině je vyjádřena specifickým transferovým koeficientem
+<img class="math" src="_images/math/32b4f667ccfe2d1f13053065a21da171daee9a48.svg" alt="T_k \ (m^{2}\cdot kg^{-1})"/> pro konkrétní radionuklid. Měrná
+aktivita porostu <img class="math" src="_images/math/4e81ba211af1b929ae083537499ab216ed0f2ba2.svg" alt="(A_p; \ Bq.kg^{-1})"/> je součinem celkové měrné
+aktivity <img class="math" src="_images/math/12fd4477cca99ea9ba6845e9a5b526546d6f1f2a.svg" alt="(A_t; \ Bq.m^{-2})"/> a transferového koeficientu:</p>
+<div class="math" id="equation-activity-biomass">
+<p><span class="eqno">(40)<a class="headerlink" href="#equation-activity-biomass" title="Permalink to this equation">¶</a></span><img src="_images/math/47027646fead725a0d10bc74570ea2bf4b584b6d.svg" alt="A_p=T_k \cdot A_t"/></p>
+</div><p>Snížení celkové měrné aktivity plochy na základě odstranění biomasy
+porostů při sklizni je vypočteno se zahrnutím sušiny nadzemní biomasy
+rostlin vypočtené pro termín sklizně konkrétní plodiny:</p>
+<div class="math" id="equation-activity-out">
+<p><span class="eqno">(41)<a class="headerlink" href="#equation-activity-out" title="Permalink to this equation">¶</a></span><img src="_images/math/78768400d4bd79a8b5021ca95baa6af83935489a.svg" alt="A_{t[i+1]} = A_{t[i]} - A_{p[i]} D_{w[i]}"/></p>
+</div><p>kde <img class="math" src="_images/math/c329d226a120465b92b28a4af6695201d76991a4.svg" alt="Dw"/> je sušina dané plodiny v <img class="math" src="_images/math/db9928c1935b808bb03d387a6af5b10bfc0931b3.svg" alt="kg.m^{-2}"/> a <img class="math" src="_images/math/bb1c879eea7e295fe021fb2a8f2cb3ad18391ece.svg" alt="i"/>
+je označení časového kroku.</p>
+<p>Schéma výpočtu ukazuje obrázek:</p>
+<img alt="_images/schema_radiotransfer.png" class="align-center" src="_images/schema_radiotransfer.png" />
+<p>Hodnoty transferových koeficientů shrnuje tabulka.</p>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-number">Tabulka 3 </span><span class="caption-text">Přehled hodnot transferových koeficientů pro jednotlivé plodiny a další kategorie krajinného pokryvu pro cesium 137 a stroncium 90.</span><a class="headerlink" href="#id3" title="Permalink k této tabulce">¶</a></caption>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Plodina</th>
+<th class="head">TK 137Cs</th>
+<th class="head">TK 90Sr</th>
+<th class="head">Plodina</th>
+<th class="head">TK 137Cs</th>
+<th class="head">TK 90Sr</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Pšenice ozimá</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Luštěniny</td>
+<td>0.04</td>
+<td>1.4</td>
+</tr>
+<tr class="row-odd"><td>Pšenice jarní</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Jeteloviny</td>
+<td>0.04</td>
+<td>1.4</td>
+</tr>
+<tr class="row-even"><td>Žito ozimé</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Ostatní pícniny jednoleté</td>
+<td>0.25</td>
+<td>1.3</td>
+</tr>
+<tr class="row-odd"><td>Tritikale</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Ostatní pícniny víceleté</td>
+<td>0.25</td>
+<td>1.3</td>
+</tr>
+<tr class="row-even"><td>Ječmen jarní</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Řepka ozimá</td>
+<td>0.31</td>
+<td>0.88</td>
+</tr>
+<tr class="row-odd"><td>Ječmen ozimý</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Slunečnice</td>
+<td>0.31</td>
+<td>0.88</td>
+</tr>
+<tr class="row-even"><td>Oves</td>
+<td>0.15</td>
+<td>1.1</td>
+<td>Mák</td>
+<td>0.31</td>
+<td>0.88</td>
+</tr>
+<tr class="row-odd"><td>Kukuřice na zrno</td>
+<td>0.073</td>
+<td>0.73</td>
+<td>Ostatní olejniny</td>
+<td>0.31</td>
+<td>0.88</td>
+</tr>
+<tr class="row-even"><td>Kukuřice na siláž</td>
+<td>0.073</td>
+<td>0.73</td>
+<td>Trvalé travní porosty</td>
+<td>0.063</td>
+<td>0.91</td>
+</tr>
+<tr class="row-odd"><td>Čirok</td>
+<td>0.073</td>
+<td>0.73</td>
+<td>Pastviny</td>
+<td>0.063</td>
+<td>0.91</td>
+</tr>
+<tr class="row-even"><td>Brambory rané</td>
+<td>0.056</td>
+<td>0.16</td>
+<td>Chmel</td>
+<td>0.31</td>
+<td>0.88</td>
+</tr>
+<tr class="row-odd"><td>Brambory pozdní</td>
+<td>0.056</td>
+<td>0.16</td>
+<td>Zelenina</td>
+<td>0.06</td>
+<td>0.76</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="radioaktivni-premena">
+<h1>Radioaktivní přeměna<a class="headerlink" href="#radioaktivni-premena" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Model radioaktivního rozpadu radionuklidu vychází z poločasu
+radioaktivního rozpadu pro daný radionuklid. Radioaktivní rozpad je
+pro daný časový integrál stanoven podle vztahu:</p>
+<div class="math" id="equation-halflife">
+<p><span class="eqno">(42)<a class="headerlink" href="#equation-halflife" title="Permalink to this equation">¶</a></span><img src="_images/math/35080c9056bad0e0f398298a67b8b61d1d54cfbb.svg" alt="A = A_0 \mathrm{e}^{-\lambda t}"/></p>
+</div><p>kde <img class="math" src="_images/math/324ae49cb5f8cfde155d859ad3b79fdb04931069.svg" alt="A"/> je konečná aktivita <img class="math" src="_images/math/858fe4f173e42c9b657e081cb4a70fc204313f5b.svg" alt="(Bq.m-2)"/>, <img class="math" src="_images/math/3d30e42325f5e6ac19b1a1df3af39f76b5875950.svg" alt="A_0"/> je
+počáteční aktivita <img class="math" src="_images/math/858fe4f173e42c9b657e081cb4a70fc204313f5b.svg" alt="(Bq.m-2)"/>, <img class="math" src="_images/math/2e498a7c08e35dfc0bb137ba69c1544cba887345.svg" alt="\lambda"/> je přeměnová
+konstanta <img class="math" src="_images/math/64d8761a9bd477bc487fc95ea94dcc23c6fe6f42.svg" alt="(s^{-1})"/> a <img class="math" src="_images/math/10c3108f0aa4d05c090813ebcbd6e8528d2f9484.svg" alt="t"/> je čas <img class="math" src="_images/math/f256984684fecdf5256860e75f9804bff5e71157.svg" alt="(s)"/>.</p>
+</div>
+<div class="section" id="referencni-urovne-kontaminace-biomasy">
+<h1>Referenční úrovně kontaminace biomasy<a class="headerlink" href="#referencni-urovne-kontaminace-biomasy" title="Trvalý odkaz na tento nadpis">¶</a></h1>
+<p>Území kontaminované radioaktivní depozicí je pro praktické účely rozděleno na
+tři oblasti, v závislosti na stanovených referenčních úrovních. Rozdělení
+sledovaného území do oblastí podle referenčních úrovní vychází z předpokladu,
+že lze vymezit území, ve kterých kontaminace nepřekračuje stanovenou úroveň
+dávkového příkonu nebezpečného pro obyvatelstvo a zvířata (hodnota 0), dále
+území ve kterých lze provádět opatření za účelem radiační ochrany (hodnota 1)
+a území, kde úroveň radioaktivní kontaminace, respektive dávkového příkonu
+překračuje bezpečnou hranici pro další management (hodnota 2).
+Pro referenční úrovně RU 0 a RU 2 není doporučeno odstranění biomasy za
+účelem ochrany půdy. V prvním případě (RU 0) nepřesahuje kontaminace
+stanovenou mez a nejsou ze předpokládána další rizika, zeleň a produkci
+rostlinné biomasy je možné využít běžným způsobem, případně v omezené míře na
+základě dalších postupů. Naopak v případě ploch zařazených do referenční
+úrovně RU 2 existuje předpoklad nadlimitní radioaktivní kontaminace ploch a
+možnost ohrožení zdraví pracovníků pověřených manipulací s nadzemní biomasou
+rostlin. V rámci ploch zařazených do RU 1 lze předpokládat půdoochranný
+význam vegetačního krytu, který lze za daných podmínek odstranit z půdního
+povrchu. Limitem je zde množství živé nadzemní biomasy 0,5 <img class="math" src="_images/math/f926cbe0d4b248852df906188bc97057e8812213.svg" alt="t.ha^{-1}"/>,
+kdy předpokládáme, že sklizeň menšího množství biomasy na danou plochu je již
+neefektivní, případně technicky nemožná. Hranice referenčních úrovní lze
+nastavit přímo v uživatelském rozhraní programu. Přednastaveny jsou
+hodnoty 5000 <img class="math" src="_images/math/c7eebed3c8b3f7a7d7db99db3461fc4efb9d61bc.svg" alt="Bq.m^{-2}"/> a 3 <img class="math" src="_images/math/41a1307401ea7284ed063e5ad5441a4cc28fd02c.svg" alt="MBq.m^{-2}"/>.</p>
+<p>Území je rozděleno do skupin podle referenčních úrovní kontaminace
+též v dlouhodobé předpovědi, kdy je území rozděleno do skupin pro
+každý časový interval výpočtu (měsíc).</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="libs.html" class="btn btn-neutral float-right" title="Program structure" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="users_man.html" class="btn btn-neutral" title="Instalace" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.sowing_proc &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="../../genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="../../search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="../../index.html"/>
+        <link rel="up" title="Kód modulu" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="../../_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Kód modulu</a> &raquo;</li>
+        
+      <li>modules.sowing_proc</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Zdrojový kód pro modules.sowing_proc</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#  Project: RadAgro</span>
+<span class="c1">#  File: sowing_proc.py</span>
+<span class="c1">#</span>
+<span class="c1">#  Author: Dr. Jakub Brom</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia</span>
+<span class="c1">#  in České Budějovice, Faculty of Agriculture.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#      it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#      the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#      (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#      This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#      but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#      GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#      You should have received a copy of the GNU General Public License</span>
+<span class="c1">#      along with this program. If not, see &lt;https://www.gnu.org/licenses/&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#  Last changes: 25.11.20 23:50</span>
+<span class="c1">#</span>
+<span class="c1">#  Begin: 2020/11/04</span>
+<span class="c1">#</span>
+<span class="c1">#  Description: The model methods are suitable for calculation of</span>
+<span class="c1">#  sowing procedure time series in monthly step. Usable for geodata.</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">.SARCA_lib</span> <span class="k">import</span> <span class="n">SARCALib</span>
+<span class="n">sl</span> <span class="o">=</span> <span class="n">SARCALib</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="SowingProcTimeSeries"><a class="viewcode-back" href="../../libs.html#modules.sowing_proc.SowingProcTimeSeries">[dokumentace]</a><span class="k">class</span> <span class="nc">SowingProcTimeSeries</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class SowingProsTimeSeries is a module for calculation of</span>
+<span class="sd">    sowing procedure (crop rotation) time series in monthly step.</span>
+<span class="sd">    Calculation is based on order of crops in the sowing procedure</span>
+<span class="sd">    and their agronomy terms (sowing and harvest)&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.calcSowingProc"><a class="viewcode-back" href="../../libs.html#modules.sowing_proc.SowingProcTimeSeries.calcSowingProc">[dokumentace]</a>    <span class="k">def</span> <span class="nf">calcSowingProc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">sowing_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation of sowing procedure time series for crops or for</span>
+<span class="sd">        mowed meadows. Calculates are tables for crops identifiers,</span>
+<span class="sd">        and table with difference of days between sowing and harvest.</span>
+<span class="sd">        The time series starts in January of the first year and</span>
+<span class="sd">        ending in the December of the last year of the sowing</span>
+<span class="sd">        procedure. The gaps between crops are highlighted as bare</span>
+<span class="sd">        soil with ID = 999.</span>
+
+<span class="sd">        :param crops_table: Pandas dataframe containing information</span>
+<span class="sd">            about crops - ID of crop, term of sowing and term of harvest</span>
+<span class="sd">            in order of the sowing procedure. Terms of sowing and</span>
+<span class="sd">            harvest are numbered according to months: 1 - January,</span>
+<span class="sd">            2 - February etc.</span>
+<span class="sd">        :param ID_col_number: crops_table column with IDs index</span>
+<span class="sd">        :param sowing_col_number: crops_table column with sowing date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param harvest_col_number: crops_table column with harvest date</span>
+<span class="sd">            index</span>
+
+<span class="sd">        :return: List containing IDs of crops in sowing procedure.</span>
+<span class="sd">            The time series starts in January of the first year and</span>
+<span class="sd">            ending in the December of the last year of the sowing</span>
+<span class="sd">            procedure.</span>
+<span class="sd">        :return: List containing sowing days of crops (approximate</span>
+<span class="sd">            values taken from number of months).</span>
+<span class="sd">        :return: List containing harvesting days of crops (approximate</span>
+<span class="sd">            values taken from number of months).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Check the consistency of data - if the month of harvesting</span>
+        <span class="c1"># is equal to following month of sowing, the month of sowing</span>
+        <span class="c1"># is increased by 1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">==</span> \
+                        <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="c1"># Calculation of the sowing procedure TS</span>
+        <span class="n">crops_ts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">t0_ts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">t1_ts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># First part of the first year - from January to sowing</span>
+        <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+            <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+            <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># The following TS</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">&lt;</span> \
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]:</span>
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+                    <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+                    <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">sowing_col_number</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                                               <span class="n">i</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="p">])</span>
+                    <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span>
+                                 <span class="n">sowing_col_number</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span>
+                                                  <span class="n">harvest_col_number</span><span class="p">])</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cas_pl</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_pl</span><span class="p">):</span>
+                    <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                                               <span class="n">i</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="p">])</span>
+                    <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span>
+                                    <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span>
+                                                  <span class="n">harvest_col_number</span><span class="p">])</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> \
+                        <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+                    <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span>
+                                                   <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">+</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cas_uh</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+                        <span class="n">i</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+                <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">)</span>  <span class="c1"># 999 je pro holou půdu</span>
+                <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># End of TS in the last year - from harvest to December</span>
+        <span class="k">if</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="p">]:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                           <span class="n">harvest_col_number</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cas_uh</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">crops_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sowing_col_number</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cas_uh</span><span class="p">):</span>
+            <span class="n">crops_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">999</span><span class="p">)</span>
+            <span class="n">t0_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">t1_ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">t0_ts_day</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0_ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                              <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t0_ts</span><span class="p">))]</span>
+        <span class="n">t1_ts_day</span> <span class="o">=</span> <span class="p">[</span><span class="n">t1_ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                     <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t1_ts</span><span class="p">))]</span>
+
+        <span class="k">return</span> <span class="n">crops_ts</span><span class="p">,</span> <span class="n">t0_ts_day</span><span class="p">,</span> <span class="n">t1_ts_day</span></div>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.predictCropsRotation"><a class="viewcode-back" href="../../libs.html#modules.sowing_proc.SowingProcTimeSeries.predictCropsRotation">[dokumentace]</a>    <span class="k">def</span> <span class="nf">predictCropsRotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                             <span class="n">sowing_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                             <span class="n">predict_months</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">start_month</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">early_stage_mng</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prediction of sowing procedure including agricultural crops or</span>
+<span class="sd">        mowed meadows. List of crops signatures in TS. -999 is bare</span>
+<span class="sd">        soil.</span>
+
+<span class="sd">        :param crops_table: Pandas dataframe containing information</span>
+<span class="sd">            about crops - ID of crop, term of sowing and term of harvest</span>
+<span class="sd">            in order of the sowing procedure. Terms of sowing and</span>
+<span class="sd">            harvest are numbered according to months: 1 - January,</span>
+<span class="sd">            2 - February etc.</span>
+<span class="sd">        :param ID_col_number: crops_table column with IDs index</span>
+<span class="sd">        :param sowing_col_number: crops_table column with sowing date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param harvest_col_number: crops_table column with harvest date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param predict_months: Number of months for prediction</span>
+<span class="sd">        :param start_month: Month of prediction start - month of</span>
+<span class="sd">            radiation accident. [1-12]</span>
+<span class="sd">        :param early_stage_mng: The removing of biomass in early</span>
+<span class="sd">            stage of radioactive contamination has been done or not. I</span>
+<span class="sd">            the first case, the first year of the prediction is taken as</span>
+<span class="sd">            bare soil.</span>
+
+<span class="sd">        :return: Basic dataframe (Pandas) for all crops and meadows for</span>
+<span class="sd">            the whole TS of the prediction. Data are ordered</span>
+<span class="sd">            according to sowing procedure following the particular</span>
+<span class="sd">            crops in the crops rotation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculate time series for crops rotation</span>
+        <span class="n">crops_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcSowingProc</span><span class="p">(</span><span class="n">crops_table</span><span class="p">,</span>
+                                              <span class="n">ID_col_number</span><span class="p">,</span>
+                                              <span class="n">sowing_col_number</span><span class="p">,</span>
+                                              <span class="n">harvest_col_number</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Crops table ID name</span>
+        <span class="n">crops_ID_name</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ID_col_number</span><span class="p">]</span>
+
+        <span class="c1"># Increasing the TS of the crops rotation to length of</span>
+        <span class="c1"># prediction time</span>
+        <span class="n">no_iter</span> <span class="o">=</span> <span class="n">predict_months</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">crops_ts_init</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">no_iter</span><span class="p">):</span>
+            <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span>
+
+        <span class="c1"># Create names of months - M1 is the first month of prediction,</span>
+        <span class="c1"># M2 second etc.</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;M</span><span class="si">{no}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">no</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">predict_months</span><span class="p">)]</span>
+        <span class="n">col_names</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_ID_name</span><span class="p">)</span>
+
+        <span class="c1"># Create a new list of TSs for particular crops in the crop</span>
+        <span class="c1"># rotation procedure</span>
+        <span class="c1"># Initial list</span>
+        <span class="n">all_op_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Loop for arranging TSs for particular crops and cut them to</span>
+        <span class="c1"># the prediction length</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="c1"># Looking for a start in the TS for particular crop</span>
+            <span class="n">crops_ts_start</span> <span class="o">=</span> <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> \
+                             <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="mi">12</span> <span class="o">+</span> \
+                             <span class="n">start_month</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="c1"># Create</span>
+            <span class="n">crops_list</span> <span class="o">=</span> <span class="n">crops_ts_init</span><span class="p">[</span><span class="n">crops_ts_start</span><span class="p">:</span><span class="n">crops_ts_start</span>
+                                                      <span class="o">+</span> <span class="n">predict_months</span><span class="p">]</span>
+
+            <span class="n">crops_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">pl_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col_names</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">crops_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                       <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_list</span><span class="p">))}</span>
+            <span class="n">all_op_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pl_dict</span><span class="p">)</span>
+
+        <span class="n">df_crops_ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_op_list</span><span class="p">)</span>
+
+        <span class="c1"># If the biomass is removed in the early stage the rest</span>
+        <span class="c1"># of the year is bare soil only</span>
+        <span class="k">if</span> <span class="n">early_stage_mng</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">no_to_year_end</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">start_month</span>
+            <span class="n">df_crops_ts</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">df_crops_ts</span><span class="p">),</span> <span class="mi">1</span><span class="p">:(</span><span class="n">no_to_year_end</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>\
+                <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+
+        <span class="k">return</span> <span class="n">df_crops_ts</span></div>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.predictDryMass"><a class="viewcode-back" href="../../libs.html#modules.sowing_proc.SowingProcTimeSeries.predictDryMass">[dokumentace]</a>    <span class="k">def</span> <span class="nf">predictDryMass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">,</span> <span class="n">params_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                       <span class="n">sowing_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                       <span class="n">predict_months</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">start_month</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">early_stage_mng</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prediction of dry mass of agricultural crops or</span>
+<span class="sd">        mowed meadows.</span>
+
+<span class="sd">        :param crops_table: Pandas dataframe containing information</span>
+<span class="sd">            about crops - ID of crop, term of sowing and term of harvest</span>
+<span class="sd">            in order of the sowing procedure. Terms of sowing and</span>
+<span class="sd">            harvest are numbered according to months: 1 - January,</span>
+<span class="sd">            2 - February etc.</span>
+<span class="sd">        :param params_table: Pandas dataframe with parameters for</span>
+<span class="sd">            calculation of dry mass of crops and meadows.</span>
+<span class="sd">        :param ID_col_number: crops_table column with IDs index</span>
+<span class="sd">        :param sowing_col_number: crops_table column with sowing date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param harvest_col_number: crops_table column with harvest date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param predict_months: Number of months for prediction</span>
+<span class="sd">        :param start_month: Month of prediction start = month of</span>
+<span class="sd">            radiation accident. [1-12]</span>
+<span class="sd">        :param early_stage_mng: The removing of biomass in early</span>
+<span class="sd">            stage of radioactive contamination has been done or not. I</span>
+<span class="sd">            the first case, the first year of the prediction is taken as</span>
+<span class="sd">            bare soil.</span>
+
+<span class="sd">        :return: Dataframe of all crops and meadows dry mass for</span>
+<span class="sd">            the whole TS of the prediction. Data are ordered</span>
+<span class="sd">            according to sowing procedure following the particular</span>
+<span class="sd">            crops in the crops rotation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculate time series for crops rotation, t0 and t1</span>
+        <span class="n">crops_ts</span><span class="p">,</span> <span class="n">t0_ts</span><span class="p">,</span> <span class="n">t1_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcSowingProc</span><span class="p">(</span><span class="n">crops_table</span><span class="p">,</span>
+                                              <span class="n">ID_col_number</span><span class="p">,</span>
+                                              <span class="n">sowing_col_number</span><span class="p">,</span>
+                                              <span class="n">harvest_col_number</span><span class="p">)</span>
+
+        <span class="c1"># Change lists to Numpy arrays and replacing values &gt; 99 to</span>
+        <span class="c1"># 20 which corresponds to meadows</span>
+        <span class="n">crops_ts_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span>
+        <span class="n">crops_ts_arr</span><span class="p">[</span><span class="n">crops_ts_arr</span> <span class="o">&gt;</span> <span class="mi">99</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="n">t0_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t0_ts</span><span class="p">)</span>
+        <span class="n">t1_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t1_ts</span><span class="p">)</span>
+        <span class="n">t_ts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span><span class="o">//</span><span class="mi">12</span><span class="p">):</span>
+            <span class="n">seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">))</span>
+            <span class="n">t_ts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+
+        <span class="c1"># Changing months to days</span>
+        <span class="n">t_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t_ts</span><span class="p">)</span> <span class="o">*</span> <span class="mi">30</span>
+
+        <span class="c1"># Get name of ID column in params table</span>
+        <span class="n">id_crops_par</span> <span class="o">=</span> <span class="n">params_table</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Merging crops_rotation and crops parameters tables</span>
+        <span class="n">df_dw_ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">id_crops_par</span><span class="p">:</span><span class="n">crops_ts_arr</span><span class="p">})</span>
+        <span class="n">df_crops_merge</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_dw_ts</span><span class="p">,</span> <span class="n">params_table</span><span class="p">,</span>
+                                  <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">id_crops_par</span><span class="p">)</span>
+
+        <span class="c1"># Extract max. dry mass and coefficients - tho position of</span>
+        <span class="c1"># columns in source df is fix</span>
+        <span class="n">dw_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_crops_merge</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">coef_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_crops_merge</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">coef_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df_crops_merge</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">8</span><span class="p">])</span>
+
+        <span class="c1"># Calculate DW for particular months and create new list of DWs</span>
+        <span class="n">dw_list</span> <span class="o">=</span> <span class="n">sl</span><span class="o">.</span><span class="n">dryMass</span><span class="p">(</span><span class="n">dw_max</span><span class="p">,</span> <span class="n">t_ts</span><span class="p">,</span> <span class="n">t0_ts</span><span class="p">,</span> <span class="n">t1_ts</span><span class="p">,</span> <span class="n">coef_m</span><span class="p">,</span>
+                             <span class="n">coef_n</span><span class="p">)</span>
+
+        <span class="c1"># Crops table ID name</span>
+        <span class="n">crops_ID_name</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ID_col_number</span><span class="p">]</span>
+
+        <span class="c1"># Increasing the TS of the crops rotation to length of</span>
+        <span class="c1"># prediction time</span>
+        <span class="n">no_iter</span> <span class="o">=</span> <span class="n">predict_months</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">dw_list</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">dw_ts_init</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">crops_ts_init</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">no_iter</span><span class="p">):</span>
+            <span class="n">dw_ts_init</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dw_list</span><span class="p">)</span>
+            <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span>
+
+        <span class="c1"># Create names of months - M1 is the first month of prediction,</span>
+        <span class="c1"># M2 second etc.</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;M</span><span class="si">{no}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">no</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">predict_months</span><span class="p">)]</span>
+        <span class="n">col_names</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_ID_name</span><span class="p">)</span>
+
+        <span class="c1"># Create a new list of TSs for particular crops dw in the crop</span>
+        <span class="c1"># rotation procedure</span>
+        <span class="c1"># Initial list</span>
+        <span class="n">all_dw_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Loop for arranging TSs for particular crops dw and cut them to</span>
+        <span class="c1"># the prediction length</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="c1"># Looking for a start in the TS for particular crop</span>
+            <span class="n">crops_ts_start</span> <span class="o">=</span> <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> \
+                             <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="mi">12</span> <span class="o">+</span> \
+                             <span class="n">start_month</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="c1"># Create</span>
+            <span class="n">dw_ts</span> <span class="o">=</span> <span class="n">dw_ts_init</span><span class="p">[</span><span class="n">crops_ts_start</span><span class="p">:</span><span class="n">crops_ts_start</span>
+                                                      <span class="o">+</span> <span class="n">predict_months</span><span class="p">]</span>
+            <span class="n">dw_ts</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">dw_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col_names</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">dw_ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                       <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dw_ts</span><span class="p">))}</span>
+
+            <span class="n">all_dw_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dw_dict</span><span class="p">)</span>
+
+        <span class="n">df_dw_ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_dw_list</span><span class="p">)</span>
+
+        <span class="c1"># If the biomass is removed in the early stage the rest</span>
+        <span class="c1"># of the year is bare soil only</span>
+        <span class="k">if</span> <span class="n">early_stage_mng</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">no_to_year_end</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">start_month</span>
+            <span class="n">df_dw_ts</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">df_dw_ts</span><span class="p">),</span> <span class="mi">1</span><span class="p">:(</span><span class="n">no_to_year_end</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">df_dw_ts</span></div>
+
+<div class="viewcode-block" id="SowingProcTimeSeries.predictHarvest"><a class="viewcode-back" href="../../libs.html#modules.sowing_proc.SowingProcTimeSeries.predictHarvest">[dokumentace]</a>    <span class="k">def</span> <span class="nf">predictHarvest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">,</span> <span class="n">ID_col_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                             <span class="n">sowing_col_number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">harvest_col_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                             <span class="n">predict_months</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">start_month</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                             <span class="n">early_stage_mng</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prediction of harvest time for agricultural crops or</span>
+<span class="sd">        mowed meadows.</span>
+
+<span class="sd">        :param crops_table: Pandas dataframe containing information</span>
+<span class="sd">            about crops - ID of crop, term of sowing and term of harvest</span>
+<span class="sd">            in order of the sowing procedure. Terms of sowing and</span>
+<span class="sd">            harvest are numbered according to months: 1 - January,</span>
+<span class="sd">            2 - February etc.</span>
+<span class="sd">        :param ID_col_number: crops_table column with IDs index</span>
+<span class="sd">        :param sowing_col_number: crops_table column with sowing date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param harvest_col_number: crops_table column with harvest date</span>
+<span class="sd">            index</span>
+<span class="sd">        :param predict_months: Number of months for prediction</span>
+<span class="sd">        :param start_month: Month of prediction start - month of</span>
+<span class="sd">            radiation accident. [1-12]</span>
+<span class="sd">        :param early_stage_mng: The removing of biomass in early</span>
+<span class="sd">            stage of radioactive contamination has been done or not. I</span>
+<span class="sd">            the first case, the first year of the prediction is taken as</span>
+<span class="sd">            bare soil.</span>
+
+<span class="sd">        :return: Basic dataframe (Pandas) for all crops and meadows for</span>
+<span class="sd">            the whole TS of the prediction. Data are ordered</span>
+<span class="sd">            according to sowing procedure following the particular</span>
+<span class="sd">            crops in the crops rotation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Calculate time series for crops rotation</span>
+        <span class="n">crops_ts</span><span class="p">,</span> <span class="n">sow_ts</span><span class="p">,</span> <span class="n">harv_ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcSowingProc</span><span class="p">(</span><span class="n">crops_table</span><span class="p">,</span>
+                                              <span class="n">ID_col_number</span><span class="p">,</span>
+                                              <span class="n">sowing_col_number</span><span class="p">,</span>
+                                              <span class="n">harvest_col_number</span><span class="p">)</span>
+
+        <span class="c1"># Crops table ID name</span>
+        <span class="n">crops_ID_name</span> <span class="o">=</span> <span class="n">crops_table</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ID_col_number</span><span class="p">]</span>
+
+        <span class="c1"># Create time series for crops harvesting time - 0 is no</span>
+        <span class="c1"># activity, 1 is harvest</span>
+
+        <span class="n">harvest_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">harv_ts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">harv_ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">harv_ts</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">harvest_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">harvest_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">harvest_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">crops_ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span>
+        <span class="n">harvest_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">crops_ts</span> <span class="o">==</span> <span class="o">-</span><span class="mi">999</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">harvest_list</span><span class="p">)</span>
+
+        <span class="c1"># Increasing the TS of the crops rotation to length of</span>
+        <span class="c1"># prediction time</span>
+        <span class="n">no_iter</span> <span class="o">=</span> <span class="n">predict_months</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">harvest_ts_init</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">crops_ts_init</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">no_iter</span><span class="p">):</span>
+            <span class="n">harvest_ts_init</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">harvest_list</span><span class="p">)</span>
+            <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">crops_ts</span><span class="p">)</span>
+
+        <span class="c1"># Create names of months - M1 is the first month of prediction,</span>
+        <span class="c1"># M2 second etc.</span>
+        <span class="n">col_names</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;M</span><span class="si">{no}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">no</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+            <span class="n">predict_months</span><span class="p">)]</span>
+        <span class="n">col_names</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_ID_name</span><span class="p">)</span>
+
+        <span class="c1"># Create a new list of TSs for particular crops in the crop</span>
+        <span class="c1"># rotation procedure</span>
+        <span class="c1"># Initial list</span>
+        <span class="n">all_hv_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Loop for arranging TSs for particular crops and cut them to</span>
+        <span class="c1"># the prediction length</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">crops_table</span><span class="p">)):</span>
+            <span class="c1"># Looking for a start in the TS for particular crop</span>
+            <span class="n">crops_ts_start</span> <span class="o">=</span> <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> \
+                             <span class="n">crops_ts_init</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+                <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="mi">12</span> <span class="o">+</span> \
+                             <span class="n">start_month</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="c1"># Create</span>
+            <span class="n">harvest_ts</span> <span class="o">=</span> <span class="n">harvest_ts_init</span><span class="p">[</span><span class="n">crops_ts_start</span><span class="p">:</span><span class="n">crops_ts_start</span>
+                                                      <span class="o">+</span> <span class="n">predict_months</span><span class="p">]</span>
+
+            <span class="n">harvest_ts</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">crops_table</span><span class="p">[</span><span class="n">crops_ID_name</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">hv_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col_names</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">harvest_ts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                       <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">harvest_ts</span><span class="p">))}</span>
+
+            <span class="n">all_hv_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hv_dict</span><span class="p">)</span>
+
+        <span class="n">df_harvest_ts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_hv_list</span><span class="p">)</span>
+
+        <span class="c1"># If the biomass is removed in the early stage the rest</span>
+        <span class="c1"># of the year is bare soil only</span>
+        <span class="k">if</span> <span class="n">early_stage_mng</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">no_to_year_end</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">start_month</span>
+            <span class="n">df_harvest_ts</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">df_harvest_ts</span><span class="p">),</span> <span class="mi">1</span><span class="p">:(</span><span class="n">no_to_year_end</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>\
+                <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">df_harvest_ts</span></div></div>
+
+<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
+<span class="c1">#     # Testing</span>
+<span class="c1">#     import time</span>
+<span class="c1">#     from matplotlib import pyplot as plt</span>
+<span class="c1">#</span>
+<span class="c1">#     # Table with all data - i.e. vector polygons features</span>
+<span class="c1">#     IDs = [0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0, 1, 2, 6, 12, 5, 4, 9,</span>
+<span class="c1">#            1, 8, 0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0]</span>
+<span class="c1">#     names = [&#39;jetel_I&#39;, &#39;jetel_II&#39;, &#39;jetel_III&#39;, &#39;pšenice&#39;, &#39;ječmen &#39;</span>
+<span class="c1">#              &#39;oz.&#39;, &#39;brambory&#39;, &#39;ječmen j.&#39;, &#39;hrách&#39;, &#39;kukuřice&#39;,</span>
+<span class="c1">#              &#39;oves&#39;, &#39;jetel_I&#39;, &#39;jetel_II&#39;, &#39;jetel_III&#39;, &#39;pšenice&#39;,</span>
+<span class="c1">#              &#39;ječmen oz.&#39;, &#39;brambory&#39;, &#39;ječmen j.&#39;, &#39;hrách&#39;,</span>
+<span class="c1">#              &#39;kukuřice&#39;, &#39;oves&#39;, &#39;jetel_I&#39;, &#39;jetel_II&#39;, &#39;jetel_III&#39;,</span>
+<span class="c1">#              &#39;pšenice&#39;, &#39;ječmen oz.&#39;, &#39;brambory&#39;, &#39;ječmen j.&#39;,</span>
+<span class="c1">#              &#39;hrách&#39;, &#39;kukuřice&#39;, &#39;oves&#39;, &#39;jetel_I&#39;]</span>
+<span class="c1">#     df_plodiny_pole = pd.DataFrame({&quot;ID&quot;:IDs, &quot;Names&quot;:names})</span>
+<span class="c1">#</span>
+<span class="c1">#     # Crop rotation</span>
+<span class="c1">#     crops_tab = pd.DataFrame({&quot;ID_set&quot;:[0, 1, 100, 100, 100, 5, 4, 9, 3,</span>
+<span class="c1">#                                         8],</span>
+<span class="c1">#                                     &quot;osev&quot;:[4,9,3,5,7,4,4,8,3,4],</span>
+<span class="c1">#                                  &quot;sklizeň&quot;:[7,7,5,7,9,9,7,9,9,8]})</span>
+<span class="c1">#</span>
+<span class="c1">#     crops_params = pd.DataFrame({&quot;ID_set&quot;:[0, 1, 20, 21, 12, 5, 4,</span>
+<span class="c1">#                                            9, 3,</span>
+<span class="c1">#                                         8],</span>
+<span class="c1">#                                  &quot;osev&quot;:[4,9,4,9,9,4,4,8,3,4],</span>
+<span class="c1">#                                  &quot;sklizeň&quot;:[7,7,8,8,7,9,7,9,9,8],</span>
+<span class="c1">#                                  &quot;DW_max&quot;:[12,15,24,11,7,8,9,6,14,7],</span>
+<span class="c1">#                                  &quot;LAI_max&quot;: [5,5,5,5,5,5,5,5,5,5,],</span>
+<span class="c1">#                                  &quot;R_max&quot;:[95,95,95,95,95,95,95,95,95,</span>
+<span class="c1">#                                           95],</span>
+<span class="c1">#                                  &quot;R_min&quot;:[25,24,25,30,45,17,15,18,25,</span>
+<span class="c1">#                                           70],</span>
+<span class="c1">#                                  &quot;Koef_m&quot;:[13.4,14,15,13,14,11,12,15,</span>
+<span class="c1">#                                            17,13],</span>
+<span class="c1">#                                  &quot;Koef_n&quot;:[4.2,3.6,4,5,8,3,4,5,6,4]})</span>
+<span class="c1">#</span>
+<span class="c1">#     # Calculation</span>
+<span class="c1">#     sp = SowingProcTimeSeries()</span>
+<span class="c1">#</span>
+<span class="c1">#     t1 = time.time()</span>
+<span class="c1">#</span>
+<span class="c1">#     ts_all = sp.predictCropsRotation(crops_tab, 0, 1, 2, 190, 6, False)</span>
+<span class="c1">#</span>
+<span class="c1">#     dw_TS = sp.predictDryMass(crops_tab, crops_params, 0, 1, 2, 90,</span>
+<span class="c1">#                               6, False)</span>
+<span class="c1">#     harvest = sp.predictHarvest(crops_tab, 0, 1, 2, 190, 6, False)</span>
+<span class="c1">#</span>
+<span class="c1">#     t2 = time.time()</span>
+<span class="c1">#     print(t2-t1)</span>
+<span class="c1">#</span>
+<span class="c1">#     dw_TS_transp = harvest.T</span>
+<span class="c1">#     jmena = dw_TS_transp.iloc[0,:]</span>
+<span class="c1">#     dw_TS_transp.columns = jmena</span>
+<span class="c1">#     dw_new = dw_TS_transp.drop(dw_TS_transp.index[0])</span>
+<span class="c1">#</span>
+<span class="c1">#     xxx = dw_new.iloc[:,1]</span>
+<span class="c1">#     yyy = dw_new.iloc[:,2]</span>
+<span class="c1">#</span>
+<span class="c1">#     plt.plot(xxx)</span>
+<span class="c1">#</span>
+<span class="c1">#     plt.show()</span>
+<span class="c1">#</span>
+<span class="c1">#     print(ts_all)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

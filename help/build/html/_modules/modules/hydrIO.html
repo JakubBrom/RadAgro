@@ -1,0 +1,597 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>modules.hydrIO &mdash; Dokumentace pro RadAgro 0.1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Rejstřík"
+              href="../../genindex.html"/>
+        <link rel="search" title="Vyhledávání" href="../../search.html"/>
+    <link rel="top" title="Dokumentace pro RadAgro 0.1" href="../../index.html"/>
+        <link rel="up" title="Kód modulu" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> RadAgro
+          
+
+          
+            
+            <img src="../../_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html">Instalace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vstupni-data">Vstupní data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#uzivatelske-rozhrani-a-zadavani-dat">Uživatelské rozhraní a zadávání dat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#nastaveni-parametru-vypoctu">Nastavení parametrů výpočtu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../users_man.html#vysledky-vypoctu">Výsledky výpočtu</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html">Struktura programu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#rustova-analyza">Růstová analýza</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#hydrologie">Hydrologie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#erozni-model">Erozní model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#prenos-radioaktivni-kontaminace-v-biomase">Přenos radioaktivní kontaminace v biomase</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#radioaktivni-premena">Radioaktivní přeměna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../description.html#referencni-urovne-kontaminace-biomasy">Referenční úrovně kontaminace biomasy</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html">Program structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-radagro">Module RadAgro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-activity-decay">Module activity_decay</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-hydrio">Module hydrIO</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sarca-lib">Module SARCA_lib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-usle">Module usle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-waterflow">Module waterflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-mdaylight">Module mdaylight</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sowing-proc">Module sowing_proc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-overlap-clip">Module overlap_clip</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">Licenční ujednání</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ackn.html">Poděkování</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../literature.html">Přehled literatury</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RadAgro</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Kód modulu</a> &raquo;</li>
+        
+      <li>modules.hydrIO</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Zdrojový kód pro modules.hydrIO</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1">#  Project: RadAgro</span>
+<span class="c1">#  File: hydrIO.py</span>
+<span class="c1">#</span>
+<span class="c1">#  Author: Dr. Jakub Brom</span>
+<span class="c1">#</span>
+<span class="c1">#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in</span>
+<span class="c1">#  České Budějovice, Faculty of Agriculture.</span>
+<span class="c1">#</span>
+<span class="c1">#  This program is free software: you can redistribute it and/or modify</span>
+<span class="c1">#      it under the terms of the GNU General Public License as published by</span>
+<span class="c1">#      the Free Software Foundation, either version 3 of the License, or</span>
+<span class="c1">#      (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1">#      This program is distributed in the hope that it will be useful,</span>
+<span class="c1">#      but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c1">#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c1">#      GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1">#      You should have received a copy of the GNU General Public License</span>
+<span class="c1">#      along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;</span>
+<span class="c1">#</span>
+<span class="c1">#  Last changes: 07.12.20 18:11</span>
+<span class="c1">#</span>
+<span class="c1"># Date: 2018/11/08</span>
+<span class="c1">#</span>
+<span class="c1"># Description:</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># imports</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="k">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">osr</span><span class="p">,</span> <span class="n">ogr</span>
+<span class="kn">from</span> <span class="nn">qgis.PyQt.QtCore</span> <span class="k">import</span> <span class="n">QVariant</span>
+<span class="kn">from</span> <span class="nn">qgis.core</span> <span class="k">import</span> <span class="n">QgsVectorLayer</span><span class="p">,</span> <span class="n">QgsField</span>
+
+
+<div class="viewcode-block" id="rasterToArray"><a class="viewcode-back" href="../../libs.html#modules.hydrIO.rasterToArray">[dokumentace]</a><span class="k">def</span> <span class="nf">rasterToArray</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Conversion of raster layer to numpy array.</span>
+
+<span class="sd">	:param layer: Path to raster layer.</span>
+<span class="sd">	:type layer: str</span>
+<span class="sd">	</span>
+<span class="sd">	:return: raster file converted to numpy array</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="k">try</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">in_layer</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Dataset</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">(</span><span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">layer</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+				<span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">in_layer</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">return</span> <span class="n">in_layer</span>
+	<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+		<span class="n">in_layer</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">return</span> <span class="n">in_layer</span></div>
+
+
+<div class="viewcode-block" id="readGeo"><a class="viewcode-back" href="../../libs.html#modules.hydrIO.readGeo">[dokumentace]</a><span class="k">def</span> <span class="nf">readGeo</span><span class="p">(</span><span class="n">rast</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Reading important geographical information from raster using GDAL.</span>
+<span class="sd">	</span>
+<span class="sd">	:param rast: Path to raster file in GDAL accepted format.</span>
+
+<span class="sd">	:returns: The tuple of important geographic information about a \</span>
+<span class="sd">	raster. The tuple contains:</span>
+<span class="sd">	\n</span>
+<span class="sd">		* The affine transformation coefficients (tuple)</span>
+<span class="sd">		* Projection information of the raster or dataset (str)</span>
+<span class="sd">		* Size of pixel at X scale (float)</span>
+<span class="sd">		* Size of pixel at Y scale (float)</span>
+<span class="sd">		* EPSG Geodetic Parameter Set code (int)</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">rast</span><span class="p">)</span>
+	<span class="n">gtransf</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+
+	<span class="n">ds_s</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="n">prj</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+	<span class="n">xSize</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">ySize</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+	<span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">(</span><span class="n">wkt</span><span class="o">=</span><span class="n">prj</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">srs</span><span class="o">.</span><span class="n">IsProjected</span><span class="p">:</span>
+		<span class="n">EPSG</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s2">&quot;authority&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">EPSG</span> <span class="o">=</span> <span class="kc">None</span>
+
+	<span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+	<span class="k">return</span> <span class="p">(</span><span class="n">gtransf</span><span class="p">,</span> <span class="n">prj</span><span class="p">,</span> <span class="n">xSize</span><span class="p">,</span> <span class="n">ySize</span><span class="p">,</span> <span class="n">EPSG</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="arrayToRast"><a class="viewcode-back" href="../../libs.html#modules.hydrIO.arrayToRast">[dokumentace]</a><span class="k">def</span> <span class="nf">arrayToRast</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">prj</span><span class="p">,</span> <span class="n">gtransf</span><span class="p">,</span> <span class="n">EPSG</span><span class="p">,</span> <span class="n">out_folder</span><span class="p">,</span>
+                <span class="n">out_file_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">driver_name</span><span class="o">=</span><span class="s2">&quot;GTiff&quot;</span><span class="p">,</span> <span class="n">multiband</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Export numpy 2D arrays to multiband or singleband raster</span>
+<span class="sd">	files. Following common raster formats are accepted for export:</span>
+<span class="sd">	\n</span>
+
+<span class="sd">	* ENVI .hdr labeled raster format</span>
+<span class="sd">	* Erdas Imagine (.img) raster format</span>
+<span class="sd">	* Idrisi raster format (.rst)</span>
+<span class="sd">	* TIFF / BigTIFF / GeoTIFF (.tif) raster format</span>
+<span class="sd">	* PCI Geomatics Database File (.pix) raster format</span>
+
+<span class="sd">	:param arrays: Numpy array or list of arrays for export to raster.</span>
+<span class="sd">	:type arrays: numpy.ndarray or list of numpy.ndarray</span>
+<span class="sd">	:param names: Name or list of names of the exported bands (in case</span>
+<span class="sd">		of multiband raster) or particular rasters (in case of singleband</span>
+<span class="sd">		rasters).</span>
+<span class="sd">	:type names: str or list of str</span>
+<span class="sd">	:param prj: Projection information of the exported raster (dataset).</span>
+<span class="sd">	:type prj: str</span>
+<span class="sd">	:param gtransf: The affine transformation coefficients.</span>
+<span class="sd">	:type gtransf: tuple</span>
+<span class="sd">	:param EPSG: EPSG Geodetic Parameter Set code.</span>
+<span class="sd">	:type EPSG: int</span>
+<span class="sd">	:param out_folder: Path to folder where the raster(s) will be created.</span>
+<span class="sd">	:type out_folder: str</span>
+<span class="sd">	:param driver_name: GDAL driver. &#39;GTiff&#39; is default.</span>
+<span class="sd">	:type driver_name: str</span>
+<span class="sd">	:param out_file_name: Name of exported multiband raster. Default is None.</span>
+<span class="sd">	:type out_file_name: str</span>
+<span class="sd">	:param multiband: Option of multiband raster creation. Default is False.</span>
+<span class="sd">	:type multiband: bool</span>
+<span class="sd">	</span>
+<span class="sd">	:returns: Raster singleband or multiband file(s)</span>
+<span class="sd">	:rtype: raster</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># Convert arrays and names on list</span>
+	<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="n">arr_list</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">arr_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span>
+		<span class="n">arrays</span> <span class="o">=</span> <span class="n">arr_list</span>
+	<span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+		<span class="n">names_list</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">names_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+		<span class="n">names</span> <span class="o">=</span> <span class="n">names_list</span>
+
+	<span class="k">if</span> <span class="n">out_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="n">out_file_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+		<span class="n">multiband</span> <span class="o">=</span> <span class="kc">False</span>
+
+	<span class="c1"># Drivers and suffixes</span>
+	<span class="n">driver_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ENVI&quot;</span><span class="p">,</span> <span class="s2">&quot;HFA&quot;</span><span class="p">,</span> <span class="s2">&quot;RST&quot;</span><span class="p">,</span> <span class="s2">&quot;GTiff&quot;</span><span class="p">,</span>
+	               <span class="s2">&quot;PCIDSK&quot;</span><span class="p">]</span>  <span class="c1"># GDAL driver for output files</span>
+	<span class="n">out_suffixes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;.img&quot;</span><span class="p">,</span> <span class="s2">&quot;.rst&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">,</span>
+	                <span class="s2">&quot;.pix&quot;</span><span class="p">]</span>  <span class="c1"># Suffixes of output names</span>
+
+	<span class="c1"># Test driver</span>
+	<span class="k">if</span> <span class="n">driver_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">driver_list</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown driver. Data could not be exported.&quot;</span><span class="p">)</span>
+
+	<span class="n">driver_index</span> <span class="o">=</span> <span class="n">driver_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">driver_name</span><span class="p">)</span>
+	<span class="n">suffix</span> <span class="o">=</span> <span class="n">out_suffixes</span><span class="p">[</span><span class="n">driver_index</span><span class="p">]</span>
+
+	<span class="k">if</span> <span class="n">multiband</span> <span class="o">==</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">driver_name</span> <span class="o">!=</span> <span class="s2">&quot;RST&quot;</span><span class="p">:</span>
+		<span class="n">out_file_name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">out_file_name</span><span class="p">)</span>
+		<span class="n">out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span> <span class="n">out_file_name</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="n">driver_name</span><span class="p">)</span>
+			<span class="n">ds</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+			                   <span class="nb">len</span><span class="p">(</span><span class="n">arrays</span><span class="p">),</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float32</span><span class="p">)</span>
+			<span class="n">ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">prj</span><span class="p">)</span>
+			<span class="n">ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">gtransf</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">EPSG</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">outRasterSRS</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+				<span class="n">outRasterSRS</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">EPSG</span><span class="p">)</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">outRasterSRS</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+			<span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+			<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">SetMetadataItem</span><span class="p">(</span><span class="s2">&quot;Band name&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>
+				<span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+			<span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Raster file </span><span class="si">%s</span><span class="s2"> has not been created.&quot;</span> <span class="o">%</span> <span class="p">(</span>
+						<span class="n">out_file_name</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">))</span>
+
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arrays</span><span class="p">)):</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="n">out_file_name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+				<span class="n">out_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_folder</span><span class="p">,</span> <span class="n">out_file_name</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">)</span>
+				<span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="n">driver_name</span><span class="p">)</span>
+				<span class="n">ds</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">arrays</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+				                   <span class="n">arrays</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float32</span><span class="p">)</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">prj</span><span class="p">)</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">gtransf</span><span class="p">)</span>
+				<span class="k">if</span> <span class="n">EPSG</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">outRasterSRS</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+					<span class="n">outRasterSRS</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">EPSG</span><span class="p">)</span>
+					<span class="n">ds</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">outRasterSRS</span><span class="o">.</span><span class="n">ExportToWkt</span><span class="p">())</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">arrays</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">SetDescription</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">SetMetadataItem</span><span class="p">(</span><span class="s2">&quot;Band name&quot;</span><span class="p">,</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+				<span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">FlushCache</span><span class="p">()</span>
+				<span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+			<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+				<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Raster file </span><span class="si">%s</span><span class="s2"> has not been created.&quot;</span> <span class="o">%</span> <span class="p">(</span>
+							<span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">suffix</span><span class="p">))</span>
+	<span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="readLatLong"><a class="viewcode-back" href="../../libs.html#modules.hydrIO.readLatLong">[dokumentace]</a><span class="k">def</span> <span class="nf">readLatLong</span><span class="p">(</span><span class="n">rast_path</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Automatic setting of the lyrs coordinates according to the</span>
+<span class="sd">	projection of NIR band in to the form.</span>
+
+<span class="sd">	:param rast_path: Raster path.</span>
+
+<span class="sd">	:return: Longitude and latitude in decimal scale</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="n">inputEPSG</span> <span class="o">=</span> <span class="kc">None</span>
+
+	<span class="k">if</span> <span class="n">rast_path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="ow">or</span> <span class="n">rast_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Path to raster has not been set.&quot;</span><span class="p">)</span>
+
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">rast_path</span><span class="p">)</span>
+			<span class="n">gtransf</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+			<span class="n">leftCornerX</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># X position of left corner of the layer</span>
+			<span class="n">leftCornerY</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># Y position of left corner of the layer</span>
+			<span class="n">xSize</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># pixel X size</span>
+			<span class="n">ySize</span> <span class="o">=</span> <span class="n">gtransf</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># pixel Y size</span>
+			<span class="n">cols</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterXSize</span>  <span class="c1"># No. of columns</span>
+			<span class="n">rows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterYSize</span>  <span class="c1"># No. of rows</span>
+
+			<span class="n">pointX</span> <span class="o">=</span> <span class="n">leftCornerX</span> <span class="o">+</span> <span class="p">(</span>
+						<span class="n">xSize</span> <span class="o">*</span> <span class="n">cols</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># X position of the middle of the layer</span>
+			<span class="n">pointY</span> <span class="o">=</span> <span class="n">leftCornerY</span> <span class="o">+</span> <span class="p">(</span>
+						<span class="n">ySize</span> <span class="o">*</span> <span class="n">rows</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Y position of the middle of the layer</span>
+
+			<span class="n">prj</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+
+			<span class="n">ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+			<span class="c1"># Spatial Reference System</span>
+			<span class="n">srs</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">(</span><span class="n">wkt</span><span class="o">=</span><span class="n">prj</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">srs</span><span class="o">.</span><span class="n">IsProjected</span><span class="p">:</span>
+				<span class="n">inputEPSG</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">srs</span><span class="o">.</span><span class="n">GetAttrValue</span><span class="p">(</span><span class="s2">&quot;authority&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+			<span class="n">outputEPSG</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4326</span><span class="p">)</span>  <span class="c1"># WGS84</span>
+
+			<span class="c1"># create a geometry from coordinates</span>
+			<span class="n">point</span> <span class="o">=</span> <span class="n">ogr</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">ogr</span><span class="o">.</span><span class="n">wkbPoint</span><span class="p">)</span>
+			<span class="n">point</span><span class="o">.</span><span class="n">AddPoint</span><span class="p">(</span><span class="n">pointX</span><span class="p">,</span> <span class="n">pointY</span><span class="p">)</span>
+
+			<span class="c1"># create coordinate transformation</span>
+			<span class="n">inSpatialRef</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+			<span class="n">inSpatialRef</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">inputEPSG</span><span class="p">)</span>
+
+			<span class="n">outSpatialRef</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">SpatialReference</span><span class="p">()</span>
+			<span class="n">outSpatialRef</span><span class="o">.</span><span class="n">ImportFromEPSG</span><span class="p">(</span><span class="n">outputEPSG</span><span class="p">)</span>
+
+			<span class="n">coordTransform</span> <span class="o">=</span> <span class="n">osr</span><span class="o">.</span><span class="n">CoordinateTransformation</span><span class="p">(</span>
+				<span class="n">inSpatialRef</span><span class="p">,</span> <span class="n">outSpatialRef</span><span class="p">)</span>
+
+			<span class="c1"># transform point</span>
+			<span class="n">point</span><span class="o">.</span><span class="n">Transform</span><span class="p">(</span><span class="n">coordTransform</span><span class="p">)</span>
+
+			<span class="c1"># Coords in EPSG 4326</span>
+			<span class="n">long_dec</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">GetX</span><span class="p">()</span>
+			<span class="n">lat_dec</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">GetY</span><span class="p">()</span>
+
+			<span class="k">return</span> <span class="n">long_dec</span><span class="p">,</span> <span class="n">lat_dec</span>
+
+		<span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Latitude and longitude of the raster has&quot;</span>
+						  <span class="s2">&quot;not been calculated. Input raster probably &quot;</span>
+						  <span class="s2">&quot;has no geographical reference.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="joinLyrWithDataFrame"><a class="viewcode-back" href="../../libs.html#modules.hydrIO.joinLyrWithDataFrame">[dokumentace]</a><span class="k">def</span> <span class="nf">joinLyrWithDataFrame</span><span class="p">(</span><span class="n">in_layer_path</span><span class="p">,</span> <span class="n">df_data</span><span class="p">,</span> <span class="n">out_layer_path</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Create GeoPackage layer from input vector data for crops and data</span>
+<span class="sd">	of radioactive contamination stored in pandas dataframe.</span>
+
+<span class="sd">	:param in_layer_path: Path to original input vector layer which is \</span>
+<span class="sd">	used as a template for a new layer.</span>
+<span class="sd">	:type in_layer_path: str</span>
+<span class="sd">	:param df_data: Joining Pandas dataframe corresponding with \</span>
+<span class="sd">	vector_layer. FID values must be equal.</span>
+<span class="sd">	:type df_data: Pandas DataFrame</span>
+<span class="sd">	:param out_layer_path: Path to output vector file.</span>
+<span class="sd">	:type out_layer_path: str</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+
+	<span class="c1"># Translate input layer to gpkg format and create new vector </span>
+	<span class="c1"># instance</span>
+	<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;ogr2ogr -f GPKG -nln &#39;Radioactive contamination&#39; &quot;</span> <span class="o">+</span>
+			  <span class="n">out_layer_path</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">in_layer_path</span><span class="p">)</span>
+
+	<span class="n">vector_layer</span> <span class="o">=</span> <span class="n">QgsVectorLayer</span><span class="p">(</span><span class="n">out_layer_path</span><span class="p">,</span> <span class="s2">&quot;New_layer&quot;</span><span class="p">,</span> <span class="s2">&quot;ogr&quot;</span><span class="p">)</span>
+
+	<span class="c1"># Remove all columns</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="n">vector_layer</span><span class="o">.</span><span class="n">fields</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+	<span class="n">ind_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">))</span>
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">deleteAttributes</span><span class="p">(</span><span class="n">ind_list</span><span class="p">)</span>
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">updateFields</span><span class="p">()</span>
+
+	<span class="c1"># Add new fields from df</span>
+	<span class="n">no_cols</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+	<span class="n">field_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+	<span class="n">field_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fid2&quot;</span>
+
+	<span class="n">fields_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">QgsField</span><span class="p">(</span><span class="n">field_names</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">QVariant</span><span class="o">.</span><span class="n">String</span><span class="p">),</span>
+				   <span class="n">QgsField</span><span class="p">(</span><span class="n">field_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">QVariant</span><span class="o">.</span><span class="n">Double</span><span class="p">),</span>
+				   <span class="n">QgsField</span><span class="p">(</span><span class="n">field_names</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">QVariant</span><span class="o">.</span><span class="n">LongLong</span><span class="p">),</span>
+				   <span class="n">QgsField</span><span class="p">(</span><span class="n">field_names</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">QVariant</span><span class="o">.</span><span class="n">String</span><span class="p">)]</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="n">no_cols</span><span class="p">):</span>
+		<span class="n">fields_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QgsField</span><span class="p">(</span><span class="n">field_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">QVariant</span><span class="o">.</span><span class="n">Double</span><span class="p">))</span>
+
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">dataProvider</span><span class="p">()</span><span class="o">.</span><span class="n">addAttributes</span><span class="p">(</span><span class="n">fields_list</span><span class="p">)</span>
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">updateFields</span><span class="p">()</span>
+
+	<span class="c1"># Get FID data from vector layer</span>
+	<span class="n">fid</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">vector_layer</span><span class="o">.</span><span class="n">getFeatures</span><span class="p">():</span>
+		<span class="n">fid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">id</span><span class="p">())</span>
+
+	<span class="c1"># Get data from Pandas df and add them to layer</span>
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">startEditing</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fid</span><span class="p">)):</span>
+		<span class="c1"># Get data form df - index i is from 1</span>
+		<span class="n">features_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])[</span><span class="mi">1</span><span class="p">::]</span>
+
+		<span class="c1"># Set data to vector layer</span>
+		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features_data</span><span class="p">)):</span>
+			<span class="n">vector_layer</span><span class="o">.</span><span class="n">changeAttributeValue</span><span class="p">(</span>
+				<span class="n">fid</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">features_data</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+
+	<span class="n">vector_layer</span><span class="o">.</span><span class="n">commitChanges</span><span class="p">()</span>
+
+	<span class="k">return</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Dr. Jakub Brom, University of South Bohemia in České Budějovice, Faculty of Agriculture, Czech Republic.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Sphinx-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
