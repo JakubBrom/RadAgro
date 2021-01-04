@@ -32,6 +32,7 @@
 
 import numpy as np
 
+
 class ActivityDecay:
 	"""Class of methods dedicated for a calculation of radioactivity
 	decay of radionuclides"""
@@ -59,19 +60,20 @@ class ActivityDecay:
 	def activityDecay(self, A_0, month=1, radionuclide=0):
 		"""
 		Activity decay (Bq/m2) on basis of relationship:
-		A = A_0 * exp(-lambda * t)
+		\n
+			:math:`A = A_0 \mathrm{e}^{-\lambda t}`
 
-		Inputs:
-		:param A_0: Activity on the start of the time period (Bq/m2)
+		:param A_0: Activity on the start of the time period :math:`(
+			Bq \cdot m^{-2})`
 		:type A_0: Numpy array (float)
 		:param month: Month for which the calculation is done
 		:type month: int
 		:param radionuclide: Particular radionuclide. Default value
-		is 0 for 137Cs. 1 is 90Sr.
+			is 0 for 137Cs. 1 is 90Sr.
 		:type radionuclide: int
 
-		Returns:
-		:return A: Activity on the end of the time period (Bq/m2)
+		:return A: Activity on the end of the time period :math:`(
+			Bq \cdot m^{-2})`
 		:rtype A: Numpy array (float)
 		"""
 

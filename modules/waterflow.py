@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-
 #  Project: RadAgro
 #  File: waterflow.py
 #
@@ -33,11 +32,12 @@
 #  evapotranspiration), outflow probability calculation etc. The
 #  calculation is designed mostly for monthly data.
 
-
 # imports
 import numpy as np
 import math as mt
 import warnings
+import sys
+
 from .mdaylight import MonthlyDaylight
 
 
@@ -46,6 +46,7 @@ class WaterBalance:
 	interest."""
 
 	def __init__(self):
+		super(WaterBalance, self).__init__()
 		return
 
 	def airTemperToGrid(self, tm_list, dmt, altitude, adiab=0.65):
@@ -56,14 +57,14 @@ class WaterBalance:
 		data.
 		
 		:param tm_list: List of air temperatures measured on a
-		meteostation.
+			meteostation.
 		:type tm_list: list
 		:param dmt: Digital elevation model.
 		:type dmt: Numpy array
 		:param altitude: Altitude of temperature measurement.
 		:type altitude: float
 		:param adiab: Adiabatic change of temeperature with altitude
-		per 100 m. Default value is 0.65 °C/100 m.
+			per 100 m. Default value is 0.65 °C/100 m.
 		:type adiab: float
 		
 		:return: List of air temperature grids.
@@ -93,14 +94,14 @@ class WaterBalance:
 		calculates ETpot for the whole year - for each month. 
 		
 		:param tm_grids: List of monthly mean air temperatures during
-		the year (degree of Celsius) - temperature normals
+			the year (degree of Celsius) - temperature normals
 		:type tm_grids: list
 		:param lat: Earth latitude (UTM) in decimal degrees
 		:type lat: float
 		
-		:return ET_pot: Potential monthly evapotranspiration
-		according to Thornthwaite (1984), mm. List of monthly values
-		for the year.
+		:return: Potential monthly evapotranspiration according to
+			Thornthwaite (1984), mm. List of monthly values for the
+			year.
 		:rtype: Numpy array
 		"""
 		
@@ -128,20 +129,21 @@ class WaterBalance:
 		return ETpot_list
 	
 	def evapoActual(self, ETp, precip):
-		"""Actual evapotranspiration calculated according to Ol'dekop (1911,
-		cited after Brutsaert (1992) and Xiong and Guo 
+		"""Actual evapotranspiration calculated according to Ol'dekop
+		(1911), cited after Brutsaert (1992) and Xiong and Guo
 		(1999; doi.org/10.1016/S0022-1694(98)00297-2)
 		
-		Inputs:
 		:param ETp: Potential monthly evapotranspiration according
-		to Thornthwaite (1984), mm. List of monthly values for the year.
+			to Thornthwaite (1984), mm. List of monthly values for the
+			year.
 		:type ETp: list
-		:param precip: Mean monthly precipitation throughout the year (mm).
+		:param precip: Mean monthly precipitation throughout the year
+			(mm).
 		:type precip: list
 		
-		Returns
-		:return ETa: Actual monthly evapotranspiration throughout the year (mm) 
-		:rtype ETa: Numpy array
+		:return: Actual monthly evapotranspiration throughout
+			the year (mm)
+		:rtype: Numpy array
 		"""
 		
 		ETp = np.array(ETp, dtype = float)
@@ -160,7 +162,6 @@ class WaterBalance:
 		Interception of precipitation on the biomass and soil surface 
 		for monthly precipitation data (mm)
 		
-		Inputs:
 		:param precip: Grid of monthly mean precipitation amount (mm)
 		:type precip: Numpy array
 		:param LAI: Grid of monthly mean leaf area index (unitless)
@@ -170,9 +171,8 @@ class WaterBalance:
 		:param b: Constant
 		:type b: float
 		
-		Returns:
-		:return I: Grid of amount of intercepted water during month (mm)
-		:rtype I: Numpy array
+		:return: Grid of amount of intercepted water during month (mm)
+		:rtype: Numpy array
 		"""
 		
 		# Inputs
@@ -213,10 +213,10 @@ class WaterBalance:
 		:return: Amount of monthly surface runoff (mm) corrected on ET
 		:rtype: float
 		:return: Amount of retention of water in the soil or
-		subsurface runoff (mm) corrected on ET
+			subsurface runoff (mm) corrected on ET
 		:rtype: float
 		:return: Monthly amount of actual evapotranspiration from the
-		surface (mm)
+			surface (mm)
 		:rtype: float
 		"""
 
@@ -335,7 +335,7 @@ class WaterBalance:
 		:param dmt: Digital elevation model of the surface (m).
 		:type dmt: Numpy array
 		:param precip: Grid (Numpy array) of precipitation amount
-		for particular month (mm) corresponding to dmt
+			for particular month (mm) corresponding to dmt
 		:type precip: Numpy array
 		:param CN: Grid (Numpy array) of CN curves
 		:type CN: Numpy array
@@ -501,9 +501,9 @@ class WaterBalance:
 		:param ysize: Size of pixel in y axis (m)
 		:type ysize: float
 		:param rs: Surface resistance for surface runoff of water
-		scaled to interval <0; 1>, where 0 is no resistance and 1 is
-		100% resistance (no flow). Scaled Mannings n should be used.
-		Default is None (zero resistance is used).
+			scaled to interval <0; 1>, where 0 is no resistance and 1 is
+			100% resistance (no flow). Scaled Mannings n should be used.
+			Default is None (zero resistance is used).
 		:type rs: numpy.ndarray
 		
 		:return: Flow accumulation grid.

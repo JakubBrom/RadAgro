@@ -29,9 +29,8 @@
 #  Description: Calculation of soil loss using USLE equation.
 
 
-# Imports
-
 import os
+import sys
 import shutil
 import tempfile
 
@@ -86,21 +85,21 @@ class RadUSLE:
 		:param dmt_path: Path to DMT raster.
 		:type dmt_path: str
 		:param crops_lyr_path: Path to vector for calculation of zonal
-		statistics.
+			statistics.
 		:type crops_lyr_path: str
 		:param m: Exponent representing the Rill-to-Interrill Ratio.
-		Default m = 0.4
+			Default m = 0.4
 		:type m: float
 		:param n: Constant. Default n = 1.4
 		:type n: float
 		
 		:return: Combined factor of slope length and slope steepness
-		factor of USLE. If the vector_path is none the method returns
-		Numpy array matrix of LS factor corresponding to input DMT
-		raster layer. If a vector layer is used the zonal statistic
-		is calculated for each polygon of the vector layer. Output is
-		pandas dataframe containing FIDs of original vector and LS
-		medians.
+			factor of USLE. If the vector_path is none the method returns
+			Numpy array matrix of LS factor corresponding to input DMT
+			raster layer. If a vector layer is used the zonal statistic
+			is calculated for each polygon of the vector layer. Output is
+			pandas dataframe containing FIDs of original vector and LS
+			medians.
 		:rtype: Numpy array or Pandas DataFrame
 		"""
 
@@ -176,8 +175,8 @@ class RadUSLE:
 		"""
 		R factor of USLE for monthly data.
 
-		:param r_const: Constant year value of R factor for particular
-						area (MJ/ha)
+		:param r_const: Constant year value of R factor for
+			particular area (MJ/ha)
 		:type r_const: float
 		:param month_perc: Percentage of R for particular months.
 		:type month_perc: float
@@ -197,18 +196,18 @@ class RadUSLE:
 		K erosivity factor of USLE.
 
 		:param soil_units_lyr_path: Path to vector layer with Main
-		soil units codes (HPJ - hlavní půdní jednotky, after Janeček
-		et al. 2007).
+			soil units codes (HPJ - hlavní půdní jednotky, after Janeček
+			et al. 2007).
 		:type soil_units_lyr_path: str
 		:param soil_units_field_name: Name of vector attribute field
-		with Main soil units.
+			with Main soil units.
 		:type soil_units_field_name: str
 		:param k_data: Numpy dataframe containing K values with
-		corresponding Main soil units which are used as IDs.
+			corresponding Main soil units which are used as IDs.
 		:type k_data: Pandas DataFrame
 		:param crops_lyr_path: Path to vector layer which is used
-		for calculation of zonal statistics. FID values are used in
-		output.
+			for calculation of zonal statistics. FID values are used in
+			output.
 		:type crops_lyr_path: str
 		:param x_size: Size of newly created raster resolution
 		:type x_size: float
@@ -216,8 +215,8 @@ class RadUSLE:
 		:type y_size: float
 
 		:return: Pandas dataframe containing FIDs corresponding to
-		vector layer used for zonal statistics calculation and K
-		factor values for each field/polygon
+			vector layer used for zonal statistics calculation and K
+			factor values for each field/polygon
 		:rtype: Pandas DataFrame
 		"""
 

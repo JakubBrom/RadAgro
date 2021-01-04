@@ -47,17 +47,19 @@ def readGeo(rast):
     :param rast: Path to raster file in GDAL accepted format.
     :type rast: str
 
-    :returns: List of geotransformation parameters and features of
-        an input raster:
-            0: The affine transformation coefficients; tuple
-            1: Projection information of the raster (dataset); str
-            2: Pixel width (m) on X axis; float
-            3: Pixel height (m) on Y axis; float
-            4: EPSG Geodetic Parameter Set code; str
-            5: Coordinate system; str
-            6: Number of columns in the raster; int
-            7: Number of rows in the raster; int
-            8: SRS - OSR spatial reference; object
+    :returns: List of geotransformation parameters and features of an \
+    input raster:
+    \n
+
+        * 0: The affine transformation coefficients; tuple
+        * 1: Projection information of the raster (dataset); str
+        * 2: Pixel width (m) on X axis; float
+        * 3: Pixel height (m) on Y axis; float
+        * 4: EPSG Geodetic Parameter Set code; str
+        * 5: Coordinate system; str
+        * 6: Number of columns in the raster; int
+        * 7: Number of rows in the raster; int
+        * 8: SRS - OSR spatial reference; object
     :rtype: list
     """
 
@@ -72,6 +74,7 @@ def readGeo(rast):
         rows = ds.RasterYSize
 
         srs = osr.SpatialReference(wkt=prj)
+
         if srs.IsProjected:
             EPSG = srs.GetAttrValue("authority", 1)
             geogcs = srs.GetAttrValue("geogcs", 0)
@@ -455,8 +458,7 @@ def uniformSRS(rasters_in, epsg=None, tmp_out=True):
 
 # noinspection PyUnboundLocalVariable
 def clipOverlappingArea(rasters_in, output_folder=None,
-                        suffix='_clipped',
-                        epsg=None, tmp_out=False):
+                        suffix='_clipped', epsg=None, tmp_out=False):
     """
     Function for clipping rasters by their overlapping area.
 
@@ -464,17 +466,17 @@ def clipOverlappingArea(rasters_in, output_folder=None,
     :type rasters_in: list
     :param output_folder: Path to output folder defined by user
     :type output_folder: str
-    :param suffix: Suffix of the output rasters names. The name of
+    :param suffix: Suffix of the output rasters names. The name of \
     new raster is constructed from original name of raster and suffix
     :type suffix: str
-    :param epsg: EPSG definition for output rasters. If epsg=None
-                the most frequent EPSG in the layers group will be set.
+    :param epsg: EPSG definition for output rasters. If epsg=None \
+    the most frequent EPSG in the layers group will be set.
     :type epsg: int
-    :param tmp_out: If True the output layers will be created
-                as temporal scratch layers.
+    :param tmp_out: If True the output layers will be created as \
+    temporal scratch layers.
     :type tmp_out: bool
 
-    :return: Paths of rasters clipped by overlapping area of all the
+    :return: Paths of rasters clipped by overlapping area of all the \
     rasters
     :rtype: list
     """
@@ -524,6 +526,7 @@ def clipOverlappingArea(rasters_in, output_folder=None,
     # 3. Rescale all the rasters to the same spatial extent (the same
     # pixel size) and clip all the layers by the overlapping area
     out_files_list = []
+
     for i in range(0, len(rasters_unif)):
         # Define paths of the output files
         if tmp_out is False:
@@ -541,9 +544,9 @@ def clipOverlappingArea(rasters_in, output_folder=None,
         # Clip files and change resolution
         gdal.Warp(out_file, rasters_unif[i],
                   outputBounds=(ULC_X_ovlp, LRC_Y_ovlp, LRC_X_ovlp,
-                                ULC_Y_ovlp), xRes=X_size_ovlp,
-                  yRes=Y_size_ovlp, warpOptions=[
-                "NUM_THREADS=ALL_CPUS"], multithread=True)
+                        ULC_Y_ovlp), xRes=X_size_ovlp,
+                        yRes=Y_size_ovlp, warpOptions=[
+                        "NUM_THREADS=ALL_CPUS"], multithread=True)
 
     # TODO: je potreba otestovat, jestli nìjakej raster není mimo
     #  rozsah ostatnich rastru
@@ -555,8 +558,3 @@ def clipOverlappingArea(rasters_in, output_folder=None,
     # TODO: pridat vyjimky
 
     return out_files_list
-
-
-if __name__ == '__main__':
-    pass
-    # TODO: add possible access from terminal

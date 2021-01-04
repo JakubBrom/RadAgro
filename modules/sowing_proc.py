@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #  Project: RadAgro
 #  File: sowing_proc.py
 #
@@ -17,7 +19,7 @@
 #      GNU General Public License for more details.
 #
 #      You should have received a copy of the GNU General Public License
-#      along with this program.  If not, see <https://www.gnu.org/licenses/>
+#      along with this program. If not, see <https://www.gnu.org/licenses/>
 #
 #  Last changes: 25.11.20 23:50
 #
@@ -29,6 +31,8 @@
 
 import pandas as pd
 import numpy as np
+import os, sys
+
 from .SARCA_lib import SARCALib
 sl = SARCALib()
 
@@ -54,23 +58,24 @@ class SowingProcTimeSeries:
         soil with ID = 999.
 
         :param crops_table: Pandas dataframe containing information
-        about crops - ID of crop, term of sowing and term of harvest
-        in order of the sowing procedure. Terms of sowing and harvest
-        are numbered according to months: 1 - January, 2 - February etc.
+            about crops - ID of crop, term of sowing and term of harvest
+            in order of the sowing procedure. Terms of sowing and
+            harvest are numbered according to months: 1 - January,
+            2 - February etc.
         :param ID_col_number: crops_table column with IDs index
         :param sowing_col_number: crops_table column with sowing date
-        index
+            index
         :param harvest_col_number: crops_table column with harvest date
-        index
+            index
 
         :return: List containing IDs of crops in sowing procedure.
-        The time series starts in January of the first year and
-        ending in the December of the last year of the sowing
-        procedure.
+            The time series starts in January of the first year and
+            ending in the December of the last year of the sowing
+            procedure.
         :return: List containing sowing days of crops (approximate
-        values taken from number of months).
+            values taken from number of months).
         :return: List containing harvesting days of crops (approximate
-        values taken from number of months).
+            values taken from number of months).
         """
 
         # Check the consistency of data - if the month of harvesting
@@ -179,26 +184,27 @@ class SowingProcTimeSeries:
         soil.
 
         :param crops_table: Pandas dataframe containing information
-        about crops - ID of crop, term of sowing and term of harvest
-        in order of the sowing procedure. Terms of sowing and harvest
-        are numbered according to months: 1 - January, 2 - February etc.
+            about crops - ID of crop, term of sowing and term of harvest
+            in order of the sowing procedure. Terms of sowing and
+            harvest are numbered according to months: 1 - January,
+            2 - February etc.
         :param ID_col_number: crops_table column with IDs index
         :param sowing_col_number: crops_table column with sowing date
-        index
+            index
         :param harvest_col_number: crops_table column with harvest date
-        index
+            index
         :param predict_months: Number of months for prediction
         :param start_month: Month of prediction start - month of
-        radiation accident. [1-12]
+            radiation accident. [1-12]
         :param early_stage_mng: The removing of biomass in early
-        stage of radioactive contamination has been done or not. I
-        the first case, the first year of the prediction is taken as
-        bare soil.
+            stage of radioactive contamination has been done or not. I
+            the first case, the first year of the prediction is taken as
+            bare soil.
 
         :return: Basic dataframe (Pandas) for all crops and meadows for
-        the whole TS of the prediction. Data are ordered according to
-        sowing procedure following the particular crops in the crops
-        rotation.
+            the whole TS of the prediction. Data are ordered
+            according to sowing procedure following the particular
+            crops in the crops rotation.
         """
 
         # Calculate time series for crops rotation
@@ -267,28 +273,29 @@ class SowingProcTimeSeries:
         mowed meadows.
 
         :param crops_table: Pandas dataframe containing information
-        about crops - ID of crop, term of sowing and term of harvest
-        in order of the sowing procedure. Terms of sowing and harvest
-        are numbered according to months: 1 - January, 2 - February etc.
+            about crops - ID of crop, term of sowing and term of harvest
+            in order of the sowing procedure. Terms of sowing and
+            harvest are numbered according to months: 1 - January,
+            2 - February etc.
         :param params_table: Pandas dataframe with parameters for
-        calculation of dry mass of crops and meadows.
+            calculation of dry mass of crops and meadows.
         :param ID_col_number: crops_table column with IDs index
         :param sowing_col_number: crops_table column with sowing date
-        index
+            index
         :param harvest_col_number: crops_table column with harvest date
-        index
+            index
         :param predict_months: Number of months for prediction
         :param start_month: Month of prediction start = month of
-        radiation accident. [1-12]
+            radiation accident. [1-12]
         :param early_stage_mng: The removing of biomass in early
-        stage of radioactive contamination has been done or not. I
-        the first case, the first year of the prediction is taken as
-        bare soil.
+            stage of radioactive contamination has been done or not. I
+            the first case, the first year of the prediction is taken as
+            bare soil.
 
         :return: Dataframe of all crops and meadows dry mass for
-        the whole TS of the prediction. Data are ordered according to
-        sowing procedure following the particular crops in the crops
-        rotation.
+            the whole TS of the prediction. Data are ordered
+            according to sowing procedure following the particular
+            crops in the crops rotation.
         """
 
         # Calculate time series for crops rotation, t0 and t1
@@ -390,26 +397,27 @@ class SowingProcTimeSeries:
         mowed meadows.
 
         :param crops_table: Pandas dataframe containing information
-        about crops - ID of crop, term of sowing and term of harvest
-        in order of the sowing procedure. Terms of sowing and harvest
-        are numbered according to months: 1 - January, 2 - February etc.
+            about crops - ID of crop, term of sowing and term of harvest
+            in order of the sowing procedure. Terms of sowing and
+            harvest are numbered according to months: 1 - January,
+            2 - February etc.
         :param ID_col_number: crops_table column with IDs index
         :param sowing_col_number: crops_table column with sowing date
-        index
+            index
         :param harvest_col_number: crops_table column with harvest date
-        index
+            index
         :param predict_months: Number of months for prediction
         :param start_month: Month of prediction start - month of
-        radiation accident. [1-12]
+            radiation accident. [1-12]
         :param early_stage_mng: The removing of biomass in early
-        stage of radioactive contamination has been done or not. I
-        the first case, the first year of the prediction is taken as
-        bare soil.
+            stage of radioactive contamination has been done or not. I
+            the first case, the first year of the prediction is taken as
+            bare soil.
 
         :return: Basic dataframe (Pandas) for all crops and meadows for
-        the whole TS of the prediction. Data are ordered according to
-        sowing procedure following the particular crops in the crops
-        rotation.
+            the whole TS of the prediction. Data are ordered
+            according to sowing procedure following the particular
+            crops in the crops rotation.
         """
 
         # Calculate time series for crops rotation
@@ -487,70 +495,68 @@ class SowingProcTimeSeries:
 
         return df_harvest_ts
 
-
-if __name__ == '__main__':
-    # Testing
-    import time
-    from matplotlib import pyplot as plt
-
-    # Table with all data - i.e. vector polygons features
-    IDs = [0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0, 1, 2, 6, 12, 5, 4, 9,
-           1, 8, 0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0]
-    names = ['jetel_I', 'jetel_II', 'jetel_III', 'pšenice', 'ječmen '
-             'oz.', 'brambory', 'ječmen j.', 'hrách', 'kukuřice',
-             'oves', 'jetel_I', 'jetel_II', 'jetel_III', 'pšenice',
-             'ječmen oz.', 'brambory', 'ječmen j.', 'hrách',
-             'kukuřice', 'oves', 'jetel_I', 'jetel_II', 'jetel_III',
-             'pšenice', 'ječmen oz.', 'brambory', 'ječmen j.',
-             'hrách', 'kukuřice', 'oves', 'jetel_I']
-    df_plodiny_pole = pd.DataFrame({"ID":IDs, "Names":names})
-
-    # Crop rotation
-    crops_tab = pd.DataFrame({"ID_set":[0, 1, 100, 100, 100, 5, 4, 9, 3,
-                                        8],
-                                    "osev":[4,9,3,5,7,4,4,8,3,4],
-                                 "sklizeň":[7,7,5,7,9,9,7,9,9,8]})
-
-    crops_params = pd.DataFrame({"ID_set":[0, 1, 20, 21, 12, 5, 4,
-                                           9, 3,
-                                        8],
-                                 "osev":[4,9,4,9,9,4,4,8,3,4],
-                                 "sklizeň":[7,7,8,8,7,9,7,9,9,8],
-                                 "DW_max":[12,15,24,11,7,8,9,6,14,7],
-                                 "LAI_max": [5,5,5,5,5,5,5,5,5,5,],
-                                 "R_max":[95,95,95,95,95,95,95,95,95,
-                                          95],
-                                 "R_min":[25,24,25,30,45,17,15,18,25,
-                                          70],
-                                 "Koef_m":[13.4,14,15,13,14,11,12,15,
-                                           17,13],
-                                 "Koef_n":[4.2,3.6,4,5,8,3,4,5,6,4]})
-
-    # Calculation
-    sp = SowingProcTimeSeries()
-
-    t1 = time.time()
-
-    ts_all = sp.predictCropsRotation(crops_tab, 0, 1, 2, 190, 6, False)
-
-    dw_TS = sp.predictDryMass(crops_tab, crops_params, 0, 1, 2, 90,
-                              6, False)
-    harvest = sp.predictHarvest(crops_tab, 0, 1, 2, 190, 6, False)
-
-    t2 = time.time()
-    print(t2-t1)
-
-    dw_TS_transp = harvest.T
-    jmena = dw_TS_transp.iloc[0,:]
-    dw_TS_transp.columns = jmena
-    dw_new = dw_TS_transp.drop(dw_TS_transp.index[0])
-
-    xxx = dw_new.iloc[:,1]
-    yyy = dw_new.iloc[:,2]
-
-    plt.plot(xxx)
-
-    plt.show()
-
-    print(ts_all)
-
+# if __name__ == '__main__':
+#     # Testing
+#     import time
+#     from matplotlib import pyplot as plt
+#
+#     # Table with all data - i.e. vector polygons features
+#     IDs = [0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0, 1, 2, 6, 12, 5, 4, 9,
+#            1, 8, 0, 16, 2, 6, 12, 5, 4, 9, 1, 8, 0]
+#     names = ['jetel_I', 'jetel_II', 'jetel_III', 'pšenice', 'ječmen '
+#              'oz.', 'brambory', 'ječmen j.', 'hrách', 'kukuřice',
+#              'oves', 'jetel_I', 'jetel_II', 'jetel_III', 'pšenice',
+#              'ječmen oz.', 'brambory', 'ječmen j.', 'hrách',
+#              'kukuřice', 'oves', 'jetel_I', 'jetel_II', 'jetel_III',
+#              'pšenice', 'ječmen oz.', 'brambory', 'ječmen j.',
+#              'hrách', 'kukuřice', 'oves', 'jetel_I']
+#     df_plodiny_pole = pd.DataFrame({"ID":IDs, "Names":names})
+#
+#     # Crop rotation
+#     crops_tab = pd.DataFrame({"ID_set":[0, 1, 100, 100, 100, 5, 4, 9, 3,
+#                                         8],
+#                                     "osev":[4,9,3,5,7,4,4,8,3,4],
+#                                  "sklizeň":[7,7,5,7,9,9,7,9,9,8]})
+#
+#     crops_params = pd.DataFrame({"ID_set":[0, 1, 20, 21, 12, 5, 4,
+#                                            9, 3,
+#                                         8],
+#                                  "osev":[4,9,4,9,9,4,4,8,3,4],
+#                                  "sklizeň":[7,7,8,8,7,9,7,9,9,8],
+#                                  "DW_max":[12,15,24,11,7,8,9,6,14,7],
+#                                  "LAI_max": [5,5,5,5,5,5,5,5,5,5,],
+#                                  "R_max":[95,95,95,95,95,95,95,95,95,
+#                                           95],
+#                                  "R_min":[25,24,25,30,45,17,15,18,25,
+#                                           70],
+#                                  "Koef_m":[13.4,14,15,13,14,11,12,15,
+#                                            17,13],
+#                                  "Koef_n":[4.2,3.6,4,5,8,3,4,5,6,4]})
+#
+#     # Calculation
+#     sp = SowingProcTimeSeries()
+#
+#     t1 = time.time()
+#
+#     ts_all = sp.predictCropsRotation(crops_tab, 0, 1, 2, 190, 6, False)
+#
+#     dw_TS = sp.predictDryMass(crops_tab, crops_params, 0, 1, 2, 90,
+#                               6, False)
+#     harvest = sp.predictHarvest(crops_tab, 0, 1, 2, 190, 6, False)
+#
+#     t2 = time.time()
+#     print(t2-t1)
+#
+#     dw_TS_transp = harvest.T
+#     jmena = dw_TS_transp.iloc[0,:]
+#     dw_TS_transp.columns = jmena
+#     dw_new = dw_TS_transp.drop(dw_TS_transp.index[0])
+#
+#     xxx = dw_new.iloc[:,1]
+#     yyy = dw_new.iloc[:,2]
+#
+#     plt.plot(xxx)
+#
+#     plt.show()
+#
+#     print(ts_all)

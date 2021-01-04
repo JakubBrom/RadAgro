@@ -31,6 +31,7 @@
 
 import numpy as np
 
+
 class SARCALib:
     """Library for calculation of crops growth parameters and
     radioactivity contamination of crops"""
@@ -40,14 +41,14 @@ class SARCALib:
 
     def calculateGrowthCoefs(self, dw_max, dw_min=0.1):
         """
-        Calculate default values of growth curve parameters - slope
+        Calculate default values of growth curve parameters - slope \
         (m) and intercept (n).
 
-        :param dw_max: Maximal dry mass of particular crop :math:`(
-        t.ha^{-1})`
-        :param dw_min: Minimal dry mass of particular crop :math:`(
-        t.ha^{-1})`. Default value is 0.1 :math:`(
-        t.ha^{-1})`.
+        :param dw_max: Maximal dry mass of particular crop \
+        :math:`(t.ha^{-1})`
+        :param dw_min: Minimal dry mass of particular crop \
+        :math:`(t.ha^{-1})`. Default value is 0.1 \
+        :math:`(t.ha^{-1})`.
 
         :return: Slope of growth curve
         :return: Intercept of growth curve
@@ -64,12 +65,12 @@ class SARCALib:
         Calculation of relative position of the radioactive accident
         in the crop growth time series [0, 1].
 
-        :param t_accident: Date of radioactive accident as number of
+        :param t_accident: Date of radioactive accident as number of \
         day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
 
-        :return: Relative position of the radioactive accident in the
+        :return: Relative position of the radioactive accident in the \
         crop growth time series
         """
 
@@ -87,8 +88,8 @@ class SARCALib:
         """
         Calculates scaling value t_scale of crop growth time series.
 
-        :param ts: Relative position of the radioactive accident in the
-        crop growth time series
+        :param ts: Relative position of the radioactive accident in \
+        the crop growth time series
         :param coef_m: Scaling parameter
         :param coef_n: Scaling parameter
 
@@ -103,9 +104,9 @@ class SARCALib:
         """
         Calculation of actual biomass of the particular crop.
 
-        :param DW_max: Maximal dry mass of the crops above ground
+        :param DW_max: Maximal dry mass of the crops above ground \
         biomass in the growing season :math:`(t.ha^{-1})`
-        :param t_accident: Date of radioactive accident as number of
+        :param t_accident: Date of radioactive accident as number of \
         day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
@@ -128,13 +129,13 @@ class SARCALib:
         """
         Calculation of actual LAI of the particular crop.
 
-        :param dw_act: actual dry mass of the crops above ground
+        :param dw_act: actual dry mass of the crops above ground \
         biomass :math:`(t.ha^{-1})`
-        :param DW_max: Maximal dry mass of the crops above ground
+        :param DW_max: Maximal dry mass of the crops above ground \
         biomass in the growing season :math:`(t.ha^{-1})`
         :param LAI_max: Maximal LAI of the crops in the growing season
         :param R_min: Minimal relative wight moisture of the biomass (%)
-        :param t_accident: Date of radioactive accident as number of
+        :param t_accident: Date of radioactive accident as number of \
         day in year
         :param t0: Date of sowing crop as number of day in year
         :param t1: Date of harvesting crop as number of day in year
@@ -159,12 +160,12 @@ class SARCALib:
         radionuclides.
 
         :param LAI: Leaf Area Index (unitless)
-        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0,
+        :param k: Constant of radionuclide: I = 0.5, Sr and Ba = 2.0, \
         Cs and another radionuclides = 1.0
-        :param precip: Precipitation amount (mm) for period of
+        :param precip: Precipitation amount (mm) for period of \
         deposition (ca 24 hours after radiation accident).
         :param DW: Amount of fresh biomass :math:`(t.ha^{-1})`
-        :param S: Mean thickness of water film at plant leaves (mm).
+        :param S: Mean thickness of water film at plant leaves (mm). \
         Default S =	0.2 mm
 
         :return: Interception Factor (rel.)

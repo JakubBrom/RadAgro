@@ -114,7 +114,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>692</width>
-                <height>494</height>
+                <height>523</height>
                </rect>
               </property>
               <property name="font">
@@ -126,133 +126,251 @@
               <attribute name="label">
                <string>Radioaktivní depozice a sledované období</string>
               </attribute>
-              <layout class="QGridLayout" name="gridLayout_7">
+              <layout class="QGridLayout" name="gridLayout_9">
                <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_6">
+                <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="5" column="0">
+                  <widget class="QCheckBox" name="chbox_management">
+                   <property name="toolTip">
+                    <string>Odstranění biomasy v časné fázi radiační události z důvodu ochrany zemědělské půdy před radioaktivní kontaminací.</string>
+                   </property>
+                   <property name="text">
+                    <string>Odstranění nadzemní biomasy v časné fázi radiační události</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="0" column="0">
-                  <widget class="QLabel" name="label">
-                   <property name="text">
-                    <string>Vrstva depozice</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QgsMapLayerComboBox" name="cbox_rad_depo">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="editable">
-                    <bool>false</bool>
-                   </property>
-                   <property name="currentText">
-                    <string/>
-                   </property>
-                   <property name="allowEmptyLayer">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_2">
-                   <property name="text">
-                    <string>Druh kontaminantu</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QComboBox" name="cbox_contaminant">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <item>
-                    <property name="text">
-                     <string extracomment="137Cs">Cs137</string>
-                    </property>
+                  <layout class="QGridLayout" name="gridLayout_6">
+                   <item row="0" column="1">
+                    <widget class="QgsMapLayerComboBox" name="cbox_rad_depo">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="editable">
+                      <bool>false</bool>
+                     </property>
+                     <property name="currentText">
+                      <string/>
+                     </property>
+                     <property name="allowEmptyLayer">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
                    </item>
-                   <item>
-                    <property name="text">
-                     <string extracomment="90Sr">Sr90</string>
-                    </property>
+                   <item row="3" column="1">
+                    <widget class="QDateEdit" name="de_predict">
+                     <property name="wrapping">
+                      <bool>false</bool>
+                     </property>
+                     <property name="buttonSymbols">
+                      <enum>QAbstractSpinBox::UpDownArrows</enum>
+                     </property>
+                     <property name="accelerated">
+                      <bool>false</bool>
+                     </property>
+                     <property name="showGroupSeparator" stdset="0">
+                      <bool>false</bool>
+                     </property>
+                     <property name="currentSection">
+                      <enum>QDateTimeEdit::DaySection</enum>
+                     </property>
+                     <property name="calendarPopup">
+                      <bool>true</bool>
+                     </property>
+                     <property name="currentSectionIndex">
+                      <number>0</number>
+                     </property>
+                     <property name="timeSpec">
+                      <enum>Qt::LocalTime</enum>
+                     </property>
+                     <property name="date">
+                      <date>
+                       <year>2020</year>
+                       <month>1</month>
+                       <day>1</day>
+                      </date>
+                     </property>
+                    </widget>
                    </item>
-                  </widget>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_3">
+                     <property name="text">
+                      <string>Datum radiační události</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label">
+                     <property name="text">
+                      <string>Vrstva depozice</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_2">
+                     <property name="text">
+                      <string>Druh kontaminantu</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QDateEdit" name="de_accident">
+                     <property name="showGroupSeparator" stdset="0">
+                      <bool>false</bool>
+                     </property>
+                     <property name="calendarPopup">
+                      <bool>true</bool>
+                     </property>
+                     <property name="date">
+                      <date>
+                       <year>2020</year>
+                       <month>1</month>
+                       <day>1</day>
+                      </date>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QComboBox" name="cbox_contaminant">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string extracomment="137Cs">Cs137</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string extracomment="90Sr">Sr90</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_13">
+                     <property name="text">
+                      <string>Období predikce</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item row="2" column="0">
-                  <widget class="QLabel" name="label_3">
+                  <widget class="QLabel" name="label_20">
                    <property name="text">
-                    <string>Datum radiační události</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QDateEdit" name="de_accident">
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
-                   </property>
-                   <property name="calendarPopup">
-                    <bool>true</bool>
-                   </property>
-                   <property name="date">
-                    <date>
-                     <year>2020</year>
-                     <month>1</month>
-                     <day>1</day>
-                    </date>
+                    <string>Referenční úrovně depozice</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QLabel" name="label_13">
-                   <property name="text">
-                    <string>Období predikce</string>
-                   </property>
-                  </widget>
+                  <layout class="QGridLayout" name="gridLayout_7">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_10">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU1 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_9">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU2 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QSpinBox" name="sbox_ru2">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximum">
+                      <number>1000000000</number>
+                     </property>
+                     <property name="value">
+                      <number>3000000</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1">
+                    <widget class="QSpinBox" name="sbox_ru1">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="maximum">
+                      <number>100000000</number>
+                     </property>
+                     <property name="value">
+                      <number>5000</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
-                 <item row="3" column="1">
-                  <widget class="QDateEdit" name="de_predict">
-                   <property name="wrapping">
-                    <bool>false</bool>
+                 <item row="1" column="0">
+                  <spacer name="verticalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
                    </property>
-                   <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::UpDownArrows</enum>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
                    </property>
-                   <property name="accelerated">
-                    <bool>false</bool>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
                    </property>
-                   <property name="showGroupSeparator" stdset="0">
-                    <bool>false</bool>
+                  </spacer>
+                 </item>
+                 <item row="4" column="0">
+                  <spacer name="verticalSpacer_8">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
                    </property>
-                   <property name="currentSection">
-                    <enum>QDateTimeEdit::DaySection</enum>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Fixed</enum>
                    </property>
-                   <property name="calendarPopup">
-                    <bool>true</bool>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
                    </property>
-                   <property name="currentSectionIndex">
-                    <number>0</number>
-                   </property>
-                   <property name="timeSpec">
-                    <enum>Qt::LocalTime</enum>
-                   </property>
-                   <property name="date">
-                    <date>
-                     <year>2020</year>
-                     <month>1</month>
-                     <day>1</day>
-                    </date>
-                   </property>
-                  </widget>
+                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -265,109 +383,6 @@
                   <size>
                    <width>20</width>
                    <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_4">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>264</width>
-                <height>107</height>
-               </rect>
-              </property>
-              <attribute name="label">
-               <string>Referenční úrovně depozice</string>
-              </attribute>
-              <layout class="QGridLayout" name="gridLayout_9">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_8">
-                 <item row="0" column="1">
-                  <widget class="QSpinBox" name="sbox_ru1">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>100000000</number>
-                   </property>
-                   <property name="value">
-                    <number>5000</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QSpinBox" name="sbox_ru2">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>1000000000</number>
-                   </property>
-                   <property name="value">
-                    <number>3000000</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_9">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU2 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_10">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU1 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QCheckBox" name="chbox_management">
-                   <property name="toolTip">
-                    <string>Odstranění biomasy v časné fázi radiační události z důvodu ochrany zemědělské půdy před radioaktivní kontaminací.</string>
-                   </property>
-                   <property name="text">
-                    <string>Opatření pro RU2</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0">
-                <spacer name="verticalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>268</height>
                   </size>
                  </property>
                 </spacer>
@@ -992,7 +1007,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Nastavení</string>
+       <string>Parametry</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
@@ -1005,8 +1020,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>132</width>
-            <height>233</height>
+            <width>710</width>
+            <height>744</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_40">
@@ -1035,8 +1050,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>401</width>
-                  <height>119</height>
+                  <width>690</width>
+                  <height>579</height>
                  </rect>
                 </property>
                 <attribute name="label">
@@ -1365,7 +1380,7 @@ a vláhovém stavu půdy</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>382</width>
+                  <width>676</width>
                   <height>583</height>
                  </rect>
                 </property>
@@ -1571,7 +1586,7 @@ a vláhovém stavu půdy</string>
                      <item row="1" column="0">
                       <widget class="QLabel" name="label_36">
                        <property name="text">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Průměrná obj. hmotnost půdy (kg.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Průměrná obj. hmotnost půdy (kg.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-3&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                       </widget>
                      </item>

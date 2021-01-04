@@ -64,13 +64,14 @@ def readGeo(rast):
 	
 	:param rast: Path to raster file in GDAL accepted format.
 
-	:returns: The tuple of important geographic information about a
+	:returns: The tuple of important geographic information about a \
 	raster. The tuple contains:
-	*The affine transformation coefficients (tuple)*
-	*Projection information of the raster or dataset (str)*
-	*Size of pixel at X scale (float)*
-	*Size of pixel at Y scale (float)*
-	*EPSG Geodetic Parameter Set code (int)*
+	\n
+		* The affine transformation coefficients (tuple)
+		* Projection information of the raster or dataset (str)
+		* Size of pixel at X scale (float)
+		* Size of pixel at Y scale (float)
+		* EPSG Geodetic Parameter Set code (int)
 	"""
 
 	ds = gdal.Open(rast)
@@ -96,11 +97,13 @@ def arrayToRast(arrays, names, prj, gtransf, EPSG, out_folder,
                 out_file_name=None, driver_name="GTiff", multiband=False):
 	"""Export numpy 2D arrays to multiband or singleband raster
 	files. Following common raster formats are accepted for export:
-	*ENVI .hdr labeled raster format*
-	*Erdas Imagine (.img) raster format*
-	*Idrisi raster format (.rst)*
-	*TIFF / BigTIFF / GeoTIFF (.tif) raster format*
-	*PCI Geomatics Database File (.pix) raster format*
+	\n
+
+	* ENVI .hdr labeled raster format
+	* Erdas Imagine (.img) raster format
+	* Idrisi raster format (.rst)
+	* TIFF / BigTIFF / GeoTIFF (.tif) raster format
+	* PCI Geomatics Database File (.pix) raster format
 
 	:param arrays: Numpy array or list of arrays for export to raster.
 	:type arrays: numpy.ndarray or list of numpy.ndarray
@@ -211,8 +214,7 @@ def readLatLong(rast_path):
 
 	:param rast_path: Raster path.
 
-	:return: Longitude in decimal scale
-	:return: Latitude in decimal scale
+	:return: Longitude and latitude in decimal scale
 	"""
 
 	inputEPSG = None
@@ -281,10 +283,10 @@ def joinLyrWithDataFrame(in_layer_path, df_data, out_layer_path):
 	Create GeoPackage layer from input vector data for crops and data
 	of radioactive contamination stored in pandas dataframe.
 
-	:param in_layer_path: Path to original input vector layer which is
+	:param in_layer_path: Path to original input vector layer which is \
 	used as a template for a new layer.
 	:type in_layer_path: str
-	:param df_data: Joining Pandas dataframe corresponding with
+	:param df_data: Joining Pandas dataframe corresponding with \
 	vector_layer. FID values must be equal.
 	:type df_data: Pandas DataFrame
 	:param out_layer_path: Path to output vector file.

@@ -47,13 +47,11 @@ class MonthlyDaylight:
 		Calculation of dalight according to geographic position and day
 		number (1-365).
 		
-		Inputs:
 		:param nday: Number of day throughout the year (0-365)
 		:type nday: int
 		:param lat: Earth latitude (UTM) in decimal degrees
 		:type lat: float
 		
-		Returns
 		:return: List of mean monthly daylight (hours, decimal)
 		:rtype: list
 		"""
@@ -81,14 +79,12 @@ class MonthlyDaylight:
 	
 	def monthlyDaylights(self, lat=49.1797903):
 		"""
-		Calculation of monthly mean daylight - potential duration of solar
-		radiation
+		Calculation of monthly mean daylight - potential duration of
+		solar radiation
 		
-		Inputs:
 		:param lat: Earth latitude (UTM) in decimal degrees
 		:type lat: float
 		
-		Returns
 		:return: List of mean monthly daylight (hours, decimal)
 		:rtype: list
 		"""

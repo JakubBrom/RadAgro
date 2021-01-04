@@ -3,34 +3,97 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. TODO: import dokumentace modulu RadAgro
+
 Dokumentace programu RadAgro
-============================================
+=============================
 
-Čekali opakovat tentokrát. Osvobozující, škytla mladou uraženě energický
-spáchaná. Mnou nemá úhlů kolo s řezat hrůzy hořkostí že krvavé nedošlo
-svlékněte babu. Per pasu tu takzvanou hafáček, místná němu mu hluchý kříž
-okamžik třásly k ptá vina oč hygienickým vášeň řeč on mé výslechů. Slušné
-jenom působilo míjí vševědoucí všech chvílích spíži bys nějakém cennou ‚milý
-zklamáním vy ruce úředník drahocenný.
+Úvod
+----
+
+RadAgro je program určený pro odhad vývoje radiační kontaminace
+zemědělských plodin a zemědělské krajiny. RadAgro do vývoje radiační
+kontaminace zahrnuje hlavní složky a procesy, které v krajině
+probíhají a významně mohou ovlivnit vývoj radiační zátěže krajiny.
+Jedná se především o management zemědělských ploch daný osevním
+postupem, vlastnosti plodin a půdní erozi. Model do odhadu vývoje
+zahrnuje časnou fázi radiační události a managementová opatření ve
+formě odstranění kontaminované biomasy z postižených ploch a dále
+odhaduje vývoj ve střednědobém a dlouhodobém časovém měřítku. Vlastní
+model pracuje s měsíčním časovým krokem. Výstupem je geodatabáze
+obsahující informace o vývoji radioaktivní kontaminace jednotlivých
+ploch v zájmovém území pro zvolené časové období.
+
+Vlastní dokumentace je rozdělena na uživatelskou dokumentaci, popis
+funkcionality programu, technickou dokumentaci a dokumentaci pro
+programátory.
+
+|
+
+Autoři:
+   |
+   | doc. Ing. Jakub Brom, Ph.D.
+   | Ing. Kateřina Křováková
+   | Ing. Václav Nedbal, Ph.D.
+   | Ing. Jan Procházka, Ph.D.
+
+|
+
+© 2020, Jihočeská univerzita v Českých Budějovicích, Zemědělská fakulta
+
+.. image:: figs/symbols/ZF_JU_RGB_Positive.png
+   :width: 8 cm
 
 
+Uživatelská dokumentace
+-----------------------
 
-Obsah:
-------
+.. toctree::
+   :maxdepth: 4
+
+   users_man
+
+
+Technická dokumentace programu
+------------------------------
+
+.. toctree::
+   :maxdepth: 4
+
+   description
+
+
+Programmers documentation
+---------------------------
+
+.. toctree::
+   :maxdepth: 4
+
+   libs
+
+
+Licence
+---------
 
 .. toctree::
    :maxdepth: 3
 
-   description
-   crops
-   libs
+   license
+
+
+Poděkování
+----------
+
+.. toctree::
+   :maxdepth: 3
+
    ackn
 
 
-Indexy a tabulky
-==================
+Přehled literatury
+-------------------
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. toctree::
+   :maxdepth: 3
 
+   literature
