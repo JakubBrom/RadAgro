@@ -35,13 +35,13 @@ from qgis.PyQt.QtWidgets import QAction, QComboBox, \
     QDialogButtonBox
 
 # Initialize Qt resources from file resources.py
-from resources import * # TODO
+from .resources import * # TODO
 
 from qgis.core import Qgis, QgsMapLayerProxyModel, QgsProject, \
     QgsVectorLayer
 
 # Import the code for the dialog
-from RadAgro_dialog import RadAgroDialog    # TODO
+from .RadAgro_dialog import RadAgroDialog    # TODO
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as \
     FigureCanvas, NavigationToolbar2QT as NavigationToolbar
@@ -54,13 +54,13 @@ import traceback
 import sys
 
 # Import modules    # TODO
-from modules.SARCA_lib import SARCALib
-from modules.sowing_proc import SowingProcTimeSeries
-from modules.activity_decay import ActivityDecay
-from modules.usle import RadUSLE
-from modules.overlap_clip import *
-from modules.hydrIO import *
-from modules.zonal_stats import *
+from .modules.SARCA_lib import SARCALib
+from .modules.sowing_proc import SowingProcTimeSeries
+from .modules.activity_decay import ActivityDecay
+from .modules.usle import RadUSLE
+from .modules.overlap_clip import *
+from .modules.hydrIO import *
+from .modules.zonal_stats import *
 
 sl = SARCALib()
 sp = SowingProcTimeSeries()
