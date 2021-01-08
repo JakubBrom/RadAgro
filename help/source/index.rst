@@ -3,8 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. TODO: import dokumentace modulu RadAgro
-
 Dokumentace programu RadAgro
 =============================
 
@@ -96,3 +94,5 @@ Přehled literatury
    :maxdepth: 3
 
    literature
+
+* :ref:`genindex`
