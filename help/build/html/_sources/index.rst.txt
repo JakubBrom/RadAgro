@@ -24,9 +24,8 @@ model pracuje s měsíčním časovým krokem. Výstupem je geodatabáze
 obsahující informace o vývoji radioaktivní kontaminace jednotlivých
 ploch v zájmovém území pro zvolené časové období.
 
-Vlastní dokumentace je rozdělena na uživatelskou dokumentaci, popis
-funkcionality programu, technickou dokumentaci a dokumentaci pro
-programátory.
+Vlastní dokumentace je rozdělena na uživatelskou dokumentaci,
+technickou dokumentaci a dokumentaci pro programátory.
 
 |
 

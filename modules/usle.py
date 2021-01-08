@@ -165,8 +165,12 @@ class RadUSLE:
 		del flowac
 		del slope
 		del dmt
-		if tmp_folder is not None:
-			shutil.rmtree(tmp_folder)
+
+		try:
+			if tmp_folder is not None:
+				shutil.rmtree(tmp_folder)
+		except Exception:
+			pass
 
 		return ls_factor
 
@@ -291,7 +295,10 @@ class RadUSLE:
 		del df_soil_units
 		del df_merge
 
-		if tmp_folder is not None:
-			shutil.rmtree(tmp_folder)
+		try:
+			if tmp_folder is not None:
+				shutil.rmtree(tmp_folder)
+		except Exception:
+			pass
 
 		return k_factor

@@ -6,8 +6,8 @@
 #
 #  Author: Dr. Jakub Brom
 #
-#  Copyright (c) 2020. Dr. Jakub Brom, University of South Bohemia in
-#  České Budějovice, Faculty of Agriculture.
+#  Copyright (c) 2020-2021. Dr. Jakub Brom, University of South
+#  Bohemia in České Budějovice, Faculty of Agriculture.
 #
 #  This program is free software: you can redistribute it and/or modify
 #      it under the terms of the GNU General Public License as published by
@@ -22,20 +22,25 @@
 #      You should have received a copy of the GNU General Public License
 #      along with this program.  If not, see <https://www.gnu.org/licenses/>
 #
-#  Last changes: 07.12.20 18:11
+#  Last changes: 07.01.21 1:37
 #
 # Date: 2018/11/08
 #
 # Description:
 
 
-import os
-
 # imports
+import os
+import tempfile
+import shutil
+import glob
+
 import numpy as np
+
 from osgeo import gdal, osr, ogr
 from qgis.PyQt.QtCore import QVariant
-from qgis.core import QgsVectorLayer, QgsField
+from qgis.core import QgsVectorLayer, QgsField, QgsVectorFileWriter, \
+	QgsProject
 
 
 def rasterToArray(layer):
@@ -49,13 +54,18 @@ def rasterToArray(layer):
 
 	try:
 		if layer is not None:
-			in_layer = gdal.Dataset.ReadAsArray(gdal.Open(layer)).astype(
+			ds = gdal.Open(layer)
+			in_layer = gdal.Dataset.ReadAsArray(ds).astype(
 				np.float32)
+			ds = None
 		else:
 			in_layer = None
+
 		return in_layer
+
 	except FileNotFoundError:
 		in_layer = None
+
 		return in_layer
 
 
@@ -295,8 +305,63 @@ def joinLyrWithDataFrame(in_layer_path, df_data, out_layer_path):
 
 	# Translate input layer to gpkg format and create new vector 
 	# instance
-	os.system("ogr2ogr -f GPKG -nln 'Radioactive contamination' " +
-			  out_layer_path + " " + in_layer_path)
+	# TODO.........
+
+	# Copy input layer to tmp
+	## Create temp folder
+	tmp_folder = tempfile.mkdtemp()
+
+	## Path to all files of input vector and copy to tmp_folder
+	in_lyr_base = in_layer_path.split(".")[0]
+	for filepath in glob.glob(in_lyr_base + ".*"):
+		in_file_name = os.path.basename(filepath)
+		new_file_path = os.path.join(tmp_folder, in_file_name)
+		shutil.copy(filepath, new_file_path)
+
+	in_lyr_name = os.path.basename(in_layer_path)
+	new_in_layer_path = os.path.join(tmp_folder, in_lyr_name)
+
+	# Import input layer
+	in_layer = QgsVectorLayer(new_in_layer_path, "Input_layer", "ogr")
+	in_layer.isValid()
+
+	# Remove fid field from layer if occurs
+	flist = []
+
+	try:
+		for field in in_layer.fields():
+			flist.append(field.name())
+		ind = flist.index("fid")
+		in_layer.dataProvider().deleteAttributes([ind])
+		in_layer.updateFields()
+
+	except Exception:
+		pass
+
+	# # Convert input layer to GPKG
+	save_options = QgsVectorFileWriter.SaveVectorOptions()
+	transform_context = QgsProject.instance().transformContext()
+
+	QgsVectorFileWriter.writeAsVectorFormatV2(in_layer,
+											  out_layer_path,
+											  transform_context,
+											  save_options)
+
+	#
+	# ogr2ogr.main(["", "-f", "GPKG", "-nln", "Radioactive contamination",
+	# 			  out_layer_path, in_layer_path])
+
+
+	# try:
+	# os.system("python3 " + ogr2ogr_path + " -f GPKG -nln "
+	# 							"'Radioactive contamination' " +
+	# 		  out_layer_path + " " + in_layer_path)
+	#
+	# except Exception:
+	#
+	# 	os.system("ogr2ogr -f GPKG -nln 'Radioactive contamination' " +
+	# 			  out_layer_path + " " + in_layer_path)
+
 
 	vector_layer = QgsVectorLayer(out_layer_path, "New_layer", "ogr")
 
@@ -339,5 +404,10 @@ def joinLyrWithDataFrame(in_layer_path, df_data, out_layer_path):
 				fid[i], j+1, str(features_data[j]))
 
 	vector_layer.commitChanges()
+
+	try:
+		shutil.rmtree(tmp_folder)
+	except Exception:
+		pass
 
 	return

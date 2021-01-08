@@ -115,6 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-sowing-proc">Module sowing_proc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libs.html#module-overlap-clip">Module overlap_clip</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../libs.html#parameter-of-crops-and-soil-settings">Parameter of crops and soil settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libs.html#known-issues">Known issues</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">Licenční ujednání</a></li>
@@ -355,8 +356,12 @@
 		<span class="k">del</span> <span class="n">flowac</span>
 		<span class="k">del</span> <span class="n">slope</span>
 		<span class="k">del</span> <span class="n">dmt</span>
-		<span class="k">if</span> <span class="n">tmp_folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-			<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+
+		<span class="k">try</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">tmp_folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+			<span class="k">pass</span>
 
 		<span class="k">return</span> <span class="n">ls_factor</span></div>
 
@@ -481,8 +486,11 @@
 		<span class="k">del</span> <span class="n">df_soil_units</span>
 		<span class="k">del</span> <span class="n">df_merge</span>
 
-		<span class="k">if</span> <span class="n">tmp_folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-			<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">tmp_folder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmp_folder</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+			<span class="k">pass</span>
 
 		<span class="k">return</span> <span class="n">k_factor</span></div></div>
 </pre></div>

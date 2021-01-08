@@ -267,9 +267,12 @@ případě předpokládaných změn v osevním postupu může být výsledný
 osevní postup kombinací několika osevních postupů.
 Všechny uvedené termíny jsou v měsících.
 
-Sestavení osevního postupu předpokládá střídání plodin. Jestliže je v
-osevním postupu využita víceletá plodina, je potřeba ji zadat
-opakovaně. Do osevního postupu může být zadána též plodina, která
+Sestavení osevního postupu předpokládá střídání plodin. Opakované
+zadání stejné plodiny v osevním postupu způsobuje v aktuální verzi
+programu problémy. Doporučujeme plodiny v seznamu neopakovat. Jedná
+se o známý problém, který bude řešen v další verzi programu.
+
+Do osevního postupu může být zadána též plodina, která
 není uvedena ve vstupní vektorové vrstvě. Tento postup nicméně
 nedoporučujeme s ohledem na další výpočty, jako je eroze půdy a
 přiřazení transferových koeficientů.
@@ -558,3 +561,9 @@ mezi "skoky" je dáno vlivem eroze půdy, pokles pak radioaktivní
 přeměnou radionuklidu. Skoky jsou dány odstraněním nadzemní biomasy.
 Snímky v horní řadě jsou pro polní plochy, ve spodní řadě pro
 trojsečný trvalý travní porost.*
+
+
+Upozornění: v případě použití vektorového souboru s distribucí plodin
+ve formátu ESRI Shapefile může dojít k posunu ID hodnot jednotlivých
+polí v grafu. Jestliže soubor neobsahuje FID pole, jsou ID hodnoty
+sníženy o jednu jednotku (řada začíná od nuly).

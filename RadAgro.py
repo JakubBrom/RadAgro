@@ -51,6 +51,7 @@ import numpy as np
 import pandas as pd
 import datetime
 import traceback
+import sys
 
 # Import modules    # TODO
 from .modules.SARCA_lib import SARCALib
@@ -1130,6 +1131,9 @@ class RadAgro:
         and set the data to select_ID combobox for generating plots
         with reults"""
 
+        # TODO: solve a shift of ID values 1 --> 0 in case of shapefile
+        #  without FID
+
         # Clear cbox
         self.dlg.cbox_ID_select.clear()
 
@@ -1153,7 +1157,6 @@ class RadAgro:
     def plot(self):
         "Create plot in the UI"
 
-        # TODO: případná úprava definice časové osy - teď je po měsících
         # TODO: vložit do grafu nástroje na analýzu a hodnocení grafu
 
         # Data
@@ -1657,15 +1660,24 @@ class RadAgro:
         msgBox.setText(self.tr("Vývoj programu RadAgro for QGIS byl "
                                "podpořen z projektu Ministerstva "
                                "vnitra České republiky VI20172020098"))
-        msgBox.setWindowTitle(self.tr("Poděkování"))
+        msgBox.setWindowTitle(self.tr("Vítejte v programu RadAgro!"))
         msgBox.exec()
 
     def pluginHelp(self):
         """Open the help file."""
         help_file = os.path.join(self.plugin_dir, "help", "build",
                                  "html", "index.html")
+        help_file_norm = os.path.normpath(help_file)
+
         try:
-            QDesktopServices.openUrl(QUrl(help_file))
+            if sys.platform != "win32":
+                QDesktopServices.openUrl(QUrl(help_file_norm,
+                                              QUrl.TolerantMode))
+            else:
+                print(help_file)
+                print(help_file_norm)
+                os.startfile(help_file_norm)
+
         except IOError:
             self.iface.messageBar().pushMessage(self.tr("Varování"),
                     self.tr("Jejda, nápovědu nelze otevřít..."),
@@ -1683,21 +1695,15 @@ class RadAgro:
         # Get path to output
         out_lyr_path = self.dlg.out_file.filePath()
 
-        # Create instance of layer
-        vlayer = QgsVectorLayer(out_lyr_path,
-                                'Radioactive contamination', "ogr")
-
-        # Test validity of layer
-        if not vlayer.isValid():
-            self.iface.messageBar().pushMessage(self.tr("Varování"),
-                    self.tr("Jejda, vrstva nebyla načtena..."),
-                                                level=Qgis.Warning,
-                                                duration=5)
-        else:
-            # Load layer to QGIS
-            QgsProject.instance().addMapLayer(vlayer)
+        try:
+            self.iface.addVectorLayer(out_lyr_path, "", "ogr")
             self.iface.messageBar().clearWidgets()
 
+        except FileNotFoundError:
+            self.iface.messageBar().pushMessage(self.tr("Varování"),
+                        self.tr("Jejda, vrstva nebyla načtena..."),
+                                                    level=Qgis.Warning,
+                                                    duration=5)
 
     def startWorker(self):
         """Start threads with calculation process and with progress
@@ -1855,7 +1861,7 @@ class Worker(QObject):
         """Running of worker thread - all calculations of the
         radioactivity contamination changes time series"""
 
-        # self.progress.emit(0)
+        self.progress.emit(0)
         try:
             perc = 0
             self.progress_t.emit(self.tr("{pr} %: Načítání "
@@ -1902,7 +1908,7 @@ class Worker(QObject):
             self.progress_t.emit(self.tr("{pr} %: Výpočet časné "
                                          "fáze").format(
                 pr=str(perc)))
-            self.earlyStage(depo_path, precip_path, crops_path, 
+            self.earlyStage(depo_path, precip_path, crops_path,
                             df_crops_init)
 
             perc = 40
@@ -1940,8 +1946,8 @@ class Worker(QObject):
             self.progress_t.emit(self.tr("{pr} %: Osevní "
                                          "postupy").format(pr=str(
                 perc)))
-            df_crops_dw_all = self.createDryMass(df_crops_init, 
-                                        df_growth_model_params, 
+            df_crops_dw_all = self.createDryMass(df_crops_init,
+                                        df_growth_model_params,
                                         df_crops_rotation, df_meadows)
 
             perc = 65
@@ -1983,10 +1989,10 @@ class Worker(QObject):
             self.progress.emit(perc)
             self.progress_t.emit(self.tr("{pr} %: Výpočet změn "
                                  "kontaminace").format(pr=str(perc)))
-            self.calcRadioactiveCont(df_transf_coefs, 
+            self.calcRadioactiveCont(df_transf_coefs,
                                      df_crops_rotation_all,
                                      df_crops_harvest,
-                                     df_crops_dw_all, k_factor, 
+                                     df_crops_dw_all, k_factor,
                                      ls_factor, c_factor_tab, r_perc)
 
             perc = 95

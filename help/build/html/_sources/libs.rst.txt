@@ -227,3 +227,12 @@ various soils:
 
 All the data described above can be changed in RadAgro UI before the
 calculation.
+
+
+Known issues
+-------------
+
+| 1. Shift of ID values in plot if ESRI Shapefile with no FID field is
+  used.
+| 2. Error in calculation if the particular crop is repeated in crop
+  rotation
