@@ -20,6 +20,9 @@
   <property name="windowTitle">
    <string>RadAgro for QGIS</string>
   </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
@@ -27,7 +30,7 @@
    <item row="5" column="0">
     <widget class="QgsFileWidget" name="out_file">
      <property name="dialogTitle">
-      <string>Uložit soubor</string>
+      <string>Save file</string>
      </property>
      <property name="filter">
       <string>GeoPackage (*.gpkg)</string>
@@ -40,7 +43,7 @@
    <item row="4" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Výstup</string>
+      <string>Output</string>
      </property>
     </widget>
    </item>
@@ -73,7 +76,7 @@
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Vstupy</string>
+       <string>Inputs</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
@@ -124,7 +127,7 @@
                </font>
               </property>
               <attribute name="label">
-               <string>Radioaktivní depozice a sledované období</string>
+               <string>Radioactive deposition and the time period</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_9">
                <item row="0" column="0">
@@ -132,10 +135,10 @@
                  <item row="5" column="0">
                   <widget class="QCheckBox" name="chbox_management">
                    <property name="toolTip">
-                    <string>Odstranění biomasy v časné fázi radiační události z důvodu ochrany zemědělské půdy před radioaktivní kontaminací.</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Removal of crops biomass during the early stage of radioactive accident for purpose of agricultural soil protection against the radioactive contamination.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="text">
-                    <string>Odstranění nadzemní biomasy v časné fázi radiační události</string>
+                    <string>Removing of aboveground biomass in early stage of radiation accident</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -201,7 +204,7 @@
                    <item row="2" column="0">
                     <widget class="QLabel" name="label_3">
                      <property name="text">
-                      <string>Datum radiační události</string>
+                      <string>Date of radiation accident</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -211,14 +214,14 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label">
                      <property name="text">
-                      <string>Vrstva depozice</string>
+                      <string>Deposition layer</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_2">
                      <property name="text">
-                      <string>Druh kontaminantu</string>
+                      <string>Radionuclide</string>
                      </property>
                     </widget>
                    </item>
@@ -265,7 +268,7 @@
                    <item row="3" column="0">
                     <widget class="QLabel" name="label_13">
                      <property name="text">
-                      <string>Období predikce</string>
+                      <string>Prediction period</string>
                      </property>
                     </widget>
                    </item>
@@ -274,7 +277,7 @@
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_20">
                    <property name="text">
-                    <string>Referenční úrovně depozice</string>
+                    <string>Reference levels of deposition</string>
                    </property>
                   </widget>
                  </item>
@@ -289,7 +292,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU1 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;RL1 treshold (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -302,7 +305,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hranice RU2 (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;RL2 treshold (Bq.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -394,12 +397,12 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>500</width>
+                <width>480</width>
                 <height>80</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Úhrn srážek v průběhu radioaktiní depozice</string>
+               <string>Sum of precipitation during radionuclide deposition</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_11">
                <item row="0" column="0">
@@ -416,7 +419,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Rastrová vrstva úhrnu srážek v zájmovém území (mm)</string>
+                    <string>Rastrer layer of precipitation sum (mm)</string>
                    </property>
                   </widget>
                  </item>
@@ -445,7 +448,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Konstantní hodnota úhrnu srážek v zájmovém území (mm)</string>
+                    <string>Constant precipitation sum in the area of interest (mm)</string>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
@@ -477,18 +480,18 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>193</width>
+                <width>159</width>
                 <height>172</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Plodiny</string>
+               <string>Crops</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_22">
                <item row="2" column="0">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
-                  <string>Přiřazení položek klíče plodin</string>
+                  <string>Crops key assignement</string>
                  </property>
                 </widget>
                </item>
@@ -497,7 +500,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_4">
                    <property name="text">
-                    <string>Vrstva plodin</string>
+                    <string>Layer of crops</string>
                    </property>
                   </widget>
                  </item>
@@ -518,7 +521,7 @@
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_5">
                    <property name="text">
-                    <string>Klíč plodin</string>
+                    <string>Crops key</string>
                    </property>
                   </widget>
                  </item>
@@ -551,12 +554,12 @@
                    </attribute>
                    <column>
                     <property name="text">
-                     <string>Plodiny výběr</string>
+                     <string>Crops in layer</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Přiřazené plodiny</string>
+                     <string>Crops assigned</string>
                     </property>
                    </column>
                   </widget>
@@ -570,18 +573,18 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>366</width>
+                <width>364</width>
                 <height>240</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Osevní postup</string>
+               <string>Crops rotation</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_41">
                <item row="0" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>Pořadí plodin v osevním postupu a agrotechnické termíny</string>
+                  <string>Sequence of crops in crops rotation and agronomic terms</string>
                  </property>
                 </widget>
                </item>
@@ -621,17 +624,17 @@
                    </attribute>
                    <column>
                     <property name="text">
-                     <string>Plodina</string>
+                     <string>Crop</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Výsev/Výsadba</string>
+                     <string>Sowing/Betting</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Sklizeň</string>
+                     <string>Harvest</string>
                     </property>
                    </column>
                   </widget>
@@ -684,7 +687,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="text">
-                  <string>Trvalé travní porosty - termíny sklizní</string>
+                  <string>Permanent grasslands - terms of harvest </string>
                  </property>
                 </widget>
                </item>
@@ -703,12 +706,12 @@
                    </attribute>
                    <column>
                     <property name="text">
-                     <string>Pořadí seče</string>
+                     <string>Order of mowing</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Termín seče</string>
+                     <string>Term of harvest</string>
                     </property>
                    </column>
                   </widget>
@@ -753,12 +756,12 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>119</width>
+                <width>218</width>
                 <height>79</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Půdní vlastnosti</string>
+               <string>Soil parameters</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_24">
                <item row="0" column="0">
@@ -766,7 +769,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_16">
                    <property name="text">
-                    <string>Vrstva HPJ</string>
+                    <string>Layer of the Main soil units</string>
                    </property>
                   </widget>
                  </item>
@@ -780,7 +783,7 @@
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_17">
                    <property name="text">
-                    <string>Klíč HPJ</string>
+                    <string>Main soil units key</string>
                    </property>
                   </widget>
                  </item>
@@ -813,12 +816,12 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>397</width>
+                <width>384</width>
                 <height>141</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Klima</string>
+               <string>Climate</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_31">
                <item row="0" column="0">
@@ -826,7 +829,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_23">
                    <property name="text">
-                    <string>Nadmořská výška meteorologických měření (m)</string>
+                    <string>Altitude of meteo measurement (m)</string>
                    </property>
                   </widget>
                  </item>
@@ -845,7 +848,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_18">
                  <property name="text">
-                  <string>Klimatické charakteristiky zájmové oblasti a vláhový stav půdy</string>
+                  <string>Climatic features of the area and moisture status of the soils</string>
                  </property>
                 </widget>
                </item>
@@ -874,77 +877,77 @@
                  </property>
                  <row>
                   <property name="text">
-                   <string>Leden</string>
+                   <string>January</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Únor</string>
+                   <string>February</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Únor</string>
+                   <string>March</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Březen</string>
+                   <string>April</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Duben</string>
+                   <string>May</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Květen</string>
+                   <string>June</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Červen</string>
+                   <string>July</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Červenec</string>
+                   <string>August</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Srpen</string>
+                   <string>September</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Říjen</string>
+                   <string>October</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Listopad</string>
+                   <string>November</string>
                   </property>
                  </row>
                  <row>
                   <property name="text">
-                   <string>Prosinec</string>
+                   <string>December</string>
                   </property>
                  </row>
                  <column>
                   <property name="text">
-                   <string>Teplota (°C)</string>
+                   <string>Temperature (°C)</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>Srážky (mm)</string>
+                   <string>Precipitation (mm)</string>
                   </property>
                  </column>
                  <column>
                   <property name="text">
-                   <string>Nasycení půdy</string>
+                   <string>Soil moisture status</string>
                   </property>
                  </column>
                 </widget>
@@ -956,12 +959,12 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>150</width>
+                <width>141</width>
                 <height>50</height>
                </rect>
               </property>
               <attribute name="label">
-               <string>Digitální model terénu</string>
+               <string>Digital model of terrain</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_27">
                <item row="0" column="0">
@@ -969,7 +972,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_19">
                    <property name="text">
-                    <string>Vrstva DMT (m)</string>
+                    <string>DMT layer (m)</string>
                    </property>
                   </widget>
                  </item>
@@ -1007,7 +1010,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Parametry</string>
+       <string>Parameters</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
@@ -1030,10 +1033,10 @@
              <item row="0" column="0">
               <widget class="QPushButton" name="pb_params">
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Načte do tabulek v uživatelském rozhraní přednastavené vlastnosti plodin obsažených ve vstupních datech.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Loads the preset crop properties contained in the input data into the table&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
-                <string>Načíst parametry</string>
+                <string>Load parameters</string>
                </property>
               </widget>
              </item>
@@ -1055,7 +1058,7 @@
                  </rect>
                 </property>
                 <attribute name="label">
-                 <string>Růstový model</string>
+                 <string>Growth model</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_38">
                  <item row="0" column="0">
@@ -1069,17 +1072,17 @@
                       </sizepolicy>
                      </property>
                      <property name="toolTip">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provede výpočet koeficientů růstového modelu z dat zadaných v tabulce (z hodnot maximální sušiny). Jedná se o defaultní hodnoty sklonu a interceptu růstové křivky (viz nápověda).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Calculates coefficients of growth model (coef. N and M) from data of maximal dry mass of crops after their modification in the table. The coefficients N and M are parameters of growth curve of the biomass (see documentation). &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="text">
-                      <string>Přepočítat</string>
+                      <string>Recalculate N and M coefficients</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_12">
                      <property name="text">
-                      <string>Parametry růstového modelu (defaultní hodnoty)</string>
+                      <string>Parameters of growth model (default values)</string>
                      </property>
                     </widget>
                    </item>
@@ -1097,23 +1100,23 @@
                    </column>
                    <column>
                     <property name="text">
-                     <string>Plodina</string>
+                     <string>Crop</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Výsev</string>
+                     <string>Sowing</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín výsevu nebo výsadby&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agronomy date of sowing or betting of crops&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Sklizeň</string>
+                     <string>Harvest</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Agrotechnický termín sklizně&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Date of harvest&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
@@ -1121,7 +1124,7 @@
                      <string>W_max</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota sušiny biomasy (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximal dry weigth of crops aboveground biomass (t.ha&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
@@ -1129,7 +1132,7 @@
                      <string>LAI_max</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota indexu listové pokryvnosti plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximal leaf area index of crops (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-2&lt;/span&gt;).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
@@ -1137,7 +1140,7 @@
                      <string>R_max</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximální hodnota objemové vlhkosti biomasy (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximal volumetric water content in crops (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
@@ -1145,23 +1148,23 @@
                      <string>R_min</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimální hodnota objemové vlhkosti biomasy při sklizni (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volumetric content of water in crops biomass during harvest (%).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Koef_M</string>
+                     <string>Coeff. M</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sklon křivky růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Slope of growth curve for particular crop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Koef_N</string>
+                     <string>Coeff. N</string>
                     </property>
                     <property name="toolTip">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Intercep růstového modelu pro jednotlivé plodiny. Více informací naleznete v nápovědě.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Intercep of growth model for particular crop.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                     </property>
                    </column>
                   </widget>
@@ -1173,12 +1176,12 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>423</width>
-                  <height>305</height>
+                  <width>690</width>
+                  <height>579</height>
                  </rect>
                 </property>
                 <attribute name="label">
-                 <string>Hydrologický model</string>
+                 <string>Hydrological model</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_33">
                  <item row="0" column="0">
@@ -1186,42 +1189,42 @@
                    <item row="6" column="0">
                     <widget class="QLabel" name="label_27">
                      <property name="text">
-                      <string>Konstanta separace odtoku a</string>
+                      <string>Constant of runoff separation a</string>
                      </property>
                     </widget>
                    </item>
                    <item row="4" column="0">
                     <widget class="QLabel" name="label_26">
                      <property name="text">
-                      <string>Koeficient intercepce b</string>
+                      <string>Interception coeff. b</string>
                      </property>
                     </widget>
                    </item>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_24">
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adiabatický gradient (°C.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adiabatic gradient (°C.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
                     <widget class="QLabel" name="label_25">
                      <property name="text">
-                      <string>Koeficient intercepce a</string>
+                      <string>Interception coeff. a</string>
                      </property>
                     </widget>
                    </item>
                    <item row="10" column="0">
                     <widget class="QLabel" name="label_29">
                      <property name="text">
-                      <string>Konstanta separace odtoku c</string>
+                      <string>Constant of runoff separation c</string>
                      </property>
                     </widget>
                    </item>
                    <item row="8" column="0">
                     <widget class="QLabel" name="label_28">
                      <property name="text">
-                      <string>Konstanta separace odtoku b</string>
+                      <string>Constant of runoff separation b</string>
                      </property>
                     </widget>
                    </item>
@@ -1290,8 +1293,7 @@
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_34">
                    <property name="text">
-                    <string>Čísla CN křivek v závislosti na plodině, hydrologické půdní jednotce
-a vláhovém stavu půdy</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Numbers of CN curves depending on crop, main soil unit&lt;/p&gt;&lt;p&gt;and soil moisture status&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
@@ -1328,47 +1330,47 @@ a vláhovém stavu půdy</string>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Plodina</string>
+                     <string>Crop</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - A, Do</string>
+                     <string>CN - A, Good</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - A, Šp</string>
+                     <string>CN - A, Bad</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - B, Do</string>
+                     <string>CN - B, Good</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - B, Šp</string>
+                     <string>CN - B, Bad</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - C, Do</string>
+                     <string>CN - C, Good</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - C, Šp</string>
+                     <string>CN - C, Bad</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - D, Do</string>
+                     <string>CN - D, Good</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>CN - D, Šp</string>
+                     <string>CN - D, Bad</string>
                     </property>
                    </column>
                   </widget>
@@ -1385,7 +1387,7 @@ a vláhovém stavu půdy</string>
                  </rect>
                 </property>
                 <attribute name="label">
-                 <string>Erozní model</string>
+                 <string>Erosion model</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_45">
                  <item row="0" column="0">
@@ -1403,7 +1405,7 @@ a vláhovém stavu půdy</string>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_30">
                      <property name="text">
-                      <string>R faktor</string>
+                      <string>R factor</string>
                      </property>
                     </widget>
                    </item>
@@ -1414,7 +1416,7 @@ a vláhovém stavu půdy</string>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_31">
                      <property name="text">
-                      <string>Procentický podíl faktoru R v měsících</string>
+                      <string>Percentage of R factor in moths</string>
                      </property>
                     </widget>
                    </item>
@@ -1586,7 +1588,7 @@ a vláhovém stavu půdy</string>
                      <item row="1" column="0">
                       <widget class="QLabel" name="label_36">
                        <property name="text">
-                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Průměrná obj. hmotnost půdy (kg.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-3&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mean volumetric weight of soil (kg.m&lt;span style=&quot; vertical-align:super;&quot;&gt;-3&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                        </property>
                       </widget>
                      </item>
@@ -1625,14 +1627,14 @@ a vláhovém stavu půdy</string>
                      <item row="0" column="0">
                       <widget class="QLabel" name="label_35">
                        <property name="text">
-                        <string>Průměrná hodnota P faktoru</string>
+                        <string>Mean value of P factor</string>
                        </property>
                       </widget>
                      </item>
                      <item row="2" column="0">
                       <widget class="QLabel" name="label_37">
                        <property name="text">
-                        <string>Průměrná hloubka homog. vrstvy půdy (m)</string>
+                        <string>Mean depth of homog. soil layer (m)</string>
                        </property>
                       </widget>
                      </item>
@@ -1656,7 +1658,7 @@ a vláhovém stavu půdy</string>
                      <item row="0" column="0">
                       <widget class="QLabel" name="label_32">
                        <property name="text">
-                        <string>LS faktor - koeficient m</string>
+                        <string>LS factor - coefficient m</string>
                        </property>
                       </widget>
                      </item>
@@ -1680,7 +1682,7 @@ a vláhovém stavu půdy</string>
                      <item row="0" column="0">
                       <widget class="QLabel" name="label_33">
                        <property name="text">
-                        <string>LS faktor - koeficient n</string>
+                        <string>LS factor - coefficient n</string>
                        </property>
                       </widget>
                      </item>
@@ -1740,12 +1742,12 @@ a vláhovém stavu půdy</string>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Plodina</string>
+                     <string>Crop</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Faktor C</string>
+                     <string>C factor</string>
                     </property>
                    </column>
                   </widget>
@@ -1778,17 +1780,17 @@ a vláhovém stavu půdy</string>
                    </attribute>
                    <column>
                     <property name="text">
-                     <string>HPJ</string>
+                     <string>Main Soil Unit</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Hydrol. půdní skupina</string>
+                     <string>Hydrol. soil group</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>K faktor</string>
+                     <string>K factor</string>
                     </property>
                    </column>
                   </widget>
@@ -1800,12 +1802,12 @@ a vláhovém stavu půdy</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>335</width>
-                  <height>117</height>
+                  <width>690</width>
+                  <height>579</height>
                  </rect>
                 </property>
                 <attribute name="label">
-                 <string>Radioaktivita a radiotransfer</string>
+                 <string>Radioaktivity a radiotransfer</string>
                 </attribute>
                 <layout class="QGridLayout" name="gridLayout_29">
                  <item row="0" column="0">
@@ -1814,7 +1816,7 @@ a vláhovém stavu půdy</string>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_22">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Koeficienty radiotransferu pro plodiny (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; suš.))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Crops radiotransfer coefficients (m&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;.kg&lt;span style=&quot; vertical-align:super;&quot;&gt;-1&lt;/span&gt; dry mass))&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
@@ -1848,12 +1850,12 @@ a vláhovém stavu půdy</string>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Plodina</string>
+                     <string>Crop</string>
                     </property>
                    </column>
                    <column>
                     <property name="text">
-                     <string>Koeficient</string>
+                     <string>Coefficient</string>
                     </property>
                    </column>
                   </widget>
@@ -1872,7 +1874,7 @@ a vláhovém stavu půdy</string>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>Výsledky</string>
+       <string>Results</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_15">
        <item row="0" column="0">
@@ -1891,8 +1893,8 @@ a vláhovém stavu půdy</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>410</width>
-            <height>129</height>
+            <width>710</width>
+            <height>744</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_18">
@@ -1925,7 +1927,7 @@ a vláhovém stavu půdy</string>
                 </font>
                </property>
                <property name="text">
-                <string>Průběh časové změny kontaminace pro vybraný pozemek</string>
+                <string>Temporal changes of radioactive contamination for selected field</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::AutoText</enum>
@@ -1943,14 +1945,14 @@ a vláhovém stavu půdy</string>
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Škála osy Y</string>
+                  <string>Scale of Y axis</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_7">
                  <property name="text">
-                  <string>Pozemek ID</string>
+                  <string>Field ID</string>
                  </property>
                 </widget>
                </item>
@@ -1993,7 +1995,7 @@ a vláhovém stavu půdy</string>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>O programu</string>
+       <string>About</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_37">
        <item row="0" column="0">
@@ -2003,18 +2005,18 @@ a vláhovém stavu půdy</string>
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Program RadAgro&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;RadAgro je program určený pro odhad vývoje radiační kontaminace zemědělských plodin a zemědělské krajiny. RadAgro do vývoje radiační kontaminace zahrnuje hlavní složky a procesy, které v krajině probíhají a významně mohou ovlivnit vývoj radiační zátěže krajiny. Jedná se především o management zemědělských ploch daný osevním postupem, vlastnosti plodin, půdní erozi a hydrologické vlastnosti zájmového území. Model do odhadu vývoje zahrnuje časnou fázi radiační události a managementová opatření ve formě odstranění kontaminované biomasy z postižených ploch. Vlastní model pracuje s měsíčním časovým krokem. Výstupem je geodatabáze obsahující informace o vývoji radioaktivní kontaminace jednotlivých ploch v zájmovém území.&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-weight:600; color:#000000;&quot;&gt;Autoři a přispěvatelé&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Jakub Brom - libreto, hra, postavy, účinkující, jeviště, osvětlení, nápověda, masky, kávička a ostatní činnosti&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Kateřina Křováková - ikona :-)&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Václav Nedbal - odborná konzultace a podklady&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Jan Procházka - Náčelník&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Liberation Serif, serif';&quot;&gt;©&lt;/span&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt; 2020 Jakub Brom, Jihočeská univerzita v Českých Budějovicích, Zemědělská fakulta&lt;br /&gt;E-mail: jbrom@zf.jcu.cz&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-weight:600; color:#000000;&quot;&gt;Poděkování&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;Vývoj programu RadAgro for QGIS byl podpořen z projektu Ministerstva vnitra České republiky &lt;/span&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-weight:600; font-style:italic; color:#000000;&quot;&gt;VI20172020098 Likvidace radiačně kontaminované biomasy po havárii JE - distribuce v krajině, logistika sklizně, využití bioplynovou technologií.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Program RadAgro&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;RadAgro is software designated for estimation of a radiation &lt;/span&gt;contamination progress in agricultural landscape. It involves the principal landscape elements and processes which could significantly influence the radiation load in landscape. Especially important is the field management based on crop rotation; also crop characteristics and soil erosion are involved. RadAgro simulates the early phase of radiation event and following development of radiation contamination of the area of interest at monthly intervals. The output of the software is a geodatabase of radiation contamination of individual fields of the studied area.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; font-weight:600; color:#000000;&quot;&gt;Authors&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;Jakub Brom - libretto, drama, roles, actors, stage, light design, prompter, masks, coffeelings and other issues &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;Kateřina Křováková – icon and valuable help&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;Václav Nedbal - expert consultation and sources &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;Jan Procházka - Sachem&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Liberation Serif, serif';&quot;&gt;©&lt;/span&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt; 2020 Jakub Brom, &lt;/span&gt;&lt;span style=&quot; background-color:transparent;&quot;&gt;University of South Bohemia in České Budějovice, Faculty of Agriculture&lt;/span&gt;&lt;span style=&quot; font-family:'JetBrains Mono,monospace'; color:#000000;&quot;&gt;&lt;br /&gt;E-mail: jbrom@zf.jcu.cz&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; background-color:transparent;&quot;&gt;Acknowledgement&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a name=&quot;__DdeLink__78_1790734468&quot;&gt;&lt;/a&gt;The RadHydro software development was supported by the Ministry of the Interior of the Czech Republic research project &lt;span style=&quot; font-weight:600;&quot;&gt;VI20172020098 Disposal of radiation-contaminated biomass after NPP accident-distribution, logistic of harvesting, exploring in biogas technology&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>

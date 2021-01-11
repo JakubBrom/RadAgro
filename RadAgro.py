@@ -520,11 +520,11 @@ class RadAgro:
 
         df_crops_coupling = pd.DataFrame({"ID_orig":crops_IDs_orig_list,
                                        "ID_set":crops_IDs, self.tr(
-                "Nazev"):crops_names})
+                "Name"):crops_names})
 
         # Load crops layer to qgis
         crops_lyr = QgsVectorLayer(crops_path, self.tr(
-            "Plodiny_orig"), "ogr")
+            "Crops_orig"), "ogr")
 
         # Read original crops IDs from crop vector - for all rows
         crop_IDs_field_name = self.dlg.cbox_crop_lyr_key.currentText()
@@ -546,7 +546,7 @@ class RadAgro:
         # crops_IDs and crops_names corresponding to the vector layer
         df_crops_rows = pd.DataFrame({"fid":crops_fid,
                                       "ID_orig":crops_IDs_orig_list_all,
-                                      self.tr("Plocha_ha"):crops_area_ha})
+                                      self.tr("Area_ha"):crops_area_ha})
 
         # Merge df_crops_coupling and df_crops_rows to initial dataframe
         df_crops_init = pd.merge(df_crops_rows, df_crops_coupling,
@@ -1186,8 +1186,8 @@ class RadAgro:
         ax.set_aspect("auto", "box")
 
         # Axes names
-        x_name = self.tr("Čas (měs.)")
-        y_name = self.tr("Kontaminace $(Bq.m^{-2})$")
+        x_name = self.tr("Time (months)")
+        y_name = self.tr("Contamination $(Bq.m^{-2})$")
 
         # Axes labels
         ax.set_xlabel(x_name)
@@ -1204,7 +1204,7 @@ class RadAgro:
         ax.tick_params(axis='x', rotation=90)
 
         # plot data
-        ax.plot(y, '-', label=(self.tr("ID plochy: {ID}")).format(ID =
+        ax.plot(y, '-', label=(self.tr("ID field: {ID}")).format(ID =
                                                                      pl_ID_text))
 
         # Legend position
@@ -1506,9 +1506,9 @@ class RadAgro:
 
         # Get row counts:
         row_count = table.rowCount()
-        cuts_list = {0:self.tr("První seč"),
-                     1:self.tr("Druhá seč"),
-                     2:self.tr("Třetí seč")}
+        cuts_list = {0:self.tr("First mowing"),
+                     1:self.tr("Second mowing"),
+                     2:self.tr("Third mowing")}
 
         # Months list
         months = np.arange(1,13,1).astype(str)
@@ -1593,9 +1593,9 @@ class RadAgro:
                 # add cbox to table
                 self.dlg.tw_crops_orig.setCellWidget(i, 1, combo)
         else:
-            self.iface.messageBar().pushMessage(self.tr("Chyba"),
-                self.tr("Nelze načíst hodnoty do tabulky, seznam je "
-                        "příliš dlouhý."), level=Qgis.Warning)
+            self.iface.messageBar().pushMessage(self.tr("Error"),
+                self.tr("Not possible to load data to the table. "
+                        "The list of data is too long."), level=Qgis.Warning)
 
     def constants(self):
         """Some constants used in the program"""
@@ -1617,7 +1617,7 @@ class RadAgro:
 
         # The state of soil saturation by soil water: good (Do) or
         # bad (Šp)
-        self.soil_sat = {0:self.tr("Dobré"), 1:self.tr("Špatné")}
+        self.soil_sat = {0:self.tr("Good"), 1:self.tr("Bad")}
 
     def setKeyField(self, comboBox_in, comboBox_out):
         """Set variables from the map_lyr.
@@ -1657,16 +1657,19 @@ class RadAgro:
 
         msgBox = QMessageBox()
         msgBox.setIconPixmap(pixmap)
-        msgBox.setText(self.tr("Vývoj programu RadAgro for QGIS byl "
-                               "podpořen z projektu Ministerstva "
-                               "vnitra České republiky VI20172020098"))
-        msgBox.setWindowTitle(self.tr("Vítejte v programu RadAgro!"))
+        msgBox.setText(self.tr("The RadAgro software development was "
+                               "supported by the Ministry of the "
+                               "Interior of the Czech Republic "
+                               "research project VI20172020098"))
+        msgBox.setWindowTitle(self.tr("Welcome to RadAgro!"))
         msgBox.exec()
 
     def pluginHelp(self):
         """Open the help file."""
+
         help_file = os.path.join(self.plugin_dir, "help", "build",
                                  "html", "index.html")
+
         help_file_norm = os.path.normpath(help_file)
 
         try:
@@ -1679,8 +1682,8 @@ class RadAgro:
                 os.startfile(help_file_norm)
 
         except IOError:
-            self.iface.messageBar().pushMessage(self.tr("Varování"),
-                    self.tr("Jejda, nápovědu nelze otevřít..."),
+            self.iface.messageBar().pushMessage(self.tr("Warning!"),
+                    self.tr("Ooops, the Help is not available..."),
                                                 level=Qgis.Warning, duration=5)
 
     def setCboxEmpty(self, comboBox):
@@ -1700,8 +1703,9 @@ class RadAgro:
             self.iface.messageBar().clearWidgets()
 
         except FileNotFoundError:
-            self.iface.messageBar().pushMessage(self.tr("Varování"),
-                        self.tr("Jejda, vrstva nebyla načtena..."),
+            self.iface.messageBar().pushMessage(self.tr("Warning!"),
+                        self.tr("Ooops, the layer has not been "
+                                "loaded..."),
                                                     level=Qgis.Warning,
                                                     duration=5)
 
@@ -1735,14 +1739,15 @@ class RadAgro:
 
         # configure the QgsMessageBar
         messageBar = self.iface.messageBar().createMessage(
-            self.tr("Probíhá výpočet změn radioaktivní depozice:"), )
+            self.tr("Calculation of radioactive deposition in "
+                    "progress:"), )
         progressBar = QProgressBar()
         progressBar.setAlignment(
             QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         progressBar.setMinimum(0)
         progressBar.setMaximum(100)
         cancelButton = QPushButton()
-        cancelButton.setText(self.tr('Zrušit'))
+        cancelButton.setText(self.tr('Cancel'))
         cancelButton.clicked.connect(worker.kill)
         messageBar.layout().addWidget(progressBar)
         messageBar.layout().addWidget(cancelButton)
@@ -1778,11 +1783,10 @@ class RadAgro:
         # Create finish message and load lyrs
         self.iface.messageBar().clearWidgets()
         widget = self.iface.messageBar().createMessage("Info", self.tr(
-            "Výpočet byl dokončen. Přejete si načíst "
-            "výslednou vrstvu časových změn radioaktivní "
-            "kontaminace území do QGIS?"))
+            "The calculation has been done. Do you want to load the "
+            "radioactive contamination layer to QGIS?"))
         button = QPushButton(widget)
-        button.setText(self.tr("Načíst výsledek"))
+        button.setText(self.tr("Load results"))
         button.pressed.connect(self.loadResults)
         widget.layout().addWidget(button)
         self.iface.messageBar().pushWidget(widget, Qgis.Info)
@@ -1792,7 +1796,7 @@ class RadAgro:
 
         # TODO - překlad
         self.iface.messageBar().pushMessage(self.tr(
-            "Něco zlého se přihodilo!\n{ex_str}").format(
+            "Something wrong happened!\n{ex_str}").format(
                 ex_str=exception_string),
             level=Qgis.Critical, duration=3)
 
@@ -1864,87 +1868,87 @@ class Worker(QObject):
         self.progress.emit(0)
         try:
             perc = 0
-            self.progress_t.emit(self.tr("{pr} %: Načítání "
-                                         "vstupní vrstvy").format(
+            self.progress_t.emit(self.tr("{pr} %: Loading "
+                                         "input layers").format(
                 pr=str(
                 perc)))
             self.progress.emit(perc)
             su_lyr_path = self.suLyrPath()
 
             perc = 10
-            self.progress_t.emit(self.tr("{pr} %: Načítání vstupní "
-                                 "vrstvy").format(pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Loading "
+                                         "input layers").format(pr=str(perc)))
             self.progress.emit(perc)
             crops_path = self.getCropsPath()
 
             perc = 15
-            self.progress_t.emit(self.tr("{pr} %: Transformace "
-                                         "rastrů").format(
-                pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Rasters "
+                                         "transformation").format(pr=str(perc)))
             self.progress.emit(perc)
             depo_path, precip_path, dmt_path = self.loadRasters()
 
             perc = 20
-            self.progress_t.emit(self.tr("{pr} %: Příprava "
-                                         "dat").format(pr=str(
-                perc)))
+            self.progress_t.emit(self.tr("{pr} %: Data "
+                                         "preprocessing").format(pr=str(perc)))
             self.progress.emit(perc)
             df_crops_init = self.createCropsDf(crops_path)
 
             perc = 25
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Příprava "
-                                         "dat").format(pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Data "
+                                         "preprocessing").format(pr=str(
+                perc)))
             df_growth_model_params = self.readGrowthModel()
 
             perc = 30
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Příprava "
-                                         "dat").format(pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Data "
+                                         "preprocessing").format(pr=str(
+                perc)))
             df_transf_coefs = self.readTransfCoefs()
 
             perc = 35
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Výpočet časné "
-                                         "fáze").format(
+            self.progress_t.emit(self.tr("{pr} %: Calculation "
+                                         "of early stage").format(
                 pr=str(perc)))
             self.earlyStage(depo_path, precip_path, crops_path,
                             df_crops_init)
 
             perc = 40
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Osevní "
-                                         "postupy").format(pr=str(
+            self.progress_t.emit(self.tr("{pr} %: Crops "
+                                         "rotation").format(pr=str(
                 perc)))
             df_crops_rotation = self.readCropsRot()
 
             perc = 45
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Osevní "
-                                         "postupy").format(pr=str(
+            self.progress_t.emit(self.tr("{pr} %: Crops "
+                                         "rotation").format(pr=str(
                 perc)))
             df_meadows = self.readMeadows()
 
             perc = 50
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Osevní "
-                                         "postupy").format(pr=str(
+            self.progress_t.emit(self.tr("{pr} %: Crops "
+                                         "rotation").format(pr=str(
                 perc)))
             df_crops_rotation_all = self.createCropsRot(
                 df_crops_init, df_crops_rotation, df_meadows)
 
             perc = 55
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Osevní "
-                                         "postupy").format(pr=str(
+            self.progress_t.emit(self.tr("{pr} %: Crops "
+                                         "rotation").format(pr=str(
                 perc)))
             df_crops_harvest = self.createCropsHarvest(
                 df_crops_init, df_crops_rotation, df_meadows)
 
             perc = 60
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Osevní "
-                                         "postupy").format(pr=str(
+            self.progress_t.emit(self.tr("{pr} %: Crops "
+                                         "rotation").format(pr=str(
                 perc)))
             df_crops_dw_all = self.createDryMass(df_crops_init,
                                         df_growth_model_params,
@@ -1952,13 +1956,13 @@ class Worker(QObject):
 
             perc = 65
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+            self.progress_t.emit(self.tr("{pr} %: Erosion").format(
                 pr=str(perc)))
             k_factor_tab = self.readKFactor()
 
             perc = 70
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+            self.progress_t.emit(self.tr("{pr} %: Erosion").format(
                 pr=str(perc)))
             k_factor = self.calcFK(su_lyr_path,
                                         self.su_field, k_factor_tab,
@@ -1966,7 +1970,7 @@ class Worker(QObject):
 
             perc = 75
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+            self.progress_t.emit(self.tr("{pr} %: Erosion").format(
                 pr=str(perc)))
             ls_factor = self.calcFLS(dmt_path,
                                           crops_path,
@@ -1975,20 +1979,22 @@ class Worker(QObject):
 
             perc = 80
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+            self.progress_t.emit(self.tr("{pr} %: Erosion").format(
                 pr=str(perc)))
             c_factor_tab = self.readCTable()
 
             perc = 85
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Eroze").format(
+            self.progress_t.emit(self.tr("{pr} %: Erosion").format(
                 pr=str(perc)))
             r_perc = self.readRTable()
 
             perc = 90
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Výpočet změn "
-                                 "kontaminace").format(pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Calculation "
+                                         "of contamination "
+                                         "changes").format(pr=str(
+                perc)))
             self.calcRadioactiveCont(df_transf_coefs,
                                      df_crops_rotation_all,
                                      df_crops_harvest,
@@ -1997,8 +2003,9 @@ class Worker(QObject):
 
             perc = 95
             self.progress.emit(perc)
-            self.progress_t.emit(self.tr("{pr} %: Export "
-                                         "dat").format(pr=str(perc)))
+            self.progress_t.emit(self.tr("{pr} %: Export of "
+                                         "results").format(pr=str(
+                perc)))
             self.exportRadCont()
 
         except Exception:
@@ -2016,4 +2023,3 @@ class Worker(QObject):
     error = QtCore.pyqtSignal(str)
     progress = QtCore.pyqtSignal(int)
     progress_t = QtCore.pyqtSignal(str)
-
