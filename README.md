@@ -19,9 +19,10 @@ RadAgro is software designated for estimation of a radiation
 Install
 -------
 
-Press green "Code" button and download the RadArgo in zip format. 
-Install it as a plug-in in QGIS - go to Plugins/Manage and Install 
-Plugins/Install from ZIP.
+RadAgro is distributed within QGIS Plugin repository. If you need to install RadAgro from GitHub press green "Code" button and download the RadArgo in zip format. 
+Install it as a plug-in in QGIS - go to Plugins/Manage and Install Plugins/Install from ZIP.
+
+Pandas Python 3 package need to be installed. Linux users need install python3-pandas package. Windows QGIS 3.8+ versions should have the Pandas installed. 
 
 Authors and collaborators
 -------------------------
